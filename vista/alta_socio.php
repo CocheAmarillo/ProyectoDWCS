@@ -8,27 +8,25 @@ require_once '../modelo/socios.php';
 require_once '../modelo/institucion.php';
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fecha_alta=new DateTime();
-    $fecha_alta= $fecha_alta->format('Y-m-d H:i:s');
-    $rol=controlador\cargar_rol_user('REGISTRADO')['ID_ROL'];
-    $pass= password_hash($_POST['password_soc'], PASSWORD_BCRYPT);
-    $socio = new Socio($_POST['vat_soc'], $pass, $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], $fecha_alta, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 20,$rol , $_POST['pais_soc']);
-    
+    $fecha_alta = new DateTime();
+    $fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
+    $rol = controlador\cargar_rol_user('REGISTRADO')['ID_ROL'];
+    $pass = password_hash($_POST['password_soc'], PASSWORD_BCRYPT);
+    $socio = new Socio($_POST['vat_soc'], $pass, $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], $fecha_alta, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, $rol, $_POST['pais_soc']);
 
-    $id_insertado=controlador\alta_socio($socio);
-    
-    $institucion=new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], $fecha_alta, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst']);
-   
-    if($id_insertado && controlador\alta_institucion($institucion)>0){
-        
-        $_SESSION['id_socio']= $id_insertado;
-        $_SESSION['usuario']=$socio->usuario;
+
+    $id_insertado = controlador\alta_socio($socio);
+
+    $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], $fecha_alta, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst']);
+
+    if ($id_insertado && controlador\alta_institucion($institucion) ) {
+        \controlador\update_puntuacion_socio($id_insertado, 2);
+        $_SESSION['id_socio'] = $id_insertado;
+        $_SESSION['usuario'] = $socio->usuario;
         header('Location: index.php');
+    } else {
+        echo "produciuse algun erro nos campos";
     }
-    else{
-        echo "produciuse algun error nos campos";
-    }
-    
 }
 ?>
 
@@ -113,10 +111,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <body>
 
-        <?php
-        require_once 'cabecera.php';
-        require_once '../controlador/metodosBBDD.php';
-        ?>
+<?php
+require_once 'cabecera.php';
+require_once '../controlador/metodosBBDD.php';
+?>
 
 
 
@@ -145,12 +143,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Usuario</label>
-                    <input type="text" class="form-control"  id="nombre" name="usuario_soc" placeholder="Usuario">
+                    <input type="text" class="form-control"  id="nombre" name="usuario_soc" placeholder="Usuario" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">Password</label>
-                    <input type="password" class="form-control" name="password_soc" placeholder="Password">
+                    <input type="password" class="form-control" name="password_soc" placeholder="Password" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -160,7 +158,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Nombre Completo</label>
-                    <input type="text" class="form-control"  id="nombre" name="nombre_soc" placeholder="Nombre Completo">
+                    <input type="text" class="form-control"  id="nombre" name="nombre_soc" placeholder="Nombre Completo" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
@@ -174,12 +172,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control" name="email_soc" placeholder="Email">
+                    <input type="text" class="form-control" name="email_soc" placeholder="Email" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono_soc" placeholder="Telefono">
+                    <input type="text" class="form-control" name="telefono_soc" placeholder="Telefono" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -189,12 +187,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Cargo</label>
-                    <input type="text" class="form-control" name="cargo_soc" placeholder="Cargo">
+                    <input type="text" class="form-control" name="cargo_soc" placeholder="Cargo" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">Departamento</label>
-                    <input type="text" class="form-control" name="departamento_soc" placeholder="Departamento">
+                    <input type="text" class="form-control" name="departamento_soc" placeholder="Departamento" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -238,7 +236,7 @@ echo $option;
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Nombre</label>
-                    <input type="text" class="form-control"  id="nombre_inst" name="nombre_inst" placeholder="Nombre">
+                    <input type="text" class="form-control"  id="nombre_inst" name="nombre_inst" placeholder="Nombre" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
@@ -253,12 +251,12 @@ echo $option;
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control"  id="email" name="email_inst" placeholder="Email">
+                    <input type="text" class="form-control"  id="email" name="email_inst" placeholder="Email" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">Telefono</label>
-                    <input type="text" class="form-control" name="telefono_inst" placeholder="Telefono">
+                    <input type="text" class="form-control" name="telefono_inst" placeholder="Telefono" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -267,12 +265,12 @@ echo $option;
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="name">Codigo postal</label>
-                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="Codigo Postal">
+                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="Codigo Postal" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="tel">Dirección</label>
-                    <input type="text" class="form-control" name="direccion_inst" placeholder="Direccion">
+                    <input type="text" class="form-control" name="direccion_inst" placeholder="Direccion" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>

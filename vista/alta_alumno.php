@@ -5,13 +5,21 @@
 
 require_once '../controlador/metodosBBDD.php';
 require_once 'sesiones.php';
+require_once '../modelo/alumno.php';
+use modelo\Alumno;
 session_start();
 if(!comprobar_sesion()){
     header('Location: index.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
+    $fecha_alta = new DateTime();
+    $fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
+    $alumno=new Alumno($_POST['vat_al'], $_POST['nombre_al'], $_POST['genero_al'], $_POST['fecha_nac_al'], $fecha_alta, $_SESSION['id_socio']);
+    if(\controlador\alta_alumno($alumno)){
+        \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
+        echo "alumno insertado con exito";
+    }
     
 }
 ?>
@@ -118,52 +126,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <nav class="navbar navbar-light bg-light">
                             <a class="navbar-brand">
                                 <i class="fa fa-user"></i>
-                                <span id="titulo">Informacion Personal</span>
+                                <span id="titulo">Informacion del Alumno</span>
                             </a>
                         </nav>
                     </h3>
                 </div>
             </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Usuario</label>
-                    <input type="text" class="form-control"  id="nombre" name="usuario_soc" placeholder="Usuario">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Password</label>
-                    <input type="password" class="form-control" name="password_soc" placeholder="Password">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
 
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Nombre Completo</label>
-                    <input type="text" class="form-control"  id="nombre" name="nombre_soc" placeholder="Nombre Completo">
+                    <input type="text" class="form-control"  id="nombre" name="nombre_al" placeholder="Nombre" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">VAT</label>
-                    <input type="text" class="form-control" name="vat_soc" placeholder="VAT">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Email</label>
-                    <input type="text" class="form-control" name="email_soc" placeholder="Email">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono_soc" placeholder="Telefono">
+                    <input type="text" class="form-control" name="vat_al" placeholder="VAT">
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -172,148 +151,34 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Cargo</label>
-                    <input type="text" class="form-control" name="cargo_soc" placeholder="Cargo">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Departamento</label>
-                    <input type="text" class="form-control" name="departamento_soc" placeholder="Departamento">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Pais</label>
-                    <select name="pais_soc">
-<?php
-$array_paises = controlador\cargar_paises();
-$option = '';
-foreach ($array_paises as $fila) {
-    $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
-}
-echo $option;
-?>
-
-                    </select>
-                </div>
-
-            </div>
-
-
-
-
-            <div class="form-row">
-                <div id="titulo2" class="col-12">
-                    <h3>
-                        <nav class="navbar navbar-light bg-light">
-                            <a class="navbar-brand">
-                                <i class="fa fa-map-marker"></i>
-                                <span id="titulo">Información de su Institución</span>
-                            </a>
-                        </nav>
-                    </h3>
-                </div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Nombre</label>
-                    <input type="text" class="form-control"  id="nombre_inst" name="nombre_inst" placeholder="Nombre">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">VAT</label>
-                    <input type="password" class="form-control" name="vat_inst" placeholder="VAT">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Email</label>
-                    <input type="text" class="form-control"  id="email" name="email_inst" placeholder="Email">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Telefono</label>
-                    <input type="text" class="form-control" name="telefono_inst" placeholder="Telefono">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="name">Codigo postal</label>
-                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="Codigo Postal">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="tel">Dirección</label>
-                    <input type="text" class="form-control" name="direccion_inst" placeholder="Direccion">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Web</label>
-                    <input type="text" class="form-control" name="web_inst" placeholder="Web">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Descripcion</label>
-                    <input type="textarea" class="form-control" name="descripcion_inst" placeholder="Descripcion">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Pais</label>
-                    <select name="pais_inst">
-<?php
-$array_paises = controlador\cargar_paises();
-$option = '';
-foreach ($array_paises as $fila) {
-    $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
-}
-echo $option;
-?>
-
+                    <label for="">Género</label>
+                    <select name="genero_al">
+                        <option value="M">Masculino</option>
+                         <option value="F">Femenino</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Tipo de institucion</label>
-                    <select name="tipo_inst">
-<?php
-$array_inst = controlador\cargar_tipo_institucion();
-echo $array_inst['TIPO'];
-$option = '';
-foreach ($array_inst as $fila) {
-    $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';
-}
-echo $option;
-?>
-                    </select>
-
-
+                    <label for="">Fecha de nacimiento</label>
+                    <input type="date" class="form-control" name="fecha_nac_al" required>
                 </div>
                 <div class="form-group col-md-1"></div>
-
             </div>
 
+           
 
+
+            
+
+           
+
+
+
+          
+          
+
+
+              
 
 
 

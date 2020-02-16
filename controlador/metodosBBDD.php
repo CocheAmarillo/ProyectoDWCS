@@ -53,7 +53,7 @@ function alta_socio(Socio $socio) {
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-            print_r($bd->errorInfo());
+
             return false;
         }
     } catch (\PDOException $ex) {
@@ -80,7 +80,11 @@ function alta_institucion(Institucion $inst) {
         $array_datos = array($vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion);
 
         if ($stmt->execute($array_datos)) {
-            return añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio);
+            if (añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio) > 0) {
+                return true;
+            } else {
+                return false;
+            }
         } else {
             print_r($bd->errorInfo());
             return false;
@@ -118,8 +122,17 @@ function alta_alumno(Alumno $alumno) {
                 . '(vat,Nombre_Completo,Genero,Fecha_Nacimiento,Fecha_Alta,Socio)'
                 . ' values (?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
-        $array_datos = array($alumno->vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio);
-        $stmt->execute($array_datos);
+        if ($alumno->vat == "") {
+            $vat = null;
+        } else {
+            $vat = $alumno->vat;
+        }
+        $array_datos = array($vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio);
+        if ($stmt->execute($array_datos)) {
+            return true;
+        } else {
+            return false;
+        }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
     } finally {
@@ -275,5 +288,54 @@ function cargarPass($usuario, $bd) {
     $sql = "select password from socios where usuario='$usuario'";
     if ($resul = $bd->query($sql)) {
         return $resul->fetch()['password'];
+    }
+}
+
+function update_puntuacion_socio($id_socio, $id_tipo_puntuacion) {
+    try {
+        $bd = cargarBBDD();
+        $sql = "select valor from tipos_puntuacion where id_tipo_puntuacion='$id_tipo_puntuacion'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            print_r($bd->errorInfo());
+            throw new \PDOException();
+        } else if ($resul->rowCount() == 0) {
+            throw new \PDOException();
+        } else {
+            $puntos = $resul->fetch()['valor'];
+            $sql = "update socios set puntuacion = puntuacion + $puntos where id_socio=$id_socio";
+            if (!$bd->exec($sql)) {
+                
+                throw new \PDOException();
+            } else {
+                nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio);
+                return true;
+            }
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio) {
+    try {
+        $bd = cargarBBDD();
+        $fecha = new \DateTime();
+        $fecha = $fecha->format('Y-m-d H:i:s');
+        $sql = "insert into historico_puntuaciones (fecha,tipo_puntuacion,socio) values ('$fecha','$id_tipo_puntuacion','$id_socio')";
+        if (!$bd->exec($sql)) {
+            print_r($bd->errorInfo());
+            throw new \PDOException();
+        }
+        else{
+            return true;
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+
+        $bd = null;
     }
 }
