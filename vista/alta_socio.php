@@ -10,7 +10,7 @@ session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $fecha_alta = new DateTime();
     $fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
-    $rol = controlador\cargar_rol_user('REGISTRADO')['ID_ROL'];
+    $rol = controlador\cargar_rol_user('REGISTERED')['ID_ROL'];
     $pass = password_hash($_POST['password_soc'], PASSWORD_BCRYPT);
     $socio = new Socio($_POST['vat_soc'], $pass, $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], $fecha_alta, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, $rol, $_POST['pais_soc']);
 

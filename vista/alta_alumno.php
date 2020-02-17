@@ -155,6 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="genero_al">
                         <option value="M">Masculino</option>
                          <option value="F">Femenino</option>
+                         <option value='O'>Otre</option>
                     </select>
                 </div>
                 <div class="form-group col-md-2"></div>

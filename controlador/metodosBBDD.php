@@ -109,7 +109,7 @@ function añadir_institucion_socio($id_inst, $id_socio) {
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
     } finally {
-        $stmt = null;
+        
         $bd = null;
     }
 }
