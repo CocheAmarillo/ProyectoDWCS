@@ -8,16 +8,13 @@ require_once '../modelo/socios.php';
 require_once '../modelo/institucion.php';
 session_start();
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fecha_alta = new DateTime();
-    $fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
-    $rol = controlador\cargar_rol_user('REGISTERED')['ID_ROL'];
-    $pass = password_hash($_POST['password_soc'], PASSWORD_BCRYPT);
-    $socio = new Socio($_POST['vat_soc'], $pass, $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], $fecha_alta, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, $rol, $_POST['pais_soc']);
-
+   
+    $socio = new Socio($_POST['vat_soc'], $_POST['password_soc'], $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], null, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0,2, $_POST['pais_soc'],null);
+    
 
     $id_insertado = controlador\alta_socio($socio);
 
-    $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], $fecha_alta, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst']);
+    $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], null, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst'],null);
 
     if ($id_insertado && controlador\alta_institucion($institucion) ) {
         \controlador\update_puntuacion_socio($id_insertado, 2);

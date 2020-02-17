@@ -11,9 +11,8 @@ if (!comprobar_sesion()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    $fecha_alta = new DateTime();
-    $fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
-    $alumno = new Alumno($_POST['vat_al'], $_POST['nombre_al'], $_POST['genero_al'], $_POST['fecha_nac_al'], $fecha_alta, $_SESSION['id_socio']);
+    
+    $alumno = new Alumno($_POST['vat_al'], $_POST['nombre_al'], $_POST['genero_al'], $_POST['fecha_nac_al'], null, $_SESSION['id_socio'],null);
     if (\controlador\alta_alumno($alumno)) {
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
         echo "alumno insertado con exito";

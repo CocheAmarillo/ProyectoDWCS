@@ -14,8 +14,9 @@ class Institucion{
     private $id_socio;
     private $id_tipo;
     private $descripcion;
+    private $fecha_mod;
           
-    function __construct($vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $web, $fecha_alta, $id_pais, $id_socio, $id_tipo, $descripcion) {
+    function __construct($vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $web, $fecha_alta, $id_pais, $id_socio, $id_tipo, $descripcion,$fecha_mod) {
         $this->vat = $vat;
         $this->nombre = $nombre;
         $this->email = $email;
@@ -28,11 +29,17 @@ class Institucion{
         $this->id_socio = $id_socio;
         $this->id_tipo = $id_tipo;
         $this->descripcion = $descripcion;
+        $this->fecha_mod=$fecha_mod;
     }
     
      public function __get($name) {
         if(property_exists($this, $name)){
             return $this->$name;
+        }
+    }
+    public function __set($name,$value){
+        if(property_exists($this, $name)){
+             $this->$name=$value;
         }
     }
 

@@ -7,7 +7,7 @@ use modelo\Alumno;
 use modelo\Empresa;
 use modelo\Institucion;
 
-include '../modelo/socios.php';
+require_once '../modelo/socios.php';
 
 function cargarBBDD(): \PDO {
     $c = leer_config(dirname(__FILE__) . "/../config/configuracion.xml", dirname(__FILE__) . "/../config/configuracion.xsd");
@@ -40,20 +40,25 @@ function alta_socio(Socio $socio) {
     try {
         $bd = cargarBBDD();
         $sql = 'insert into socios'
-                . '(vat, Password,Usuario,Nombre_Completo,Email,Telefono,Fecha_Alta,Cargo,Departamento,R_Alojamiento,Puntuacion,Rol,Pais)'
-                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+                . '(vat, Password,Usuario,Nombre_Completo,Email,Telefono,Fecha_Alta,Cargo,Departamento,R_Alojamiento,Puntuacion,Rol,Pais,Fecha_Mod)'
+                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $socio->fecha_alta = $fecha->format('Y-m-d H:i:s');
+        $socio->fecha_mod=$socio->fecha_alta;
+      
+        $socio->password = password_hash($socio->password, PASSWORD_BCRYPT);
+        
         if ($socio->vat == "") {
-            $vat = null;
-        } else {
-            $vat = $socio->vat;
-        }
-        $array_datos = array($vat, $socio->password, $socio->usuario, $socio->nombre_completo, $socio->email, $socio->telefono, $socio->fecha_alta, $socio->cargo, $socio->departamento, $socio->r_alojamiento, $socio->puntuacion, $socio->id_rol, $socio->id_pais);
+            $socio->vat = null;
+        } 
+        
+        $array_datos = array($socio->vat, $socio->password, $socio->usuario, $socio->nombre_completo, $socio->email, $socio->telefono, $socio->fecha_alta, $socio->cargo, $socio->departamento, $socio->r_alojamiento, $socio->puntuacion, $socio->id_rol, $socio->id_pais,$socio->fecha_mod);
 
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-
+            print_r($bd->errorInfo());
             return false;
         }
     } catch (\PDOException $ex) {
@@ -69,15 +74,16 @@ function alta_institucion(Institucion $inst) {
     try {
         $bd = cargarBBDD();
         $sql = 'insert into instituciones'
-                . '(vat, nombre,email,telefono,codigo_postal,direccion,web,fecha_alta,pais,socio,tipo,descripcion)'
-                . ' values (?,?,?,?,?,?,?,?,?,?,?,?)';
+                . '(vat, nombre,email,telefono,codigo_postal,direccion,web,fecha_alta,pais,socio,tipo,descripcion,fecha_mod)'
+                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
         if ($inst->vat == "") {
-            $vat = null;
-        } else {
-            $vat = $socio->vat;
-        }
-        $array_datos = array($vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion);
+            $inst->vat = null;
+        } 
+        $fecha = new \DateTime();
+        $inst->fecha_alta = $fecha->format('Y-m-d H:i:s');
+        $inst->fecha_mod=$inst->fecha_alta;
+        $array_datos = array($inst->vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion,$inst->fecha_mod);
 
         if ($stmt->execute($array_datos)) {
             if (añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio) > 0) {
@@ -119,15 +125,16 @@ function alta_alumno(Alumno $alumno) {
     try {
         $bd = cargarBBDD();
         $sql = 'insert into alumnos'
-                . '(vat,Nombre_Completo,Genero,Fecha_Nacimiento,Fecha_Alta,Socio)'
-                . ' values (?,?,?,?,?,?)';
+                . '(vat,Nombre_Completo,Genero,Fecha_Nacimiento,Fecha_Alta,Socio,Fecha_Mod)'
+                . ' values (?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
         if ($alumno->vat == "") {
-            $vat = null;
-        } else {
-            $vat = $alumno->vat;
+            $alumno->vat = null;
         }
-        $array_datos = array($vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio);
+        $fecha_alta = new \DateTime();
+        $alumno->fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
+        $alumno->fecha_mod=$alumno->fecha_alta;
+        $array_datos = array($alumno->vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio,$alumno->fecha_mod);
         if ($stmt->execute($array_datos)) {
             return true;
         } else {
