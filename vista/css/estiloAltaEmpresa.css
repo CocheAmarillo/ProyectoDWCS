@@ -1,0 +1,56 @@
+img {
+    width: 100px;
+    height: 100px;
+}
+
+#titulo {
+    color: #00c1ec;
+}
+
+form>i {
+    color: white;
+    background-color: #00c1ec;
+    border: 5px solid #00c1ec;
+    border-radius: 50%;
+}
+
+#enviar {
+    background-color: #00c1ec;
+    color: white;
+}
+
+footer {
+    background-color: #ff3006;
+
+
+}
+
+footer i {
+    color: black;
+}
+
+#copyright {
+    color: black;
+}
+
+#icons {
+    position: relative;
+    top: 50px;
+}
+
+.dropdown-item.active {
+    background-color: #ff3006;
+}
+
+.dropdown-item:active {
+    background-color: #ff3006;
+}
+
+#busqueda {
+    border-color: #ff3006;
+}
+
+#busqueda:hover {
+    background-color: #ff3006;
+
+}

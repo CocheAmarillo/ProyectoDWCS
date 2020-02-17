@@ -35,64 +35,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>ejer1</title>
-        <style>
-            img {
-                width: 100px;
-                height: 100px;
-            }
-
-            #titulo {
-                color: #00c1ec;
-            }
-
-            form>i {
-                color: white;
-                background-color: #00c1ec;
-                border: 5px solid #00c1ec;
-                border-radius: 50%;
-            }
-
-            #enviar {
-                background-color: #00c1ec;
-                color: white;
-            }
-
-            footer {
-                background-color: #ff3006;
-
-
-            }
-
-            footer i {
-                color: black;
-            }
-
-            #copyright {
-                color: black;
-            }
-
-            #icons {
-                position: relative;
-                top: 50px;
-            }
-
-            .dropdown-item.active {
-                background-color: #ff3006;
-            }
-
-            .dropdown-item:active {
-                background-color: #ff3006;
-            }
-
-            #busqueda {
-                border-color: #ff3006;
-            }
-
-            #busqueda:hover {
-                background-color: #ff3006;
-
-            }
-        </style>
+        <!--Estilo Personalizado-->
+        <link rel="stylesheet" href="./css/estiloAltaEmpresa.css">
     </head>
 
     <body>
