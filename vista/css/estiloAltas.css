@@ -4,7 +4,7 @@ img {
 }
 
 #titulo {
-    color: #00c1ec;
+    color: #4D95D8;
 }
 
 form>i {
@@ -20,9 +20,7 @@ form>i {
 }
 
 footer {
-    background-color: #ff3006;
-
-
+    background-color: #4D95D8;
 }
 
 footer i {
@@ -53,4 +51,8 @@ footer i {
 #busqueda:hover {
     background-color: #ff3006;
 
+}
+
+body{
+    overflow-x: hidden;
 }

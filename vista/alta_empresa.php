@@ -1,17 +1,12 @@
 <?php
-
-
-
-
 require_once '../controlador/metodosBBDD.php';
 require_once 'sesiones.php';
 session_start();
-if(!comprobar_sesion()){
+if (!comprobar_sesion()) {
     header('Location: index.php');
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-   
     
 }
 ?>
@@ -36,7 +31,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>ejer1</title>
         <!--Estilo Personalizado-->
-        <link rel="stylesheet" href="./css/estiloAltaEmpresa.css">
+        <link rel="stylesheet" href="./css/estiloAltas.css">
+
     </head>
 
     <body>
@@ -132,14 +128,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-4">
                     <label for="">Pais</label>
                     <select name="pais_soc">
-<?php
-$array_paises = controlador\cargar_paises();
-$option = '';
-foreach ($array_paises as $fila) {
-    $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
-}
-echo $option;
-?>
+                        <?php
+                        $array_paises = controlador\cargar_paises();
+                        $option = '';
+                        foreach ($array_paises as $fila) {
+                            $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
 
                     </select>
                 </div>
@@ -225,14 +221,14 @@ echo $option;
                 <div class="form-group col-md-4">
                     <label for="">Pais</label>
                     <select name="pais_inst">
-<?php
-$array_paises = controlador\cargar_paises();
-$option = '';
-foreach ($array_paises as $fila) {
-    $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
-}
-echo $option;
-?>
+                        <?php
+                        $array_paises = controlador\cargar_paises();
+                        $option = '';
+                        foreach ($array_paises as $fila) {
+                            $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
 
                     </select>
                 </div>
@@ -240,15 +236,15 @@ echo $option;
                 <div class="form-group col-md-4">
                     <label for="">Tipo de institucion</label>
                     <select name="tipo_inst">
-<?php
-$array_inst = controlador\cargar_tipo_institucion();
-echo $array_inst['TIPO'];
-$option = '';
-foreach ($array_inst as $fila) {
-    $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';
-}
-echo $option;
-?>
+                        <?php
+                        $array_inst = controlador\cargar_tipo_institucion();
+                        echo $array_inst['TIPO'];
+                        $option = '';
+                        foreach ($array_inst as $fila) {
+                            $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
                     </select>
 
 
@@ -280,58 +276,9 @@ echo $option;
 
 
 
-        <footer class="page-footer font-small cyan darken-3">
-
-
-            <div class="container">
-
-
-                <div class="row">
-
-                    <div id="icons" class="col-md-12 py-5">
-                        <div class="mb-5 text-center">
-
-
-                            <a class="fb-ic">
-                                <i class="fa fa-facebook-f fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="tw-ic">
-                                <i class="fa fa-twitter fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="gplus-ic">
-                                <i class="fa fa-envelope fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="li-ic">
-                                <i class="fa fa-whatsapp fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="ins-ic">
-                                <i class="fa fa-instagram fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="pin-ic">
-                                <i class="fa fa-pinterest fa-lg z fa-2x"> </i>
-                            </a>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <div id="copyright" class="footer-copyright text-center py-3">© 2020 Copyright
-
-            </div>
-
-
-        </footer>
+        <?php
+        require 'footer.php';
+        ?>
     </body>
 
 </html>
