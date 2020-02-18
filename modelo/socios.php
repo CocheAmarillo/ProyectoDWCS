@@ -1,7 +1,10 @@
 <?php
+
 namespace modelo;
-class Socio{
-   
+
+class Socio
+{
+
     private $vat;
     private $password;
     private $usuario;
@@ -18,8 +21,9 @@ class Socio{
     private $id_institucion;
     private $id_pais;
     private $fecha_mod;
-    
-    function __construct($vat, $password, $usuario, $nombre_completo, $email, $telefono, $fecha_alta, $cargo, $departamento, $r_alojamiento, $puntuacion, $rol, $pais,$fecha_mod) {
+
+    function __construct($vat, $password, $usuario, $nombre_completo, $email, $telefono, $fecha_alta, $cargo, $departamento, $r_alojamiento, $puntuacion, $rol, $pais, $fecha_mod)
+    {
         $this->vat = $vat;
         $this->password = $password;
         $this->usuario = $usuario;
@@ -33,21 +37,66 @@ class Socio{
         $this->puntuacion = $puntuacion;
         $this->id_rol = $rol;
         $this->id_pais = $pais;
-        $this->fecha_mod=$fecha_mod;
+        $this->fecha_mod = $fecha_mod;
     }
-    
-    public function __get($name) {
-        if(property_exists($this, $name)){
+
+    public function __get($name)
+    {
+        if (property_exists($this, $name)) {
             return $this->$name;
         }
     }
 
-    public function __set($name,$value){
-        if(property_exists($this, $name)){
-             $this->$name=$value;
-        }
+
+
+
+
+
+    /**
+     * Set the value of vat
+     *
+     * @return  self
+     */
+    public function setVat($vat)
+    {
+        $this->vat = $vat;
+
+        return $this;
     }
-    
 
+    /**
+     * Set the value of password
+     *
+     * @return  self
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
 
+        return $this;
+    }
+
+    /**
+     * Set the value of fecha_alta
+     *
+     * @return  self
+     */
+    public function setFecha_alta($fecha_alta)
+    {
+        $this->fecha_alta = $fecha_alta;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of fecha_mod
+     *
+     * @return  self
+     */
+    public function setFecha_mod($fecha_mod)
+    {
+        $this->fecha_mod = $fecha_mod;
+
+        return $this;
+    }
 }

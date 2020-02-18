@@ -2,25 +2,27 @@
 
 namespace controlador;
 
-use modelo\Socio;
 use modelo\Alumno;
 use modelo\Empresa;
 use modelo\Institucion;
+use modelo\Socio;
 
 require_once '../modelo/socios.php';
 
-function cargarBBDD(): \PDO {
+function cargarBBDD(): \PDO
+{
     $c = leer_config(dirname(__FILE__) . "/../config/configuracion.xml", dirname(__FILE__) . "/../config/configuracion.xsd");
     $bd = new \PDO($c[0], $c[1], $c[2]);
     return $bd;
 }
 
-function leer_config($nombre, $esquema) {
+function leer_config($nombre, $esquema)
+{
     $config = new \DOMDocument();
     $config->load($nombre);
     $res = $config->schemaValidate($esquema);
-    if ($res === FALSE) {
-        throw new InvalidArgumentException("Revise fichero de configuración");
+    if ($res === false) {
+        throw new \InvalidArgumentException("Revise fichero de configuración");
     }
     $datos = simplexml_load_file($nombre);
     $ip = $datos->xpath("//ip");
@@ -35,179 +37,195 @@ function leer_config($nombre, $esquema) {
     return $resul;
 }
 
-function alta_socio(Socio $socio) {
+function alta_socio(Socio $socio)
+{
 
     try {
         $bd = cargarBBDD();
         $sql = 'insert into socios'
-                . '(vat, Password,Usuario,Nombre_Completo,Email,Telefono,Fecha_Alta,Cargo,Departamento,R_Alojamiento,Puntuacion,Rol,Pais,Fecha_Mod)'
-                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            . '(vat, Password,Usuario,Nombre_Completo,Email,Telefono,Fecha_Alta,Cargo,Departamento,R_Alojamiento,Puntuacion,Rol,Pais,Fecha_Mod)'
+            . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
         $fecha = new \DateTime();
-        $socio->fecha_alta = $fecha->format('Y-m-d H:i:s');
-        $socio->fecha_mod=$socio->fecha_alta;
-      
-        $socio->password = password_hash($socio->password, PASSWORD_BCRYPT);
-        
+        $socio->setFecha_mod($fecha->format('Y-m-d H:i:s'));
+        $socio->setFecha_alta($fecha->format('Y-m-d H:i:s'));
+        $socio->setPassword(password_hash($socio->password, PASSWORD_BCRYPT));
+
+
+
         if ($socio->vat == "") {
-            $socio->vat = null;
-        } 
-        
-        $array_datos = array($socio->vat, $socio->password, $socio->usuario, $socio->nombre_completo, $socio->email, $socio->telefono, $socio->fecha_alta, $socio->cargo, $socio->departamento, $socio->r_alojamiento, $socio->puntuacion, $socio->id_rol, $socio->id_pais,$socio->fecha_mod);
+            $socio->setVat(null);
+        }
+
+        $array_datos = array($socio->vat, $socio->password, $socio->usuario, $socio->nombre_completo, $socio->email, $socio->telefono, $socio->fecha_alta, $socio->cargo, $socio->departamento, $socio->r_alojamiento, $socio->puntuacion, $socio->id_rol, $socio->id_pais, $socio->fecha_mod);
 
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-            print_r($bd->errorInfo());
-            return false;
+            throw new \PDOException();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        return false;
     } finally {
         $stmt = null;
         $bd = null;
     }
 }
 
-function alta_institucion(Institucion $inst) {
+function alta_institucion(Institucion $inst)
+{
 
     try {
         $bd = cargarBBDD();
         $sql = 'insert into instituciones'
-                . '(vat, nombre,email,telefono,codigo_postal,direccion,web,fecha_alta,pais,socio,tipo,descripcion,fecha_mod)'
-                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            . '(vat, nombre,email,telefono,codigo_postal,direccion,web,fecha_alta,pais,socio,tipo,descripcion,fecha_mod)'
+            . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
         if ($inst->vat == "") {
-            $inst->vat = null;
-        } 
+            $inst->setVat(null);
+        }
         $fecha = new \DateTime();
-        $inst->fecha_alta = $fecha->format('Y-m-d H:i:s');
-        $inst->fecha_mod=$inst->fecha_alta;
-        $array_datos = array($inst->vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion,$inst->fecha_mod);
+        $inst->setFecha_alta($fecha->format('Y-m-d H:i:s'));
+        $inst->setFecha_mod($fecha->format('Y-m-d H:i:s'));
+
+        $array_datos = array($inst->vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion, $inst->fecha_mod);
 
         if ($stmt->execute($array_datos)) {
             if (añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio) > 0) {
                 return true;
             } else {
-                return false;
+                throw new \PDOException();
             }
         } else {
-            print_r($bd->errorInfo());
-            return false;
+
+            throw new \PDOException();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        return false;
     } finally {
         $stmt = null;
         $bd = null;
     }
 }
 
-function añadir_institucion_socio($id_inst, $id_socio) {
+function añadir_institucion_socio($id_inst, $id_socio)
+{
     try {
         echo $id_inst, $id_socio;
         $bd = cargarBBDD();
         $sql = "UPDATE socios"
-                . " SET institucion='$id_inst'"
-                . " where ID_SOCIO='$id_socio'";
+            . " SET institucion='$id_inst'"
+            . " where ID_SOCIO='$id_socio'";
 
         return $bd->exec($sql);
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        return false;
     } finally {
-        
+
         $bd = null;
     }
 }
 
-function alta_alumno(Alumno $alumno) {
+function alta_alumno(Alumno $alumno)
+{
 
     try {
         $bd = cargarBBDD();
         $sql = 'insert into alumnos'
-                . '(vat,Nombre_Completo,Genero,Fecha_Nacimiento,Fecha_Alta,Socio,Fecha_Mod)'
-                . ' values (?,?,?,?,?,?,?)';
+            . '(vat,Nombre_Completo,Genero,Fecha_Nacimiento,Fecha_Alta,Socio,Fecha_Mod)'
+            . ' values (?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
         if ($alumno->vat == "") {
-            $alumno->vat = null;
+            $alumno->setVat(null);
         }
         $fecha_alta = new \DateTime();
-        $alumno->fecha_alta = $fecha_alta->format('Y-m-d H:i:s');
-        $alumno->fecha_mod=$alumno->fecha_alta;
-        $array_datos = array($alumno->vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio,$alumno->fecha_mod);
+        $alumno->setFecha_alta($fecha_alta->format('Y-m-d H:i:s'));
+        $alumno->setFecha_mod($fecha_alta->format('Y-m-d H:i:s'));
+
+        $array_datos = array($alumno->vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio, $alumno->fecha_mod);
         if ($stmt->execute($array_datos)) {
             return true;
         } else {
-            return false;
+            throw new \PDOException();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        return false;
     } finally {
         $stmt = null;
         $bd = null;
     }
 }
 
-function alta_empresa(Empresa $empresa) {
+
+//falta por completar alguna cosa
+function alta_empresa(Empresa $empresa)
+{
 
     try {
         $bd = cargarBBDD();
         $sql = 'insert into empresas'
-                . '(Responsable,Cargo_Responsable,Vat,Nombre,Email,Telefono,Codigo_Postal,Direccion,Web,Descripcion,Fecha_Alta,Pais,Socio,Tipo)'
-                . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+            . '(Responsable,Cargo_Responsable,Vat,Nombre,Email,Telefono,Codigo_Postal,Direccion,Web,Descripcion,Fecha_Alta,Pais,Socio,Tipo,Fecha_Mod)'
+            . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
         $stmt = $bd->prepare($sql);
-        $array_datos = array($empresa->id_responsable, $empresa->cargo_responsable, $empresa->vat, $empresa->nombre, $empresa->email, $empresa->telefono, $empresa->codigo_postal, $empresa->direccion, $empresa->web, $empresa->descripcion, $empresa->fecha_alta, $empresa->id_pais, $empresa->id_socio, $empresa->id_tipo);
-        $stmt->execute($array_datos);
+
+        $array_datos = array($empresa->id_responsable, $empresa->cargo_responsable, $empresa->vat, $empresa->nombre, $empresa->email, $empresa->telefono, $empresa->codigo_postal, $empresa->direccion, $empresa->web, $empresa->descripcion, $empresa->fecha_alta, $empresa->id_pais, $empresa->id_socio, $empresa->id_tipo, $empresa->fecha_mod);
+        if ($stmt->execute($array_datos)) {
+            return true;
+        } else {
+            throw new \PDOException();
+        }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $stmt = null;
         $bd = null;
     }
 }
 
-function borrar_empresa($id_empresa) {
+function borrar_empresa($id_empresa)
+{
 
     try {
         $bd = cargarBBDD();
 
-
         $sql = 'update empresas set Fecha_Baja="' . date('d/m/Y') . '" where Id_Empresa=' . $id_empresa;
-
-
 
         if (!$bd->exec($sql)) {
             print_r($bd->errorInfo());
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
 
         $bd = null;
     }
 }
 
-function borrar_socio($id_socio) {
+function borrar_socio($id_socio)
+{
 
     try {
         $bd = cargarBBDD();
 
         $sql = 'update socios set Fecha_Baja="' . date('d/m/Y') . '" where Id_Socio=' . $id_socio;
 
-
-
         if (!$bd->exec($sql)) {
             print_r($bd->errorInfo());
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
 
         $bd = null;
     }
 }
 
-function cargar_paises() {
+function cargar_paises()
+{
     try {
         $bd = cargarBBDD();
         $sql = 'select * from paises ';
@@ -221,13 +239,14 @@ function cargar_paises() {
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $bd = null;
     }
 }
 
-function cargar_tipo_institucion() {
+function cargar_tipo_institucion()
+{
     try {
         $bd = cargarBBDD();
         $sql = 'select * from tipos_institucion';
@@ -241,13 +260,14 @@ function cargar_tipo_institucion() {
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $bd = null;
     }
 }
 
-function cargar_rol_user($nombre_rol) {
+function cargar_rol_user($nombre_rol)
+{
     try {
         $bd = cargarBBDD();
         $sql = "select ID_ROL from rol_usuarios where TIPO='$nombre_rol'";
@@ -261,13 +281,14 @@ function cargar_rol_user($nombre_rol) {
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $bd = null;
     }
 }
 
-function comprobar_usuario($usuario, $clave) {
+function comprobar_usuario($usuario, $clave)
+{
     try {
         $bd = cargarBBDD();
         $hash = cargarPass($usuario, $bd);
@@ -279,26 +300,28 @@ function comprobar_usuario($usuario, $clave) {
             if ($resul->rowCount() === 1) {
                 return $resul->fetch();
             } else {
-                return FALSE;
+                return false;
             }
         } else {
-            return FALSE;
+            return false;
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $bd = null;
     }
 }
 
-function cargarPass($usuario, $bd) {
+function cargarPass($usuario, $bd)
+{
     $sql = "select password from socios where usuario='$usuario'";
     if ($resul = $bd->query($sql)) {
         return $resul->fetch()['password'];
     }
 }
 
-function update_puntuacion_socio($id_socio, $id_tipo_puntuacion) {
+function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
+{
     try {
         $bd = cargarBBDD();
         $sql = "select valor from tipos_puntuacion where id_tipo_puntuacion='$id_tipo_puntuacion'";
@@ -312,7 +335,7 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion) {
             $puntos = $resul->fetch()['valor'];
             $sql = "update socios set puntuacion = puntuacion + $puntos where id_socio=$id_socio";
             if (!$bd->exec($sql)) {
-                
+
                 throw new \PDOException();
             } else {
                 nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio);
@@ -320,13 +343,14 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion) {
             }
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
         $bd = null;
     }
 }
 
-function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio) {
+function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
+{
     try {
         $bd = cargarBBDD();
         $fecha = new \DateTime();
@@ -335,12 +359,11 @@ function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio) {
         if (!$bd->exec($sql)) {
             print_r($bd->errorInfo());
             throw new \PDOException();
-        }
-        else{
+        } else {
             return true;
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
     } finally {
 
         $bd = null;

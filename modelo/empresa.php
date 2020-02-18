@@ -2,7 +2,8 @@
 
 namespace modelo;
 
-class Empresa {
+class Empresa
+{
 
     private $id_responsable;
     private $cargo_responsable;
@@ -20,8 +21,9 @@ class Empresa {
     private $id_tipo;
     private $fecha_baja;
     private $fecha_mod;
-    
-    function __construct($id_responsable, $cargo_responsable, $vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $fecha_alta, $id_pais, $id_socio, $id_tipo, $web=null, $descripcion="",$fecha_mod) {
+
+    public function __construct($id_responsable, $cargo_responsable, $vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $fecha_alta, $id_pais, $id_socio, $id_tipo, $web = null, $descripcion = "", $fecha_mod)
+    {
         $this->id_responsable = $id_responsable;
         $this->cargo_responsable = $cargo_responsable;
         $this->vat = $vat;
@@ -36,21 +38,20 @@ class Empresa {
         $this->id_pais = $id_pais;
         $this->id_socio = $id_socio;
         $this->id_tipo = $id_tipo;
-        $this->fecha_mod=$fecha_mod;
+        $this->fecha_mod = $fecha_mod;
     }
 
-      
-
-    public function __get($name) {
+    public function __get($name)
+    {
         if (property_exists($this, $name)) {
             return $this->$name;
         }
     }
 
-    public function __set($name,$value){
-        if(property_exists($this, $name)){
-             $this->$name=$value;
+    public function __set($name, $value)
+    {
+        if (property_exists($this, $name)) {
+            $this->$name = $value;
         }
     }
-
 }
