@@ -46,64 +46,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         crossorigin="anonymous"></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <title>ejer1</title>
-        <style>
-            img {
-                width: 100px;
-                height: 100px;
-            }
-
-            #titulo {
-                color: #00c1ec;
-            }
-
-            form>i {
-                color: white;
-                background-color: #00c1ec;
-                border: 5px solid #00c1ec;
-                border-radius: 50%;
-            }
-
-            #enviar {
-                background-color: #00c1ec;
-                color: white;
-            }
-
-            footer {
-                background-color: #ff3006;
-
-
-            }
-
-            footer i {
-                color: black;
-            }
-
-            #copyright {
-                color: black;
-            }
-
-            #icons {
-                position: relative;
-                top: 50px;
-            }
-
-            .dropdown-item.active {
-                background-color: #ff3006;
-            }
-
-            .dropdown-item:active {
-                background-color: #ff3006;
-            }
-
-            #busqueda {
-                border-color: #ff3006;
-            }
-
-            #busqueda:hover {
-                background-color: #ff3006;
-
-            }
-        </style>
+    
+       <link rel="stylesheet" href="./css/estiloAltas.css">
+        
     </head>
 
     <body>
@@ -345,60 +290,9 @@ echo $option;
         </form>
 
 
+<?php require 'footer.php'; ?>
 
-
-        <footer class="page-footer font-small cyan darken-3">
-
-
-            <div class="container">
-
-
-                <div class="row">
-
-                    <div id="icons" class="col-md-12 py-5">
-                        <div class="mb-5 text-center">
-
-
-                            <a class="fb-ic">
-                                <i class="fa fa-facebook-f fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="tw-ic">
-                                <i class="fa fa-twitter fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="gplus-ic">
-                                <i class="fa fa-envelope fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="li-ic">
-                                <i class="fa fa-whatsapp fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="ins-ic">
-                                <i class="fa fa-instagram fa-lg  mr-md-5 mr-3 fa-2x"> </i>
-                            </a>
-
-                            <a class="pin-ic">
-                                <i class="fa fa-pinterest fa-lg z fa-2x"> </i>
-                            </a>
-                        </div>
-                    </div>
-
-
-                </div>
-
-
-            </div>
-
-
-
-            <div id="copyright" class="footer-copyright text-center py-3">© 2020 Copyright
-
-            </div>
-
-
-        </footer>
+        
     </body>
 
 </html>

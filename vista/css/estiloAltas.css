@@ -19,8 +19,14 @@ form>i {
     color: white;
 }
 
-footer {
+#ini_ses {
+    color: white;
     background-color: #4D95D8;
+}
+footer {
+   
+    background-color: #4D95D8;
+    width: 100%;
 }
 
 footer i {
@@ -55,4 +61,7 @@ footer i {
 
 body{
     overflow-x: hidden;
+}
+#broken {
+    height: 628px;
 }
