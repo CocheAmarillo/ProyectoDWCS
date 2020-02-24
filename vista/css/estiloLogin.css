@@ -1,0 +1,53 @@
+body {
+   min-height: 100vh;
+}
+
+h2 {
+   color: #183559;
+}
+
+.flex-grow {
+   flex: 1;
+}
+
+.btn-default {
+   color: #183559;
+   font-weight: bold;
+   background-color: #f26b40;
+}
+
+footer {
+   background-color: #183559;
+}
+
+#logo {
+   width: 5em;
+   height: 4em;
+}
+
+#logo2 {
+   max-width: 100%;
+   max-height: 100%;
+   float: right;
+}
+
+@media (max-width:1000px) {
+   #colLogo {
+      display: none;
+   }
+   #fila {
+      margin-top: 0em;
+   }
+}
+
+.carousel-inner>.carousel-item>img {
+   margin: 0 auto;
+}
+
+i, #copyright {
+   color: #f26b40
+}
+
+span {
+   color: #183559;
+}

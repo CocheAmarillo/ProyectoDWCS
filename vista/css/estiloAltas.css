@@ -1,7 +1,8 @@
-img {
-    width: 100px;
-    height: 100px;
-}
+/*
+#logo {
+    width: 5em;
+    height: 4em;
+ }
 
 #titulo {
     color: #4D95D8;
@@ -19,10 +20,7 @@ form>i {
     color: white;
 }
 
-#ini_ses {
-    color: white;
-    background-color: #4D95D8;
-}
+
 footer {
    
     background-color: #4D95D8;
@@ -57,11 +55,4 @@ footer i {
 #busqueda:hover {
     background-color: #ff3006;
 
-}
-
-body{
-    overflow-x: hidden;
-}
-#broken {
-    height: 628px;
-}
+}*/

@@ -14,34 +14,39 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <title>ejer1</title>
-  <link rel="stylesheet" href="./css/estiloAltas.css">
+  <title>MERT</title>
+
+  <link rel="stylesheet" href="./css/estiloLogin.css">
+
 </head>
 
-<body>
-
-  <?php require_once 'cabecera.php';
+<body class="d-flex flex-column">
+  <?php
+  require_once 'cabecera.php';
   ?>
-  <section id="broken">
-    <img id="fondo" src="./imagenes/fondo.jpg" alt="">
+  <section class="container-fluid flex-grow pr-4 pl-4">
 
-    <p id="principal">
-      Esta es una web de venta de discos online. Aunque en la actualidad el soporte físico ya no es tan usado y la mayoría
-      de gente escucha música a través de internet, nosotros queremos mantener viva la
-      venta de discos para esa gente que todavía le gusta coleccionarlos o simplemente por el hecho de apoyar a los
-      artistas.<br><br>
-      En nuestra página encontrarás numerosos productos , independientemente del año de lanzamiento . Procuramos mantener
-      nuestro stock actualizado para así incorporar nuevos productos que vayan saliendo al mercado.<br><br>
-      Únicamente realizamos ventas a traves de nuestra página web, para lo cual solo es necesario proporcionar informacion
-      básica así como una direccion de envío. No es necesario registrarse , pero si es recomendable, ya que ofrece una
-      serie de ventajas y facilidades a la hora de realizar múltiples pedidos, así como ciertos descuentos que solo
-      ofrecemos a clientes dados de alta. <br><br>
-      En nuestra página disponemos de una sección para que los clientes se puedan poner en contacto con nosotros para
-      cualquier duda o si necesitan nuestra ayuda para solucionar cualquier problema que puedan haber tenido con alguno de
-      los pedidos realizados.
-
-    </p>
-
+  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+  <div class="carousel-inner">
+    <div class="carousel-item active">
+      <img class="d-block h-50" src="imagenes/logofinal.png" alt="First slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block" src="imagenes/logofinal.png" alt="Second slide">
+    </div>
+    <div class="carousel-item">
+      <img class="d-block" src="imagenes/logofinal.png" alt="Third slide">
+    </div>
+  </div>
+  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+    <span class="sr-only">Previous</span>
+  </a>
+  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+    <span class="sr-only">Next</span>
+  </a>
+</div>
   </section>
   <?php require 'footer.php'; ?>
 
