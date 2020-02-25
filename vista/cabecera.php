@@ -37,20 +37,54 @@ if (comprobar_sesion()) {
                   <a class="nav-link" href="logout.php">Cerrar Sesion</a>
             </li>
                    
-            <li class="nav-item dropdown">
+          
+             <?php } ?>
+             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    Altas
+                    Empresa
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                   
-                    <a class="dropdown-item" href="alta_empresa.php">Alta empresa</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="alta_empresa.php">Dar de alta</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Dar de baja</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Modificacion de datos</a>
+                    <a class="dropdown-item" href="">Búsqueda de empresas</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Registrar movilidad con alumno</a>
 
-                    <a class="dropdown-item" href="alta_alumno.php">Alta alumno</a>
                 </div>
-            </li>
-             <?php } ?>
-
+            </li> 
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Alumno
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?> " href="alta_alumno.php" >Dar de alta</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Dar de baja</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Modificacion de datos</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Registrar movilidad con empresa</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Registrar movilidad con institución</a>
+                    
+                </div>
+            </li>     
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Institución
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                  
+                    
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Dar de baja</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Modificacion de datos</a>
+                    <a class="dropdown-item <?php if($registrado == false) echo "disabled";?>" href="">Registrar movilidad con alumno</a>
+                    <a class="dropdown-item" href="">Búsqueda de instituciones</a>
+                   
+                    
+                </div>
+            </li>    
         </ul>
 
         <?php if($registrado==true){ ?>
