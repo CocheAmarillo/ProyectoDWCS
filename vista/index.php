@@ -15,6 +15,19 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>MERT</title>
+  <style>
+    #img2{
+      margin-top: 3%;
+      height: 400px;
+      width: 1000px;
+    }
+    #descripcion{
+      margin-top:2%;
+      margin-bottom:2%;
+      margin-left:5%;
+      text-align: justify;
+    }
+  </style>
 
   <link rel="stylesheet" href="./css/estiloLogin.css">
 
@@ -29,13 +42,13 @@
   <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block h-50" src="imagenes/logofinal.png" alt="First slide">
+      <img id="img2" class="d-block" src="imagenes/3.jpg" alt="First slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block" src="imagenes/logofinal.png" alt="Second slide">
+      <img id="img2" class="d-block" src="imagenes/1.jpg" alt="Second slide">
     </div>
     <div class="carousel-item">
-      <img class="d-block" src="imagenes/logofinal.png" alt="Third slide">
+      <img id="img2" class="d-block" src="imagenes/2.png" alt="Third slide">
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
@@ -47,6 +60,14 @@
     <span class="sr-only">Next</span>
   </a>
 </div>
+  </section>
+  <section id="descripcion">
+    <p>Esta es una web para facilitar la búsqueda de empresas o insitutuciones en las que los alumnos puedan realizar sus prácticas.<br>
+        También permite que los usuarios den de alta en nuestra base de datos nuevas empresas y alumnos para asi darlos a conocer a otros usuarios que puedan estar interesados.
+        
+    </p>
+
+
   </section>
   <?php require 'footer.php'; ?>
 
