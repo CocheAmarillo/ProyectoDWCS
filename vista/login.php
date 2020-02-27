@@ -4,6 +4,7 @@ require_once '../controlador/metodosBBDD.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $usuario = \controlador\comprobar_usuario($_POST['usuario'], $_POST['password']);
+
     if ($usuario === false) {
         $err = true;
         $usuario = $_POST['usuario']; //para que permanezca en el campo de texto lo escrito por el usuario
@@ -31,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>MobJob</title>
+    <title>MERT</title>
 
     <link rel="stylesheet" href="./css/estiloLogin.css">
 
@@ -44,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "<p> Revise usuario y contraseña</p>";
     }
     ?>
-    
+
 
     <section class="container-fluid flex-grow" id="fila">
         <div class="row mt-5 pt-5 ml-3 mr-3 mb-4 border">
@@ -65,6 +66,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </div>
 
                         <input type="submit" name="enviar" id="btn_login" class="btn btn-default btn-block mt-4 mb-5" value="Iniciar Sesion">
+                        <div class="form-group text-center"><a href="alta_socio.php">Registrate</a></div>
+
                     </form>
                 </div>
             </div>

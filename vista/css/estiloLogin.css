@@ -51,3 +51,24 @@ i, #copyright {
 span {
    color: #183559;
 }
+
+.disabled{
+   color: red;
+}
+.dropdown-item:not(.disabled){
+  
+   font-weight: bold;
+}
+
+.alert{
+   background-color: #f26b40;
+   color:#183559;
+}
+
+span>.blue{
+   color: #183559;
+}
+
+span>.orange{
+   color: #f26b40
+}

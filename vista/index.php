@@ -1,4 +1,6 @@
 <?php session_start();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -16,55 +18,62 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
   <title>MERT</title>
   <style>
-    #img2{
+    #img2 {
       margin-top: 3%;
       height: 400px;
       width: 1000px;
     }
-    #descripcion{
-      margin-top:2%;
-      margin-bottom:2%;
-      margin-left:5%;
+
+    #descripcion {
+      margin-top: 2%;
+      margin-bottom: 2%;
+      margin-left: 5%;
       text-align: justify;
     }
   </style>
 
   <link rel="stylesheet" href="./css/estiloLogin.css">
 
+  <script src="../controlador/metodosJS.js"></script>
 </head>
-
 <body class="d-flex flex-column">
   <?php
   require_once 'cabecera.php';
+  if (isset($_GET['logout']) && $_GET['logout'] == "true") {
+    echo '<script type="text/javascript">',
+     'popUpLogout();',
+     '</script>'
+;
+  }
   ?>
   <section class="container-fluid flex-grow pr-4 pl-4">
 
-  <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
-  <div class="carousel-inner">
-    <div class="carousel-item active">
-      <img id="img2" class="d-block" src="imagenes/3.jpg" alt="First slide">
+    <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img id="img2" class="d-block" src="imagenes/3.jpg" alt="First slide">
+        </div>
+        <div class="carousel-item">
+          <img id="img2" class="d-block" src="imagenes/1.jpg" alt="Second slide">
+        </div>
+        <div class="carousel-item">
+          <img id="img2" class="d-block" src="imagenes/2.png" alt="Third slide">
+        </div>
+      </div>
+      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
     </div>
-    <div class="carousel-item">
-      <img id="img2" class="d-block" src="imagenes/1.jpg" alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img id="img2" class="d-block" src="imagenes/2.png" alt="Third slide">
-    </div>
-  </div>
-  <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="sr-only">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="sr-only">Next</span>
-  </a>
-</div>
   </section>
   <section id="descripcion">
-    <p>Esta es una web para facilitar la búsqueda de empresas o insitutuciones en las que los alumnos puedan realizar sus prácticas.<br>
-        También permite que los usuarios den de alta en nuestra base de datos nuevas empresas y alumnos para asi darlos a conocer a otros usuarios que puedan estar interesados.
-        
+    <p class="text-center">Bienvenido a <b><i><span>M</span><span style="color: #f26b40">E</span><span>R</span><span style="color: #f26b40">T</span></i></b>, una web para facilitar la búsqueda de empresas o insitutuciones en las que los alumnos puedan realizar sus prácticas.<br>
+      También permite que los usuarios den de alta en nuestra base de datos nuevas empresas y alumnos para asi darlos a conocer a otros usuarios que puedan estar interesados.
+
     </p>
 
 

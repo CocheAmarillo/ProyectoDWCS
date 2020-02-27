@@ -16,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (\controlador\alta_alumno($alumno)) {
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
         echo "alumno insertado con exito";
+        //crear metodo para añadir especialidades en la base de datos.
     }
 }
 ?>
@@ -91,8 +92,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
 
-                <div class="form-row w-100 text-center">
-                    <div class="form-group col-md-4 container-fluid w-100">
+
+                <div class="form-row w-100 text-right">
+                    <div class="form-group col-md-5 container-fluid w-50">
                         <label for="">Género</label>
                         <select name="genero_al">
                             <option value="M">Masculino</option>
@@ -100,7 +102,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <option value='O'>Otre</option>
                         </select>
                     </div>
+
+                    <div class="form-group col-md-5 container-fluid text-left w-25">
+                        <label for="">Especialidades</label>
+                        <select name="especialidades_alumno[]" multiple class="form-control w-25 text-left ">
+                            <?php
+                            $array_paises = controlador\cargar_especialidades();
+                            $option = '';
+                            foreach ($array_paises as $fila) {
+                                $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';
+                            }
+                            echo $option;
+                            ?>
+                        </select>
+                    </div>
                 </div>
+
+
 
 
                 <div style="margin-top:10px" class="form-group">

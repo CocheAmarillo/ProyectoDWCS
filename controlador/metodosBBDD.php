@@ -369,3 +369,25 @@ function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
         $bd = null;
     }
 }
+
+
+function cargar_especialidades()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = 'select * from tipos_especialidad ';
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            print_r($bd->errorInfo());
+            throw new \PDOException();
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
