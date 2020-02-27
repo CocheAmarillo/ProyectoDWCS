@@ -6,6 +6,7 @@ use modelo\Alumno;
 use modelo\Empresa;
 use modelo\Institucion;
 use modelo\Socio;
+use PDOException;
 
 require_once '../modelo/socios.php';
 
@@ -62,10 +63,10 @@ function alta_socio(Socio $socio)
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
         return false;
     } finally {
         $stmt = null;
@@ -95,14 +96,14 @@ function alta_institucion(Institucion $inst)
             if (añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio) > 0) {
                 return true;
             } else {
-                throw new \PDOException();
+                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
             }
         } else {
 
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
         return false;
     } finally {
         $stmt = null;
@@ -121,7 +122,7 @@ function añadir_institucion_socio($id_inst, $id_socio)
 
         return $bd->exec($sql);
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
         return false;
     } finally {
 
@@ -147,12 +148,12 @@ function alta_alumno(Alumno $alumno)
 
         $array_datos = array($alumno->vat, $alumno->nombre_completo, $alumno->genero, $alumno->fecha_nacimiento, $alumno->fecha_alta, $alumno->id_socio, $alumno->fecha_mod);
         if ($stmt->execute($array_datos)) {
-            return true;
+            return $bd->lastInsertId();
         } else {
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
         return false;
     } finally {
         $stmt = null;
@@ -176,10 +177,10 @@ function alta_empresa(Empresa $empresa)
         if ($stmt->execute($array_datos)) {
             return true;
         } else {
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $stmt = null;
         $bd = null;
@@ -198,7 +199,7 @@ function borrar_empresa($id_empresa)
             print_r($bd->errorInfo());
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
 
         $bd = null;
@@ -217,7 +218,7 @@ function borrar_socio($id_socio)
             print_r($bd->errorInfo());
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
 
         $bd = null;
@@ -232,14 +233,14 @@ function cargar_paises()
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $bd = null;
     }
@@ -253,14 +254,14 @@ function cargar_tipo_institucion()
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $bd = null;
     }
@@ -274,14 +275,14 @@ function cargar_rol_user($nombre_rol)
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $bd = null;
     }
@@ -306,7 +307,7 @@ function comprobar_usuario($usuario, $clave)
             return false;
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $bd = null;
     }
@@ -328,22 +329,22 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else {
             $puntos = $resul->fetch()['valor'];
             $sql = "update socios set puntuacion = puntuacion + $puntos where id_socio=$id_socio";
             if (!$bd->exec($sql)) {
 
-                throw new \PDOException();
+                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
             } else {
                 nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio);
                 return true;
             }
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
         $bd = null;
     }
@@ -358,12 +359,12 @@ function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
         $sql = "insert into historico_puntuaciones (fecha,tipo_puntuacion,socio) values ('$fecha','$id_tipo_puntuacion','$id_socio')";
         if (!$bd->exec($sql)) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else {
             return true;
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
 
         $bd = null;
@@ -379,15 +380,41 @@ function cargar_especialidades()
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException();
+            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo "Ha ocurrido algún error con la base de datos: " . $ex->getMessage();
+        echo $ex->getMessage();
     } finally {
+        $bd = null;
+    }
+}
+
+
+
+function add_especialidad_alumno($id_alumno, $array_especialidades)
+{
+    try {
+        $bd = cargarBBDD();
+        $fecha = new \DateTime();
+        
+        $sql = "insert into alumnos_especialidades (alumno,especialidad) values ('$id_alumno',?)";
+        $stmt=$bd->prepare($sql);
+        foreach($array_especialidades as $especialidad){
+            
+            $stmt->bindParam(1,$especialidad);
+            if(!$stmt->execute()){
+                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            }
+        }
+        
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+
         $bd = null;
     }
 }

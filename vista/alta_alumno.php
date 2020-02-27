@@ -5,6 +5,8 @@ require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
+use function controlador\add_especialidad_alumno;
+
 session_start();
 if (!comprobar_sesion()) {
     header('Location: index.php');
@@ -13,10 +15,11 @@ if (!comprobar_sesion()) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $alumno = new Alumno($_POST['vat_al'], $_POST['nombre_al'], $_POST['genero_al'], $_POST['fecha_nac_al'], null, $_SESSION['id_socio'], null);
-    if (\controlador\alta_alumno($alumno)) {
+    if ($id_alumno=\controlador\alta_alumno($alumno)) { //la función devuelve el id del alumno insertado en la base de datos
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
+        add_especialidad_alumno($id_alumno,$_POST['especialidades_alumno']);
         echo "alumno insertado con exito";
-        //crear metodo para añadir especialidades en la base de datos.
+        
     }
 }
 ?>
@@ -107,9 +110,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="">Especialidades</label>
                         <select name="especialidades_alumno[]" multiple class="form-control w-25 text-left ">
                             <?php
-                            $array_paises = controlador\cargar_especialidades();
+                            $array_especialidades = controlador\cargar_especialidades();
                             $option = '';
-                            foreach ($array_paises as $fila) {
+                            foreach ($array_especialidades as $fila) {
                                 $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';
                             }
                             echo $option;
