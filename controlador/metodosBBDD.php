@@ -63,7 +63,7 @@ function alta_socio(Socio $socio)
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -93,14 +93,15 @@ function alta_institucion(Institucion $inst)
         $array_datos = array($inst->vat, $inst->nombre, $inst->email, $inst->telefono, $inst->codigo_postal, $inst->direccion, $inst->web, $inst->fecha_alta, $inst->id_pais, $inst->id_socio, $inst->id_tipo, $inst->descripcion, $inst->fecha_mod);
 
         if ($stmt->execute($array_datos)) {
-            if (añadir_institucion_socio($bd->lastInsertId(), $inst->id_socio) > 0) {
-                return true;
+            $id_institucion = $bd->lastInsertId();
+            if (añadir_institucion_socio($id_institucion, $inst->id_socio) > 0) {
+                return $id_institucion;
             } else {
-                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             }
         } else {
 
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -150,7 +151,7 @@ function alta_alumno(Alumno $alumno)
         if ($stmt->execute($array_datos)) {
             return $bd->lastInsertId();
         } else {
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -162,25 +163,63 @@ function alta_alumno(Alumno $alumno)
 }
 
 
-//falta por completar alguna cosa
-function alta_empresa(Empresa $empresa)
+function alta_responsable($email, $nombre, $telefono, $bd)
 {
-
     try {
-        $bd = cargarBBDD();
-        $sql = 'insert into empresas'
-            . '(Responsable,Cargo_Responsable,Vat,Nombre,Email,Telefono,Codigo_Postal,Direccion,Web,Descripcion,Fecha_Alta,Pais,Socio,Tipo,Fecha_Mod)'
-            . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+
+        $sql = "insert into responsables (email,nombre_completo,telefono) values (?,?,?)";
         $stmt = $bd->prepare($sql);
 
-        $array_datos = array($empresa->id_responsable, $empresa->cargo_responsable, $empresa->vat, $empresa->nombre, $empresa->email, $empresa->telefono, $empresa->codigo_postal, $empresa->direccion, $empresa->web, $empresa->descripcion, $empresa->fecha_alta, $empresa->id_pais, $empresa->id_socio, $empresa->id_tipo, $empresa->fecha_mod);
+
+        $array_datos = array($email, $nombre, $telefono);
         if ($stmt->execute($array_datos)) {
-            return true;
+            return $bd->lastInsertId();
         } else {
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
+        return false;
+    }
+}
+function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
+{
+
+    try {
+
+        $bd = cargarBBDD();
+        $bd->beginTransaction();
+        $id_responsable = alta_responsable($email_resp, $nombre_resp, $tel_resp, $bd);
+        if ($id_responsable == false) {
+            throw new \PDOException("Ha ocurrido algun error creando el responsable");
+        }
+
+
+        $sql = 'insert into empresas'
+            . '(Responsable,Cargo_Responsable,Vat,Nombre,Email,Telefono,Codigo_Postal,Direccion,Web,Descripcion,Fecha_Alta,Pais,Socio,Tipo,Fecha_Mod)'
+            . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
+        $stmt = $bd->prepare($sql);
+        if ($empresa->vat == "") {
+            $empresa->setVat(null);
+        }
+        $fecha_alta = new \DateTime();
+        $empresa->setFecha_alta($fecha_alta->format('Y-m-d H:i:s'));
+        $empresa->setFecha_mod($fecha_alta->format('Y-m-d H:i:s'));
+        $empresa->setId_responsable($id_responsable);
+
+        $array_datos = array($empresa->id_responsable, $empresa->cargo_responsable, $empresa->vat, $empresa->nombre, $empresa->email, $empresa->telefono, $empresa->codigo_postal, $empresa->direccion, $empresa->web, $empresa->descripcion, $empresa->fecha_alta, $empresa->id_pais, $empresa->id_socio, $empresa->id_tipo, $empresa->fecha_mod);
+        if ($stmt->execute($array_datos)) {
+            $id_empresa = $bd->lastInsertId();
+            $bd->commit();
+
+            return $id_empresa; //devuelve el id de la empresa insertada
+        } else {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        $bd->rollBack();
+        return false;
     } finally {
         $stmt = null;
         $bd = null;
@@ -233,7 +272,7 @@ function cargar_paises()
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
@@ -253,8 +292,30 @@ function cargar_tipo_institucion()
         $sql = 'select * from tipos_institucion';
         $resul = $bd->query($sql);
         if (!$resul) {
-            print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+function cargar_tipo_empresa()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = 'select * from tipos_empresa';
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
@@ -274,8 +335,8 @@ function cargar_rol_user($nombre_rol)
         $sql = "select ID_ROL from rol_usuarios where TIPO='$nombre_rol'";
         $resul = $bd->query($sql);
         if (!$resul) {
-            print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
@@ -329,15 +390,15 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
         $resul = $bd->query($sql);
         if (!$resul) {
             print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else {
             $puntos = $resul->fetch()['valor'];
             $sql = "update socios set puntuacion = puntuacion + $puntos where id_socio=$id_socio";
             if (!$bd->exec($sql)) {
 
-                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             } else {
                 nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio);
                 return true;
@@ -359,7 +420,7 @@ function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
         $sql = "insert into historico_puntuaciones (fecha,tipo_puntuacion,socio) values ('$fecha','$id_tipo_puntuacion','$id_socio')";
         if (!$bd->exec($sql)) {
             print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else {
             return true;
         }
@@ -379,8 +440,8 @@ function cargar_especialidades()
         $sql = 'select * from tipos_especialidad ';
         $resul = $bd->query($sql);
         if (!$resul) {
-            print_r($bd->errorInfo());
-            throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
@@ -399,22 +460,71 @@ function add_especialidad_alumno($id_alumno, $array_especialidades)
 {
     try {
         $bd = cargarBBDD();
-        $fecha = new \DateTime();
-        
+
+
         $sql = "insert into alumnos_especialidades (alumno,especialidad) values ('$id_alumno',?)";
-        $stmt=$bd->prepare($sql);
-        foreach($array_especialidades as $especialidad){
-            
-            $stmt->bindParam(1,$especialidad);
-            if(!$stmt->execute()){
-                throw new \PDOException("Ha ocurrido algun error: ".$bd->errorInfo()[2]);
+        $stmt = $bd->prepare($sql);
+        foreach ($array_especialidades as $especialidad) {
+
+            $stmt->bindParam(1, $especialidad);
+            if (!$stmt->execute()) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             }
         }
-        
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
     } finally {
 
         $bd = null;
+    }
+}
+
+
+function add_especialidad_institucion($id_institucion, $array_especialidades)
+{
+    try {
+        $bd = cargarBBDD();
+
+
+        $sql = "insert into instituciones_especialidades (institucion,especialidad) values ('$id_institucion',?)";
+        $stmt = $bd->prepare($sql);
+        foreach ($array_especialidades as $especialidad) {
+
+            $stmt->bindParam(1, $especialidad);
+            if (!$stmt->execute()) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+            }
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+
+        $bd = null;
+    }
+}
+
+
+function add_especialidad_empresa($id_empresa, $array_especialidades)
+{
+    if ($array_especialidades != null) {
+        try {
+            $bd = cargarBBDD();
+
+
+            $sql = "insert into empresas_especialidades (empresa,especialidad) values ('$id_empresa',?)";
+            $stmt = $bd->prepare($sql);
+            foreach ($array_especialidades as $especialidad) {
+
+                $stmt->bindParam(1, $especialidad);
+                if (!$stmt->execute()) {
+                    throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+                }
+            }
+        } catch (\PDOException $ex) {
+            echo $ex->getMessage();
+        } finally {
+
+            $bd = null;
+        }
     }
 }

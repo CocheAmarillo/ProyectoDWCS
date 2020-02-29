@@ -1,4 +1,8 @@
 <?php
+
+use modelo\Empresa;
+
+require_once '../modelo/empresa.php';
 require_once '../controlador/metodosBBDD.php';
 require_once 'sesiones.php';
 session_start();
@@ -7,6 +11,18 @@ if (!comprobar_sesion()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    $empresa = new Empresa(null, $_POST['cargo_resp'], $_POST['vat_emp'], $_POST['nombre_emp'], $_POST['email_emp'], $_POST['telefono_emp'], $_POST['codigo_postal_emp'], $_POST['direccion_emp'], null, $_POST['pais_emp'], $_SESSION['id_socio'], $_POST['tipo_emp'], $_POST['web_emp'], $_POST['descripcion_emp'], null);
+    if ($id_empresa = \controlador\alta_empresa($empresa, $_POST['email_resp'], $_POST['nombre_resp'], $_POST['telefono_resp'])) { //el metodo devuelve el id de la empresa insertada o false si se produjo algun error
+
+        if (!isset($_POST['especialidades_emp'])) {
+            $especialiadades = null;
+        } else {
+            $especialiadades = $_POST['especialidades_emp'];
+        }
+        \controlador\add_especialidad_empresa($id_empresa, $especialiadades);
+        \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
+        echo "Empresa insertada con exito";
+    }
 }
 ?>
 
@@ -61,42 +77,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Usuario</label>
-                    <input type="text" class="form-control" id="nombre" name="usuario_soc" placeholder="Usuario">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Password</label>
-                    <input type="password" class="form-control" name="password_soc" placeholder="Password">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Nombre Completo</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre_soc" placeholder="Nombre Completo">
+                    <label for="">Nombre</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre_emp" placeholder="Nombre" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
                     <label for="">VAT</label>
-                    <input type="text" class="form-control" name="vat_soc" placeholder="VAT">
+                    <input type="text" class="form-control" name="vat_emp" placeholder="VAT">
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
+
 
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control" name="email_soc" placeholder="Email">
+                    <input type="email" class="form-control" name="email_emp" placeholder="email@gmail.com" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono_soc" placeholder="Telefono">
+                    <label for="">Telefono</label>
+                    <input type="text" class="form-control" name="telefono_emp" placeholder="123456789" required>
+                </div>
+                <div class="form-group col-md-1"></div>
+            </div>
+
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-4">
+                    <label for="">Codigo Postal</label>
+                    <input type="text" class="form-control" name="codigo_postal_emp" placeholder="36883" required>
+                </div>
+                <div class="form-group col-md-2"></div>
+                <div class="form-group col-md-4">
+                    <label for="">Direccion</label>
+                    <input type="text" class="form-control" name="direccion_emp" placeholder="Direccion" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -105,13 +121,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Cargo</label>
-                    <input type="text" class="form-control" name="cargo_soc" placeholder="Cargo">
+                    <label for="">Web</label>
+                    <input type="text" class="form-control" name="web_emp" placeholder="www.google.com">
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Departamento</label>
-                    <input type="text" class="form-control" name="departamento_soc" placeholder="Departamento">
+                    <label for="">Descripcion</label>
+                    <input type="text" class="form-control" name="descripcion_emp">
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -120,7 +136,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Pais</label>
-                    <select name="pais_soc">
+                    <select name="pais_emp">
                         <?php
                         $array_paises = controlador\cargar_paises();
                         $option = '';
@@ -131,6 +147,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         ?>
 
                     </select>
+                </div>
+
+                <div class="form-group col-md-2">
+                    <label for="">Tipo de Empresa</label>
+                    <select name="tipo_emp">
+                        <?php
+                        $array_emp = controlador\cargar_tipo_empresa();
+
+                        $option = '';
+                        foreach ($array_emp as $fila) {
+                            $option .= '<option value="' . $fila['ID_TIPO_EMPRESA'] . '">' . $fila['TIPO'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
+                    </select>
+
+
+                </div>
+                <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-4">
+                    <label for="">Especialidades</label>
+                    <select name="especialidades_emp[]" multiple class="form-control w-25 text-left ">
+                        <?php
+                        $array_especialidades = controlador\cargar_especialidades();
+                        $option = '';
+                        foreach ($array_especialidades as $fila) {
+                            $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
+                    </select>
+
+
                 </div>
 
             </div>
@@ -144,7 +193,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <nav class="navbar navbar-light bg-light">
                             <a class="navbar-brand">
                                 <i class="fa fa-map-marker"></i>
-                                <span id="info">Información de su Institución</span>
+                                <span id="info">Información de su Responsable</span>
                             </a>
                         </nav>
                     </h3>
@@ -154,97 +203,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Nombre</label>
-                    <input type="text" class="form-control" id="nombre_inst" name="nombre_inst" placeholder="Nombre">
+                    <label for="">Nombre completo</label>
+                    <input type="text" class="form-control" name="nombre_resp" placeholder="Nombre" required>
                 </div>
                 <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">VAT</label>
-                    <input type="password" class="form-control" name="vat_inst" placeholder="VAT">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control" id="email" name="email_inst" placeholder="Email">
+                    <input type="email" class="form-control" name="email_resp" placeholder="email@gmail.com" required>
                 </div>
-                <div class="form-group col-md-2"></div>
+                <div class="form-group col-md-1"></div>
+            </div>
+
+
+            <div class="form-row">
+                <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Telefono</label>
-                    <input type="text" class="form-control" name="telefono_inst" placeholder="Telefono">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="name">Codigo postal</label>
-                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="Codigo Postal">
+                    <input type="text" class="form-control" name="telefono_resp" placeholder="1211223123123">
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="tel">Dirección</label>
-                    <input type="text" class="form-control" name="direccion_inst" placeholder="Direccion">
+                    <label for="">Cargo en la empresa</label>
+                    <input type="text" class="form-control" name="cargo_resp" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
 
 
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Web</label>
-                    <input type="text" class="form-control" name="web_inst" placeholder="Web">
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Descripcion</label>
-                    <input type="textarea" class="form-control" name="descripcion_inst" placeholder="Descripcion">
-                </div>
-                <div class="form-group col-md-1"></div>
-            </div>
-
-            <div class="form-row">
-                <div class="form-group col-md-1"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Pais</label>
-                    <select name="pais_inst">
-                        <?php
-                        $array_paises = controlador\cargar_paises();
-                        $option = '';
-                        foreach ($array_paises as $fila) {
-                            $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
-                        }
-                        echo $option;
-                        ?>
-
-                    </select>
-                </div>
-                <div class="form-group col-md-2"></div>
-                <div class="form-group col-md-4">
-                    <label for="">Tipo de institucion</label>
-                    <select name="tipo_inst">
-                        <?php
-                        $array_inst = controlador\cargar_tipo_institucion();
-                        echo $array_inst['TIPO'];
-                        $option = '';
-                        foreach ($array_inst as $fila) {
-                            $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';
-                        }
-                        echo $option;
-                        ?>
-                    </select>
-
-
-                </div>
-                <div class="form-group col-md-1"></div>
-
-            </div>
 
 
 

@@ -3,6 +3,8 @@
 use modelo\Socio;
 use modelo\Institucion;
 
+
+
 require_once '../controlador/metodosBBDD.php';
 require_once '../modelo/socios.php';
 require_once '../modelo/institucion.php';
@@ -16,7 +18,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], null, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst'], null);
 
-    if ($id_insertado && controlador\alta_institucion($institucion)) {
+    if ($id_insertado && $id_institucion=controlador\alta_institucion($institucion)) {
+        if (!isset($_POST['especialidades_institucion'])) {
+            $especialiadades = null;
+        } else {
+            $especialiadades = $_POST['especialidades_institucion'];
+        }
+        \controlador\add_especialidad_institucion($id_institucion,$especialiadades);
         \controlador\update_puntuacion_socio($id_insertado, 2);
         $_SESSION['id_socio'] = $id_insertado;
         $_SESSION['usuario'] = $socio->usuario;
@@ -248,7 +256,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="tipo_inst">
                         <?php
                         $array_inst = controlador\cargar_tipo_institucion();
-                        echo $array_inst['TIPO'];
+                        
                         $option = '';
                         foreach ($array_inst as $fila) {
                             $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';
@@ -259,7 +267,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                 </div>
+
+
+            </div>
+            <div class="form-row">
                 <div class="form-group col-md-1"></div>
+                <div class="form-group col-md-4">
+                    <label for="">Especialidades</label>
+                    <select name="especialidades_institucion[]" multiple class="form-control w-25 text-left ">
+                        <?php
+                        $array_especialidades = controlador\cargar_especialidades();
+                        $option = '';
+                        foreach ($array_especialidades as $fila) {
+                            $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';
+                        }
+                        echo $option;
+                        ?>
+                    </select>
+                </div>
+            </div>
+            <div class="form-group col-md-1"></div>
 
             </div>
 

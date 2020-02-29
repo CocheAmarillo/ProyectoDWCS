@@ -22,7 +22,7 @@ class Empresa
     private $fecha_baja;
     private $fecha_mod;
 
-    public function __construct($id_responsable, $cargo_responsable, $vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $fecha_alta, $id_pais, $id_socio, $id_tipo, $web = null, $descripcion = "", $fecha_mod)
+    public function __construct($id_responsable, $cargo_responsable, $vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $fecha_alta, $id_pais, $id_socio, $id_tipo, $web, $descripcion, $fecha_mod)
     {
         $this->id_responsable = $id_responsable;
         $this->cargo_responsable = $cargo_responsable;
@@ -48,10 +48,53 @@ class Empresa
         }
     }
 
-    public function __set($name, $value)
+
+
+    /**
+     * Set the value of vat
+     *
+     * @return  self
+     */
+    public function setVat($vat)
     {
-        if (property_exists($this, $name)) {
-            $this->$name = $value;
-        }
+        $this->vat = $vat;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of fecha_alta
+     *
+     * @return  self
+     */
+    public function setFecha_alta($fecha_alta)
+    {
+        $this->fecha_alta = $fecha_alta;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of fecha_mod
+     *
+     * @return  self
+     */
+    public function setFecha_mod($fecha_mod)
+    {
+        $this->fecha_mod = $fecha_mod;
+
+        return $this;
+    }
+
+    /**
+     * Set the value of id_responsable
+     *
+     * @return  self
+     */ 
+    public function setId_responsable($id_responsable)
+    {
+        $this->id_responsable = $id_responsable;
+
+        return $this;
     }
 }

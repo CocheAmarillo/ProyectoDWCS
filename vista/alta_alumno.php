@@ -5,7 +5,7 @@ require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
-use function controlador\add_especialidad_alumno;
+
 
 session_start();
 if (!comprobar_sesion()) {
@@ -16,9 +16,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $alumno = new Alumno($_POST['vat_al'], $_POST['nombre_al'], $_POST['genero_al'], $_POST['fecha_nac_al'], null, $_SESSION['id_socio'], null);
     if ($id_alumno=\controlador\alta_alumno($alumno)) { //la función devuelve el id del alumno insertado en la base de datos
+
+        if (!isset($_POST['especialidades_alumno'])) {
+            $especialiadades = null;
+        } else {
+            $especialiadades = $_POST['especialidades_alumno'];
+        }
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
-        add_especialidad_alumno($id_alumno,$_POST['especialidades_alumno']);
-        echo "alumno insertado con exito";
+        \controlador\add_especialidad_alumno($id_alumno,$especialiadades);
+        echo "Alumno insertado con exito";
         
     }
 }
