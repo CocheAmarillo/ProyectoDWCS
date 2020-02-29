@@ -458,48 +458,52 @@ function cargar_especialidades()
 
 function add_especialidad_alumno($id_alumno, $array_especialidades)
 {
-    try {
-        $bd = cargarBBDD();
+    if ($array_especialidades != null) {
+        try {
+            $bd = cargarBBDD();
 
 
-        $sql = "insert into alumnos_especialidades (alumno,especialidad) values ('$id_alumno',?)";
-        $stmt = $bd->prepare($sql);
-        foreach ($array_especialidades as $especialidad) {
+            $sql = "insert into alumnos_especialidades (alumno,especialidad) values ('$id_alumno',?)";
+            $stmt = $bd->prepare($sql);
+            foreach ($array_especialidades as $especialidad) {
 
-            $stmt->bindParam(1, $especialidad);
-            if (!$stmt->execute()) {
-                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+                $stmt->bindParam(1, $especialidad);
+                if (!$stmt->execute()) {
+                    throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+                }
             }
-        }
-    } catch (\PDOException $ex) {
-        echo $ex->getMessage();
-    } finally {
+        } catch (\PDOException $ex) {
+            echo $ex->getMessage();
+        } finally {
 
-        $bd = null;
+            $bd = null;
+        }
     }
 }
 
 
 function add_especialidad_institucion($id_institucion, $array_especialidades)
 {
-    try {
-        $bd = cargarBBDD();
+    if ($array_especialidades != null) {
+        try {
+            $bd = cargarBBDD();
 
 
-        $sql = "insert into instituciones_especialidades (institucion,especialidad) values ('$id_institucion',?)";
-        $stmt = $bd->prepare($sql);
-        foreach ($array_especialidades as $especialidad) {
+            $sql = "insert into instituciones_especialidades (institucion,especialidad) values ('$id_institucion',?)";
+            $stmt = $bd->prepare($sql);
+            foreach ($array_especialidades as $especialidad) {
 
-            $stmt->bindParam(1, $especialidad);
-            if (!$stmt->execute()) {
-                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+                $stmt->bindParam(1, $especialidad);
+                if (!$stmt->execute()) {
+                    throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+                }
             }
-        }
-    } catch (\PDOException $ex) {
-        echo $ex->getMessage();
-    } finally {
+        } catch (\PDOException $ex) {
+            echo $ex->getMessage();
+        } finally {
 
-        $bd = null;
+            $bd = null;
+        }
     }
 }
 
