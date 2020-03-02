@@ -532,3 +532,25 @@ function add_especialidad_empresa($id_empresa, $array_especialidades)
         }
     }
 }
+
+
+function buscar_empresa()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = 'select * from empresas ';
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            print_r($bd->errorInfo());
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}

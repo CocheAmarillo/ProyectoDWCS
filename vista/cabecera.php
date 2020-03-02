@@ -29,7 +29,7 @@ if (comprobar_sesion()) {
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Dar de alta</a>
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Dar de baja</a>
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Modificacion de datos</a>
-                    <a class="dropdown-item" href="">Búsqueda de empresas</a>
+                    <a class="dropdown-item" href="busqueda_empresas.php">Búsqueda de empresas</a>
 
                 </div>
             </li>
