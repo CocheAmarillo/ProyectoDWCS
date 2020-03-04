@@ -9,7 +9,9 @@ use function controlador\buscar_nombre_responsable;
 use function controlador\buscar_nombre_socio;
 use function controlador\buscar_pais;
 use function controlador\buscar_tipo_empresa;
+use function controlador\buscar_tipo_institucion;
 use function controlador\cargar_empresa_especialidad;
+use function controlador\cargar_institucion_especialidad;
 
 session_start();
 if (!comprobar_sesion()) {
@@ -34,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Listado de empresas</title>
+    <title>Listado de instituciones</title>
     <link rel="stylesheet" href="./css/estiloLogin.css">
 </head>
 
@@ -51,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
-                        <h2>Listado de Empresas</h2>
+                        <h2>Listado de Instituciones</h2>
                     </div>
                 </div>
                 <div class="form-row tex text-center">
@@ -60,7 +62,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <nav class="navbar navbar-light bg-light">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Informacion de las empresas</span>
+                                    <span id="info">Informacion de las instituciones</span>
                                 </a>
                             </nav>
                         </h3>
@@ -72,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <tr class="border">
                             <th class="border">ID</th>
                             <?php if ($registrado == true) { ?>
-                                <th class="border">CARGO RESPONSABLE</th>
+                                
                                 <th class="border">VAT</th>
                             <?php  } ?>
                             <th class="border" width="100px">NOMBRE</th>
@@ -87,22 +89,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <th class="border">FECHA BAJA</th>
                                 <th class="border">FECHA MOD</th>
                                 <th class="border">SOCIO</th>
-                                <th class="border">RESPONSABLE</th>
+                               
                             <?php  } ?>
                             <th class="border">PAIS</th>
                             <th class="border">TIPO</th>
                             <th class="border">ESPECIALIDADES</th>
                         </tr>
                         <?php
-                        $array_empresas = controlador\buscar_empresa();
+                        $array_instituciones = controlador\buscar_institucion();
                         $tr = '';
-                        foreach ($array_empresas as $fila) {
+                        foreach ($array_instituciones as $fila) {
                             $tr .= '<tr>
-                            <td>' . $fila["ID_EMPRESA"] . '</td>';
+                            <td>' . $fila["ID_INSTITUCION"] . '</td>';
                             if ($registrado == true) {
 
-                                $tr .= ' <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
-                            <td>' . $fila["VAT"] . '</td>';
+                              
+                            $tr.='<td>' . $fila["VAT"] . '</td>';
                             }
                             $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
                             if ($registrado == true) {
@@ -115,13 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["FECHA_ALTA"] . '</td>
                             <td>' . $fila["FECHA_BAJA"] . '</td>
                             <td>' . $fila["FECHA_MOD"] . '</td>
-                            <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>
-                            <td>' . buscar_nombre_responsable($fila["RESPONSABLE"])['nombre'] . '</td>';
+                            <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
+                           
                             }
                             $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                            $tr .= '<td>' . buscar_tipo_empresa($fila["TIPO"])['tipo'] . '</td>';
+                            $tr .= '<td>' . buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
                             $cadena = "";
-                            $array_especialidades = cargar_empresa_especialidad($fila['ID_EMPRESA']);
+                            $array_especialidades = cargar_institucion_especialidad($fila['ID_INSTITUCION']);
                             if ($array_especialidades != null) {
                                 foreach ($array_especialidades as $fila) {
                                     $cadena .= $fila['especialidad'] . "<br>";

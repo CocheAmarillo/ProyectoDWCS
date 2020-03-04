@@ -235,7 +235,7 @@ function borrar_empresa($id_empresa)
         $sql = 'update empresas set Fecha_Baja="' . date('d/m/Y') . '" where Id_Empresa=' . $id_empresa;
 
         if (!$bd->exec($sql)) {
-            print_r($bd->errorInfo());
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -254,7 +254,7 @@ function borrar_socio($id_socio)
         $sql = 'update socios set Fecha_Baja="' . date('d/m/Y') . '" where Id_Socio=' . $id_socio;
 
         if (!$bd->exec($sql)) {
-            print_r($bd->errorInfo());
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -538,10 +538,31 @@ function buscar_empresa()
 {
     try {
         $bd = cargarBBDD();
-        $sql = 'select * from empresas ';
+        $sql = 'select * from empresas where fecha_baja is null';
         $resul = $bd->query($sql);
         if (!$resul) {
-            print_r($bd->errorInfo());
+           
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+function buscar_institucion()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = 'select * from instituciones where fecha_baja is null';
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
@@ -556,18 +577,41 @@ function buscar_empresa()
 }
 
 
-function cargar_empresa_especialidad($id_empresa){
+
+
+function cargar_empresa_especialidad($id_empresa)
+{
     try {
         $bd = cargarBBDD();
-        $sql = "SELECT (select tipo from tipos_especialidad where id_especialidad=ep.especialidad) as especialidad FROM empresas_especialidades as EP WHERE EP.empresa='$id_empresa'";
+        $sql = "select (select tipo from tipos_especialidad where id_especialidad=EP.especialidad) as especialidad from empresas_especialidades as EP WHERE EP.empresa='$id_empresa'";
         $resul = $bd->query($sql);
         if (!$resul) {
-        
+
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
         } else {
-            return $resul->fetchAll(\PDO::FETCH_COLUMN, 0); //para que solo devuelva de una forma las columbnas, sin estar repetidas 
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+function cargar_institucion_especialidad($id_institucion)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select (select tipo from tipos_especialidad where id_especialidad=IP.especialidad) as especialidad from instituciones_especialidades as IP WHERE IP.institucion='$id_institucion'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
@@ -578,5 +622,104 @@ function cargar_empresa_especialidad($id_empresa){
 
 
 
+function buscar_pais($id_pais)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select nombre from paises where id_pais='$id_pais'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+function buscar_tipo_empresa($id_tipo_empresa)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select tipo from tipos_empresa where id_tipo_empresa='$id_tipo_empresa'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+function buscar_tipo_institucion($id_tipo_institucion)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select tipo from tipos_institucion where id_tipo_institucion='$id_tipo_institucion'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+function buscar_nombre_socio($id_socio)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select nombre_completo as nombre from socios where id_socio='$id_socio'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+function buscar_nombre_responsable($id_responsable)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select nombre_completo as nombre from responsables where id_responsable='$id_responsable'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
 
 

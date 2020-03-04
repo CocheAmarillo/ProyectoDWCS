@@ -44,7 +44,7 @@ if (comprobar_sesion()) {
 
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Dar de baja</a>
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Modificacion de datos</a>
-                    <a class="dropdown-item" href="">Búsqueda de instituciones</a>
+                    <a class="dropdown-item" href="busqueda_instituciones.php">Búsqueda de instituciones</a>
 
 
                 </div>
