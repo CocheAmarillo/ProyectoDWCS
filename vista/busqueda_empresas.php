@@ -5,11 +5,13 @@ require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
-
+use function controlador\cargar_empresa_especialidad;
 
 session_start();
 if (!comprobar_sesion()) {
-    header('Location: index.php');
+    $registrado = false;
+} else {
+    $registrado = true;
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -78,33 +80,42 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <table class="border text-center">
                         <tr class="border">
                             <th class="border">ID</th>
-                            <th class="border">CARGO RESPONSABLE</th>
-                            <th class="border">VAT</th>
-                            <th class="border"width="100px">NOMBRE</th>
-                            <th class="border" width="200px">EMAIL</th>
-                            <th class="border"width="120px">TELEFONO</th>
-                            <th class="border">CODIGO POSTAL</th>
-                            <th class="border"width="120px">DIRECCION</th>
-                            <th class="border"width="120px">WEB</th>
-                            <th class="border"width="180px">DESCRIPCION</th>
-                            <th class="border">FECHA ALTA</th>
-                            <th class="border">FECHA BAJA</th>
-                            <th class="border">FECHA MOD</th>
+                            <?php if ($registrado == true) { ?>
+                                <th class="border">CARGO RESPONSABLE</th>
+                                <th class="border">VAT</th>
+                            <?php  } ?>
+                            <th class="border" width="100px">NOMBRE</th>
+                            <?php if ($registrado == true) { ?>
+                                <th class="border" width="200px">EMAIL</th>
+                                <th class="border" width="120px">TELEFONO</th>
+                                <th class="border">CODIGO POSTAL</th>
+                                <th class="border" width="120px">DIRECCION</th>
+                                <th class="border" width="120px">WEB</th>
+                                <th class="border" width="180px">DESCRIPCION</th>
+                                <th class="border">FECHA ALTA</th>
+                                <th class="border">FECHA BAJA</th>
+                                <th class="border">FECHA MOD</th>
+                                <th class="border">SOCIO</th>
+                                <th class="border">RESPONSABLE</th>
+                            <?php  } ?>
                             <th class="border">PAIS</th>
-                            <th class="border">SOCIO</th>
-                            <th class="border">RESPONSABLE</th>
                             <th class="border">TIPO</th>
+                            <th class="border">ESPECIALIDADES</th>
                         </tr>
                         <?php
                         $array_empresas = controlador\buscar_empresa();
                         $tr = '';
                         foreach ($array_empresas as $fila) {
                             $tr .= '<tr>
-                            <td>' . $fila["ID_EMPRESA"] . '</td>
-                            <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
-                            <td>' . $fila["VAT"] . '</td>
-                            <td>' . $fila["NOMBRE"] . '</td>
-                            <td>' . $fila["EMAIL"] . '</td>
+                            <td>' . $fila["ID_EMPRESA"] . '</td>';
+                            if ($registrado == true) {
+
+                                $tr .= ' <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
+                            <td>' . $fila["VAT"] . '</td>';
+                            }
+                            $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
+                            if ($registrado == true) {
+                                $tr .= '<td>' . $fila["EMAIL"] . '</td>
                             <td>' . $fila["TELEFONO"] . '</td>
                             <td>' . $fila["CODIGO_POSTAL"] . '</td>
                             <td>' . $fila["DIRECCION"] . '</td>
@@ -113,11 +124,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["FECHA_ALTA"] . '</td>
                             <td>' . $fila["FECHA_BAJA"] . '</td>
                             <td>' . $fila["FECHA_MOD"] . '</td>
-                            <td>' . $fila["PAIS"] . '</td>
                             <td>' . $fila["SOCIO"] . '</td>
-                            <td>' . $fila["RESPONSABLE"] . '</td>
-                            <td>' . $fila["TIPO"] . '</td>
-                            </tr>';
+                            <td>' . $fila["RESPONSABLE"] . '</td>';
+                            }
+                            $tr .= '<td>' . $fila["PAIS"] . '</td>
+                            
+                            
+                            <td>' . $fila["TIPO"] . '</td>';
+                            $especialiadades = implode("<br>", cargar_empresa_especialidad($fila["ID_EMPRESA"]));
+                            $tr .= "<td>$especialiadades</td</tr>";
                         }
                         echo $tr;
                         ?>

@@ -72,3 +72,10 @@ span>.blue{
 span>.orange{
    color: #f26b40
 }
+
+tr:nth-child(odd){
+   background-color: #183559;
+}
+tr:nth-child(even){
+   background-color: #f26940;
+}

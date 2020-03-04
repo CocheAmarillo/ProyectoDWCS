@@ -554,3 +554,29 @@ function buscar_empresa()
         $bd = null;
     }
 }
+
+
+function cargar_empresa_especialidad($id_empresa){
+    try {
+        $bd = cargarBBDD();
+        $sql = "SELECT (select tipo from tipos_especialidad where id_especialidad=ep.especialidad) as especialidad FROM empresas_especialidades as EP WHERE EP.empresa='$id_empresa'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+        
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll(\PDO::FETCH_COLUMN, 0); //para que solo devuelva de una forma las columbnas, sin estar repetidas 
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+
+
+
