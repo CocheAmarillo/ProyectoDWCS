@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once '../controlador/metodosBBDD.php';
     ?>
 
-    <section class="container-fluid flex-grow pr-4 pl-4">
+    <section  id="tabla" class="container-fluid flex-grow pr-4 pl-4">
 
         <div class="container-fluid d-flex">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
@@ -69,8 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <div id="resultado" class="container-fluid  d-flex" style="height: 100px">
-                    <table class="border text-center">
+                <div id="resultado" class="container-fluid  d-flex" >
+                    <table class="border text-center table-responsive">
                         <tr class="border">
                             <th class="border">ID</th>
                             <?php if ($registrado == true) { ?>
