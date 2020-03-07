@@ -27,9 +27,8 @@ if (comprobar_sesion()) {
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Dar de alta</a>
-                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Dar de baja</a>
-                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Modificacion de datos</a>
-                    <a class="dropdown-item" href="busqueda_empresas.php">Búsqueda de empresas</a>
+           
+                    <a class="dropdown-item" href="busqueda_empresas.php">Listado de empresas</a>
 
                 </div>
             </li>
@@ -42,9 +41,8 @@ if (comprobar_sesion()) {
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
 
-                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Dar de baja</a>
-                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Modificacion de datos</a>
-                    <a class="dropdown-item" href="busqueda_instituciones.php">Búsqueda de instituciones</a>
+                  
+                    <a class="dropdown-item" href="busqueda_instituciones.php">Listado de instituciones</a>
 
 
                 </div>
@@ -59,8 +57,8 @@ if (comprobar_sesion()) {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Dar de alta</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Dar de baja</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Modificacion de datos</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">Listado alumnos</a>
+                      
                     </div>
                 </li>
 

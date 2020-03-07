@@ -93,6 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th class="border">PAIS</th>
                             <th class="border">TIPO</th>
                             <th class="border">ESPECIALIDADES</th>
+                            <th class="border" width="120px">ACCIONES</th>
                         </tr>
                         <?php
                         $array_empresas = controlador\buscar_empresa();
@@ -131,6 +132,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                             $tr .= "<td>$cadena</td</tr>";
+                            $tr.="<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
                         }
                         echo $tr;
                         ?>

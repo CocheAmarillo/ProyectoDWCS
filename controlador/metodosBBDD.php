@@ -541,7 +541,7 @@ function buscar_empresa()
         $sql = 'select * from empresas where fecha_baja is null';
         $resul = $bd->query($sql);
         if (!$resul) {
-           
+
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
@@ -562,7 +562,7 @@ function buscar_institucion()
         $sql = 'select * from instituciones where fecha_baja is null';
         $resul = $bd->query($sql);
         if (!$resul) {
-            
+
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             return null;
@@ -604,6 +604,27 @@ function cargar_institucion_especialidad($id_institucion)
     try {
         $bd = cargarBBDD();
         $sql = "select (select tipo from tipos_especialidad where id_especialidad=IP.especialidad) as especialidad from instituciones_especialidades as IP WHERE IP.institucion='$id_institucion'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+function cargar_alumno_especialidad($id_alumno)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select (select tipo from tipos_especialidad where id_especialidad=AP.especialidad) as especialidad from alumnos_especialidades as AP WHERE AP.alumno='$id_alumno'";
         $resul = $bd->query($sql);
         if (!$resul) {
 
@@ -723,3 +744,23 @@ function buscar_nombre_responsable($id_responsable)
 }
 
 
+function buscar_alumno($id_socio_responsable)
+{
+
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from alumnos where socio='$id_socio_responsable'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
