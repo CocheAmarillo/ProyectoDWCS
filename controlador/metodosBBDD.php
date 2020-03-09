@@ -469,8 +469,27 @@ function add_especialiad($array){
         }
     }
 }
-$prueba = ["eqweqweqw", "qewqweqw"];
-add_especialiad($prueba);
+
+
+function add_tipo_institucion($array){
+    if($array != null){
+        try{
+            $bd = cargarBBDD();
+
+            $sql = "insert into tipos_institucion (tipo, descripcion) values (?,?)";
+            $stmt = $bd->prepare($sql);
+            if (!$stmt->execute($array)) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+            }
+        }catch(\PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+}
+
+
+
+
 
 
 
