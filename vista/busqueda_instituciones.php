@@ -20,6 +20,7 @@ if (!comprobar_sesion()) {
     $registrado = true;
 }
 
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 }
 ?>
@@ -47,7 +48,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once '../controlador/metodosBBDD.php';
     ?>
 
-    <section  id="tabla" class="container-fluid flex-grow pr-4 pl-4">
+    <section id="tabla" class="container-fluid flex-grow pr-4 pl-4">
 
         <div class="container-fluid d-flex">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
@@ -69,12 +70,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <div id="resultado" class="container-fluid  d-flex" >
+                <div id="resultado" class="container-fluid  d-flex">
                     <table class="border text-center table-responsive">
                         <tr class="border">
                             <th class="border">ID</th>
                             <?php if ($registrado == true) { ?>
-                                
+
                                 <th class="border">VAT</th>
                             <?php  } ?>
                             <th class="border" width="100px">NOMBRE</th>
@@ -89,7 +90,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <th class="border">FECHA BAJA</th>
                                 <th class="border">FECHA MOD</th>
                                 <th class="border">SOCIO</th>
-                               
+
                             <?php  } ?>
                             <th class="border">PAIS</th>
                             <th class="border">TIPO</th>
@@ -98,18 +99,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </tr>
                         <?php
                         $array_instituciones = controlador\buscar_institucion();
-                        $tr = '';
-                        foreach ($array_instituciones as $fila) {
-                            $tr .= '<tr>
-                            <td>' . $fila["ID_INSTITUCION"] . '</td>';
-                            if ($registrado == true) {
 
-                              
-                            $tr.='<td>' . $fila["VAT"] . '</td>';
-                            }
-                            $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
-                            if ($registrado == true) {
-                                $tr .= '<td>' . $fila["EMAIL"] . '</td>
+                        if ($array_instituciones == null) {
+                            echo "<tr><td colspan='17'>No hay instituciones registradas</td></tr>";
+                        } else {
+                            $tr = '';
+                            foreach ($array_instituciones as $fila) {
+                                $tr .= '<tr>
+                            <td>' . $fila["ID_INSTITUCION"] . '</td>';
+                                if ($registrado == true) {
+
+
+                                    $tr .= '<td>' . $fila["VAT"] . '</td>';
+                                }
+                                $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
+                                if ($registrado == true) {
+                                    $tr .= '<td>' . $fila["EMAIL"] . '</td>
                             <td>' . $fila["TELEFONO"] . '</td>
                             <td>' . $fila["CODIGO_POSTAL"] . '</td>
                             <td>' . $fila["DIRECCION"] . '</td>
@@ -119,23 +124,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["FECHA_BAJA"] . '</td>
                             <td>' . $fila["FECHA_MOD"] . '</td>
                             <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
-                           
-                            }
-                            $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                            $tr .= '<td>' . buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
-                            $cadena = "";
-                            $array_especialidades = cargar_institucion_especialidad($fila['ID_INSTITUCION']);
-                            if ($array_especialidades != null) {
-                                foreach ($array_especialidades as $fila) {
-                                    $cadena .= $fila['especialidad'] . "<br>";
                                 }
+                                $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
+                                $tr .= '<td>' . buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
+                                $cadena = "";
+                                $array_especialidades = cargar_institucion_especialidad($fila['ID_INSTITUCION']);
+                                if ($array_especialidades != null) {
+                                    foreach ($array_especialidades as $fila) {
+                                        $cadena .= $fila['especialidad'] . "<br>";
+                                    }
+                                }
+
+
+                                $tr .= "<td>$cadena</td</tr>";
+                                $tr .= "<td><a href='#'><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
                             }
-
-
-                            $tr .= "<td>$cadena</td</tr>";
-                            $tr.="<td><a href='#'><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                            echo $tr;
                         }
-                        echo $tr;
                         ?>
 
                     </table>

@@ -97,6 +97,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </tr>
                         <?php
                         $array_empresas = controlador\buscar_empresa();
+                        if ($array_empresas == null) {
+                            echo "<tr><td colspan='19'>No hay empresas registradas</td></tr>";
+                        } else {
                         $tr = '';
                         foreach ($array_empresas as $fila) {
                             $tr .= '<tr>
@@ -135,6 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             $tr.="<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
                         }
                         echo $tr;
+                    }
                         ?>
 
                     </table>

@@ -84,7 +84,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <?php
                         $array_alumnos = controlador\buscar_alumno($_SESSION['id_socio']);
                         if ($array_alumnos == null) {
-                            echo "<tr><td colspan='8'>No hay alumnos registrados por este usuario</td></tr>";
+                            echo "<tr><td colspan='9'>No hay alumnos registrados por este usuario</td></tr>";
                         } else {
                             $tr = '';
                             foreach ($array_alumnos as $fila) {
