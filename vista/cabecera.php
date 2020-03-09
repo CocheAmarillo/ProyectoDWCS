@@ -1,5 +1,5 @@
 <?php
-require_once 'sesiones.php';
+require_once '../controlador/sesiones.php';
 
 $registrado = false;
 if (comprobar_sesion()) {
@@ -84,12 +84,12 @@ if (comprobar_sesion()) {
                 <ul class="navbar-nav mr-auto nav-tabs">
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            <i class="fa fa-user"></i>
+                            <i class="fa fa-user" id="iconito"></i>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item text-center" onclick="usuario()"><?php echo $_SESSION['usuario'] ?></a>
-                            <a class="nav-link text-center" onclick="editarPerfil()" href="#">Editar Perfil</a>
-                            <a class="nav-link text-center" onclick="confirmLogOut()" href="#">Cerrar Sesion</a>
+                            <a class="nav-link text-center p-2" onclick="editarPerfil()" href="#">Editar Perfil</a>
+                            <a class="nav-link text-center p-2" onclick="confirmLogOut()" href="#">Cerrar Sesion</a>
                         </div>
 
                     </li>
@@ -98,7 +98,13 @@ if (comprobar_sesion()) {
             <?php } else { ?>
                 <ul class="navbar-nav mr-auto nav-tabs">
                     <li class="nav-item align-right">
+                        <?php
+                        $var = "$_SERVER[REQUEST_URI]";
+                        $var2 = substr($var, 20);
+                        $_SESSION['previa'] = $var2;
+                        ?>
                         <a class="nav-link" href="login.php">Iniciar Sesion</a>
+
                     </li>
                 </ul>
             <?php } ?>

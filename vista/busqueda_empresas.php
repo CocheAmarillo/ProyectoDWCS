@@ -1,6 +1,6 @@
 <?php
 require_once '../controlador/metodosBBDD.php';
-require_once 'sesiones.php';
+require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
@@ -45,7 +45,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     require_once '../controlador/metodosBBDD.php';
     ?>
 
-    <section  id="tabla" class="container-fluid flex-grow pr-4 pl-4">
+    <section id="tabla" class="container-fluid flex-grow pr-4 pl-4">
 
         <div class="container-fluid d-flex">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
@@ -67,32 +67,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     </div>
                 </div>
 
-                <div id="resultado" class="container-fluid  d-flex" >
-       
-                    <table class="border text-center table-responsive">
+                <div id="resultado" class="container-fluid  d-flex">
+
+                    <table class="text-center table-responsive">
                         <tr class="border">
-                            <th class="border">ID</th>
                             <?php if ($registrado == true) { ?>
                                 <th class="border">CARGO RESPONSABLE</th>
                                 <th class="border">VAT</th>
                             <?php  } ?>
                             <th class="border" width="100px">NOMBRE</th>
+                            <th class="border" width="180px">DESCRIPCION</th>
                             <?php if ($registrado == true) { ?>
                                 <th class="border" width="200px">EMAIL</th>
                                 <th class="border" width="120px">TELEFONO</th>
                                 <th class="border">CODIGO POSTAL</th>
                                 <th class="border" width="120px">DIRECCION</th>
                                 <th class="border" width="120px">WEB</th>
-                                <th class="border" width="180px">DESCRIPCION</th>
-                                <th class="border">FECHA ALTA</th>
-                                <th class="border">FECHA BAJA</th>
-                                <th class="border">FECHA MOD</th>
-                                <th class="border">SOCIO</th>
+
+                                
+                                
+                                <th class="border" width="200px">FECHA ALTA</th>
+                                <th class="border" width="200px">SOCIO</th>
                                 <th class="border">RESPONSABLE</th>
                             <?php  } ?>
-                            <th class="border">PAIS</th>
-                            <th class="border">TIPO</th>
-                            <th class="border">ESPECIALIDADES</th>
+                            <th class="border" width="100px">PAIS</th>
+                            <th class="border" width="150px">TIPO</th>
+                            <th class="border" width="40px">ESPECIALIDADES</th>
                             <th class="border" width="120px">ACCIONES</th>
                         </tr>
                         <?php
@@ -100,45 +100,43 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         if ($array_empresas == null) {
                             echo "<tr><td colspan='19'>No hay empresas registradas</td></tr>";
                         } else {
-                        $tr = '';
-                        foreach ($array_empresas as $fila) {
-                            $tr .= '<tr>
-                            <td>' . $fila["ID_EMPRESA"] . '</td>';
-                            if ($registrado == true) {
+                            $tr = '';
+                            foreach ($array_empresas as $fila) {
+                                $tr .= '<tr>';
+                                if ($registrado == true) {
 
-                                $tr .= ' <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
+                                    $tr .= ' <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
                             <td>' . $fila["VAT"] . '</td>';
-                            }
-                            $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
-                            if ($registrado == true) {
-                                $tr .= '<td>' . $fila["EMAIL"] . '</td>
+                                }
+                                $tr .= '<td>' . $fila["NOMBRE"] . '</td>'.
+                                '<td>' . $fila["DESCRIPCION"] . '</td>';
+                                if ($registrado == true) {
+                                    $tr .= '<td>' . $fila["EMAIL"] . '</td>
                             <td>' . $fila["TELEFONO"] . '</td>
                             <td>' . $fila["CODIGO_POSTAL"] . '</td>
                             <td>' . $fila["DIRECCION"] . '</td>
                             <td>' . $fila["WEB"] . '</td>
-                            <td>' . $fila["DESCRIPCION"] . '</td>
+
                             <td>' . $fila["FECHA_ALTA"] . '</td>
-                            <td>' . $fila["FECHA_BAJA"] . '</td>
-                            <td>' . $fila["FECHA_MOD"] . '</td>
                             <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>
                             <td>' . buscar_nombre_responsable($fila["RESPONSABLE"])['nombre'] . '</td>';
-                            }
-                            $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                            $tr .= '<td>' . buscar_tipo_empresa($fila["TIPO"])['tipo'] . '</td>';
-                            $cadena = "";
-                            $array_especialidades = cargar_empresa_especialidad($fila['ID_EMPRESA']);
-                            if ($array_especialidades != null) {
-                                foreach ($array_especialidades as $fila) {
-                                    $cadena .= $fila['especialidad'] . "<br>";
                                 }
+                                $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
+                                $tr .= '<td>' . buscar_tipo_empresa($fila["TIPO"])['tipo'] . '</td>';
+                                $cadena = "";
+                                $array_especialidades = cargar_empresa_especialidad($fila['ID_EMPRESA']);
+                                if ($array_especialidades != null) {
+                                    foreach ($array_especialidades as $fila) {
+                                        $cadena .= $fila['especialidad'] . "<br>";
+                                    }
+                                }
+
+
+                                $tr .= "<td>$cadena</td</tr>";
+                                $tr .= "<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
                             }
-
-
-                            $tr .= "<td>$cadena</td</tr>";
-                            $tr.="<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                            echo $tr;
                         }
-                        echo $tr;
-                    }
                         ?>
 
                     </table>

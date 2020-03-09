@@ -1,11 +1,6 @@
 <?php
 require_once '../controlador/metodosBBDD.php';
-require_once 'sesiones.php';
-
-
-
-
-
+require_once '../controlador/sesiones.php';
 
 session_start();
 if (!comprobar_sesion()) {

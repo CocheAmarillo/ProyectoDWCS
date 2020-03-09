@@ -19,21 +19,17 @@ h2 {
 footer {
    background-color: #183559;
    position: relative;
-  bottom: 0;
-  line-height: 0vh;
-
+   bottom: 0;
+   line-height: 0vh;
 }
 
-#tabla{
-   min-height: 100%;
-  
-   
-}
-.container{
+#tabla {
    min-height: 100%;
 }
 
-
+.container {
+   min-height: 100%;
+}
 
 #logo {
    width: 5em;
@@ -67,31 +63,40 @@ span {
    color: #183559;
 }
 
-.disabled{
+.disabled {
    color: red;
 }
-.dropdown-item:not(.disabled){
-  
+
+.dropdown-item:not(.disabled) {
    font-weight: bold;
 }
 
-.alert{
+.alert {
    background-color: #f26b40;
-   color:#183559;
-}
-
-span>.blue{
    color: #183559;
 }
 
-span>.orange{
+span>.blue {
+   color: #183559;
+}
+
+span>.orange {
    color: #f26b40
 }
 
-tr:nth-child(odd){
-   background-color: #183559;
-}
-tr:nth-child(even){
-   background-color: #f26940;
+tr:nth-child(odd) {
+   background-color: RGBA(24, 53, 89, 0.4);
 }
 
+tr:nth-child(even) {
+   background-color: #f8f9fa;
+   /*background-color: RGBA(24, 53, 89, 0.2);*/
+}
+
+#iconito{
+   color: #f26b40;
+}
+
+a{
+   text-decoration: none;
+}

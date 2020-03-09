@@ -13,7 +13,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         // $usu tiene campos correo y codRes, correo 
         $_SESSION['id_socio'] = $usuario['id_socio'];
         $_SESSION['usuario'] = $usuario['usuario'];
-        header("Location: index.php");
+        $prev = $_SESSION['previa'];
+        header("Location:" . $prev);
     }
 }
 ?>
