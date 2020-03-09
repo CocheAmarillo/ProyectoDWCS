@@ -848,13 +848,3 @@ function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $
         $bd = null;
     }
 }
-
-function foo($foo){
-
-    echo "hola foo";
-}
-
-
-
-
-
