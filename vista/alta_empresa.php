@@ -4,7 +4,7 @@ use modelo\Empresa;
 
 require_once '../modelo/empresa.php';
 require_once '../controlador/metodosBBDD.php';
-require_once 'sesiones.php';
+require_once '../controlador/sesiones.php';
 session_start();
 if (!comprobar_sesion()) {
     header('Location: index.php');

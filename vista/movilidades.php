@@ -1,11 +1,6 @@
 <?php
 require_once '../controlador/metodosBBDD.php';
-require_once 'sesiones.php';
-
-
-
-
-
+require_once '../controlador/sesiones.php';
 
 session_start();
 if (!comprobar_sesion()) {
@@ -13,9 +8,7 @@ if (!comprobar_sesion()) {
 }
 
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
-    $tipo=$_GET['tipo'];
-    echo $tipo;
-    
+    $tipo = $_GET['tipo'];
 }
 ?>
 
@@ -54,30 +47,57 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 
                 <div class="form-row text-center container-fluid">
-                    <div id="titulo2" class="col-md-4">
+                    <div class="col-sm-3"></div>
+
+                    <div id="titulo2" class="col-md-2">
                         <h3>
                             <nav class="navbar navbar-light bg-light ">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Lista de alumnos</span>
+                                    <span id="info">Lista de Alumnos</span>
                                 </a>
                             </nav>
                         </h3>
                     </div>
+                    <div class="col-sm-2"></div>
+
+                    <?php
+                    if ($tipo == "empresa") {
+                    ?>
+                        <div id="titulo2" class="col-md-4">
+                            <h3>
+                                <nav class="navbar navbar-light bg-light">
+                                    <a class="navbar-brand">
+                                        <i class="fa fa-user"></i>
+                                        <span id="info">Lista de Empresas</span>
+                                    </a>
+                                </nav>
+                            </h3>
+                        </div>
+                    <?php
+                    }
+                    ?>
+
+                    <?php
+                    if ($tipo == "institucion") {
+                    ?>
                     <div id="titulo2" class="col-md-4">
                         <h3>
                             <nav class="navbar navbar-light bg-light">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Lista de empresas</span>
+                                    <span id="info">Lista de Instituciones</span>
                                 </a>
                             </nav>
                         </h3>
                     </div>
+                    <?php
+                    }
+                    ?>  
                 </div>
-               
 
-              
+
+
 
 
 

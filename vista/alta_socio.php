@@ -8,7 +8,12 @@ use modelo\Institucion;
 require_once '../controlador/metodosBBDD.php';
 require_once '../modelo/socios.php';
 require_once '../modelo/institucion.php';
+require_once '../controlador/sesiones.php';
 session_start();
+
+if (comprobar_sesion()) {
+    header('Location: index.php');
+}
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $socio = new Socio($_POST['vat_soc'], $_POST['password_soc'], $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], null, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, 2, $_POST['pais_soc'], null);
@@ -18,13 +23,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], null, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst'], null);
 
-    if ($id_insertado && $id_institucion=controlador\alta_institucion($institucion)) {
+    if ($id_insertado && $id_institucion = controlador\alta_institucion($institucion)) {
         if (!isset($_POST['especialidades_institucion'])) {
             $especialiadades = null;
         } else {
             $especialiadades = $_POST['especialidades_institucion'];
         }
-        \controlador\add_especialidad_institucion($id_institucion,$especialiadades);
+        \controlador\add_especialidad_institucion($id_institucion, $especialiadades);
         \controlador\update_puntuacion_socio($id_insertado, 2);
         $_SESSION['id_socio'] = $id_insertado;
         $_SESSION['usuario'] = $socio->usuario;
@@ -256,7 +261,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <select name="tipo_inst">
                         <?php
                         $array_inst = controlador\cargar_tipo_institucion();
-                        
+
                         $option = '';
                         foreach ($array_inst as $fila) {
                             $option .= '<option value="' . $fila['ID_TIPO_INSTITUCION'] . '">' . $fila['TIPO'] . '</option>';

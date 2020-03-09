@@ -1,6 +1,6 @@
 <?php
 require_once '../controlador/metodosBBDD.php';
-require_once 'sesiones.php';
+require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
@@ -73,7 +73,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div id="resultado" class="container-fluid  d-flex">
                     <table class="border text-center table-responsive">
                         <tr class="border">
-                            <th class="border">ID</th>
                             <?php if ($registrado == true) { ?>
 
                                 <th class="border">VAT</th>
@@ -87,8 +86,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <th class="border" width="120px">WEB</th>
                                 <th class="border" width="180px">DESCRIPCION</th>
                                 <th class="border">FECHA ALTA</th>
-                                <th class="border">FECHA BAJA</th>
-                                <th class="border">FECHA MOD</th>
                                 <th class="border">SOCIO</th>
 
                             <?php  } ?>
@@ -105,8 +102,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         } else {
                             $tr = '';
                             foreach ($array_instituciones as $fila) {
-                                $tr .= '<tr>
-                            <td>' . $fila["ID_INSTITUCION"] . '</td>';
+                                $tr .= '<tr>';
                                 if ($registrado == true) {
 
 
@@ -121,8 +117,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["WEB"] . '</td>
                             <td>' . $fila["DESCRIPCION"] . '</td>
                             <td>' . $fila["FECHA_ALTA"] . '</td>
-                            <td>' . $fila["FECHA_BAJA"] . '</td>
-                            <td>' . $fila["FECHA_MOD"] . '</td>
                             <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
                                 }
                                 $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
