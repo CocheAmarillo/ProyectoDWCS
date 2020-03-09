@@ -68,8 +68,8 @@ if (comprobar_sesion()) {
                         Movilidades
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Movilidad con Empresa</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="">Movilidad con Institucion</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=empresa">Movilidad con Empresa</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=institucion">Movilidad con Institucion</a>
                     </div>
                 </li>
 
