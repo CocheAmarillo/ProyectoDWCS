@@ -27,7 +27,7 @@ if (comprobar_sesion()) {
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Dar de alta</a>
-           
+
                     <a class="dropdown-item" href="busqueda_empresas.php">Listado de empresas</a>
 
                 </div>
@@ -41,7 +41,7 @@ if (comprobar_sesion()) {
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
 
-                  
+
                     <a class="dropdown-item" href="busqueda_instituciones.php">Listado de instituciones</a>
 
 
@@ -58,7 +58,7 @@ if (comprobar_sesion()) {
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Dar de alta</a>
                         <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">Listado alumnos</a>
-                      
+
                     </div>
                 </li>
 
@@ -82,8 +82,16 @@ if (comprobar_sesion()) {
             <?php
             if ($registrado == true) { ?>
                 <ul class="navbar-nav mr-auto nav-tabs">
-                    <li class="nav-item">
-                        <a class="nav-link" onclick="confirmLogOut()" href="#">Cerrar Sesion</a>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <i class="fa fa-user"></i>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item text-center" onclick="usuario()"><?php echo $_SESSION['usuario'] ?></a>
+                            <a class="nav-link text-center" onclick="editarPerfil()" href="#">Editar Perfil</a>
+                            <a class="nav-link text-center" onclick="confirmLogOut()" href="#">Cerrar Sesion</a>
+                        </div>
+
                     </li>
                 </ul>
 
@@ -96,13 +104,6 @@ if (comprobar_sesion()) {
             <?php } ?>
         </div>
 
-        <?php if ($registrado == true) { ?>
-            <form class="form-inline my-2 my-lg-0">
-
-                <p>Usuario:<?php echo $_SESSION['usuario'] . " con id: " . $_SESSION['id_socio']; ?> </p>
-
-            </form>
-        <?php } ?>
 
     </div>
 </nav>
