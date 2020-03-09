@@ -454,9 +454,10 @@ function cargar_especialidades()
     }
 }
 
-function add_especialiad($array){
-    if($array != null){
-        try{
+function add_especialiad($array)
+{
+    if ($array != null) {
+        try {
             $bd = cargarBBDD();
 
             $sql = "insert into tipos_especialidad (tipo, descripcion) values (?,?)";
@@ -464,16 +465,19 @@ function add_especialiad($array){
             if (!$stmt->execute($array)) {
                 throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             }
-        }catch(\PDOException $ex){
+        } catch (\PDOException $ex) {
             echo $ex->getMessage();
+        } finally {
+            $bd = null;
         }
     }
 }
 
 
-function add_tipo_institucion($array){
-    if($array != null){
-        try{
+function add_tipo_institucion($array)
+{
+    if ($array != null) {
+        try {
             $bd = cargarBBDD();
 
             $sql = "insert into tipos_institucion (tipo, descripcion) values (?,?)";
@@ -481,8 +485,10 @@ function add_tipo_institucion($array){
             if (!$stmt->execute($array)) {
                 throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             }
-        }catch(\PDOException $ex){
+        } catch (\PDOException $ex) {
             echo $ex->getMessage();
+        } finally {
+            $bd = null;
         }
     }
 }
@@ -801,4 +807,49 @@ function buscar_alumno($id_socio_responsable)
         $bd = null;
     }
 }
+
+function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fin)
+{
+    try {
+        $bd = cargarBBDD();
+
+        $sql = "insert into movilidades_empresas (fecha_inicio, fecha_fin_estimado,fecha_alta,empresa,alumno) values (?,?,?,?,?)";
+        $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $fecha_alta = $fecha->format('Y-m-d H:i:s');
+        $array=array($fecha_inicio,$fecha_fin,$fecha_alta,$id_empresa,$id_alumno);
+        if (!$stmt->execute($array)) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $fecha_fin)
+{
+    try {
+        $bd = cargarBBDD();
+
+        $sql = "insert into movilidades_instituciones(fecha_inicio, fecha_fin_estimado,fecha_alta,institucion,alumno) values (?,?,?,?,?)";
+        $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $fecha_alta = $fecha->format('Y-m-d H:i:s');
+        $array=array($fecha_inicio,$fecha_fin,$fecha_alta,$id_institucion,$id_alumno);
+        if (!$stmt->execute($array)) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+
+
 
