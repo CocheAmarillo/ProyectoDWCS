@@ -454,6 +454,24 @@ function cargar_especialidades()
     }
 }
 
+function add_especialiad($array){
+    if($array != null){
+        try{
+            $bd = cargarBBDD();
+
+            $sql = "insert into tipos_especialidad (tipo, descripcion) values (?,?)";
+            $stmt = $bd->prepare($sql);
+            if (!$stmt->execute($array)) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+            }
+        }catch(\PDOException $ex){
+            echo $ex->getMessage();
+        }
+    }
+}
+$prueba = ["eqweqweqw", "qewqweqw"];
+add_especialiad($prueba);
+
 
 
 function add_especialidad_alumno($id_alumno, $array_especialidades)
@@ -764,3 +782,4 @@ function buscar_alumno($id_socio_responsable)
         $bd = null;
     }
 }
+
