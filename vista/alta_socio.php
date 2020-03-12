@@ -35,7 +35,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $_SESSION['usuario'] = $socio->usuario;
         header('Location: index.php');
     } else {
-        echo "produciuse algun erro nos campos";
+        echo "Mistakes were made";
     }
 }
 ?>

@@ -1,5 +1,10 @@
 <?php
+require_once '../controlador/sesiones.php';
 require_once '../controlador/metodosBBDD.php';
+session_start();
+if (comprobar_sesion()) {
+    header('Location: index.php');
+}
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
@@ -9,13 +14,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err = true;
         $usuario = $_POST['usuario']; //para que permanezca en el campo de texto lo escrito por el usuario
     } else {
-        session_start();
+     
         // $usu tiene campos correo y codRes, correo 
         $_SESSION['id_socio'] = $usuario['id_socio'];
         $_SESSION['usuario'] = $usuario['usuario'];
-        $prev = $_SESSION['previa'];
-        header("Location:" . $prev);
-    }
+        if(!isset($_SESSION['previa']) || $_SESSION['previa']==""){
+           header("Location: index.php");
+        }
+        else{
+            header("Location: ".$_SESSION['previa']);
+        }
+        
+       
+      
+        }
+        
 }
 ?>
 
@@ -59,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <div class="form-group">
                             <label for="">Usuario:</label>
-                            <input type="text" class="form-control" id="user" placeholder="Introducir usuario" name="usuario" value="<?php if (isset($usuario)) echo $usuario; ?>">
+                            <input type="text" class="form-control" id="user" placeholder="Introducir usuario" name="usuario" value="">
                         </div>
                         <div class="form-group">
                             <label for="">Contraseña:</label>
