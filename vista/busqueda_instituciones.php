@@ -71,7 +71,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
 
                 <div id="resultado" class="container-fluid  d-flex">
-                    <table class="border text-center table-responsive">
+                    <table class="text-center table-responsive">
                         <tr class="border">
                             <?php if ($registrado == true) { ?>
 
