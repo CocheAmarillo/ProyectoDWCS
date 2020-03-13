@@ -389,7 +389,7 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
         $sql = "select valor from tipos_puntuacion where id_tipo_puntuacion='$id_tipo_puntuacion'";
         $resul = $bd->query($sql);
         if (!$resul) {
-            print_r($bd->errorInfo());
+
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         } else if ($resul->rowCount() == 0) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
@@ -406,6 +406,7 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
+        return false;
     } finally {
         $bd = null;
     }
@@ -792,7 +793,7 @@ function buscar_alumno($id_socio_responsable)
 
     try {
         $bd = cargarBBDD();
-        $sql = "select * from alumnos where socio='$id_socio_responsable'";
+        $sql = "select * from alumnos where socio='$id_socio_responsable' and fecha_baja is null";
         $resul = $bd->query($sql);
         if (!$resul) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
@@ -803,47 +804,135 @@ function buscar_alumno($id_socio_responsable)
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
+        return null;
     } finally {
         $bd = null;
     }
 }
 
-function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fin)
+function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fin, $alojamiento, $id_socio)
 {
     try {
         $bd = cargarBBDD();
 
-        $sql = "insert into movilidades_empresas (fecha_inicio, fecha_fin_estimado,fecha_alta,empresa,alumno) values (?,?,?,?,?)";
-        $stmt = $bd->prepare($sql);
-        $fecha = new \DateTime();
-        $fecha_alta = $fecha->format('Y-m-d H:i:s');
-        $array=array($fecha_inicio,$fecha_fin,$fecha_alta,$id_empresa,$id_alumno);
-        if (!$stmt->execute($array)) {
-            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        $puntos = intval(cargar_puntos($id_socio)['puntuacion']);
+        echo $puntos;
+        $min_puntos = intval(cargar_min_puntos()['valor']);
+        echo $min_puntos;
+        if ($puntos < $min_puntos) {
+            return false;
+        } else {
+            $bd->beginTransaction();
+            $sql = "insert into movilidades_empresas (fecha_inicio, fecha_fin_estimado,fecha_alta,empresa,alumno) values (?,?,?,?,?)";
+            $stmt = $bd->prepare($sql);
+            $fecha = new \DateTime();
+            $fecha_alta = $fecha->format('Y-m-d H:i:s');
+            $array = array($fecha_inicio, $fecha_fin, $fecha_alta, $id_empresa, $id_alumno);
+            if (!$stmt->execute($array)) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+            } else {
+
+                update_puntuacion_socio($id_socio, 5);
+
+                if ($alojamiento == "on") {
+
+                    update_puntuacion_socio($id_socio, 4);
+                }
+            }
+            $bd->commit();
+            return true;
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
+        $bd->rollBack();
+        return false;
     } finally {
         $bd = null;
     }
 }
 
 
-function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $fecha_fin)
+function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $fecha_fin, $alojamiento, $id_socio)
 {
     try {
         $bd = cargarBBDD();
+        $puntos = intval(cargar_puntos($id_socio)['puntuacion']);
+        echo $puntos;
+        $min_puntos = intval(cargar_min_puntos()['valor']);
+        echo $min_puntos;
+        if ($puntos < $min_puntos) {
+            return false;
+        } else {
+            $bd->beginTransaction();
+            $sql = "insert into movilidades_instituciones(fecha_inicio, fecha_fin_estimado,fecha_alta,institucion,alumno) values (?,?,?,?,?)";
+            $stmt = $bd->prepare($sql);
+            $fecha = new \DateTime();
+            $fecha_alta = $fecha->format('Y-m-d H:i:s');
+            $array = array($fecha_inicio, $fecha_fin, $fecha_alta, $id_institucion, $id_alumno);
+            if (!$stmt->execute($array)) {
+                throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+            } else {
+                update_puntuacion_socio($id_socio, 5);
 
-        $sql = "insert into movilidades_instituciones(fecha_inicio, fecha_fin_estimado,fecha_alta,institucion,alumno) values (?,?,?,?,?)";
-        $stmt = $bd->prepare($sql);
-        $fecha = new \DateTime();
-        $fecha_alta = $fecha->format('Y-m-d H:i:s');
-        $array=array($fecha_inicio,$fecha_fin,$fecha_alta,$id_institucion,$id_alumno);
-        if (!$stmt->execute($array)) {
+                if ($alojamiento == "on") {
+
+                    update_puntuacion_socio($id_socio, 4);
+                }
+            }
+        }
+
+        $bd->commit();
+        return true;
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        $bd->rollBack();
+        return false;
+    } finally {
+        $bd = null;
+    }
+}
+
+function cargar_puntos($id_socio)
+{
+
+
+    try {
+        $bd = cargarBBDD();
+        $sql = "select puntuacion from socios where id_socio='$id_socio'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
         }
     } catch (\PDOException $ex) {
         echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
+
+
+function cargar_min_puntos()
+{
+
+    try {
+        $bd = cargarBBDD();
+        $sql = "select valor from tipos_puntuacion where tipo='DEFICIT'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
     } finally {
         $bd = null;
     }

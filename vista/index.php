@@ -37,14 +37,26 @@
 
   <script src="../controlador/metodosJS.js"></script>
 </head>
+
 <body class="d-flex flex-column">
   <?php
   require_once 'cabecera.php';
   if (isset($_GET['logout']) && $_GET['logout'] == "true") {
     echo '<script type="text/javascript">',
-     'popUpLogout();',
-     '</script>'
-;
+      'popUpLogout();',
+      '</script>';
+  }
+  if (isset($_GET['error_movilidad'])) {
+    if( $_GET['error_movilidad'] == "true"){
+    echo '<script type="text/javascript">',
+      'popUpMovilidad_Error();',
+      '</script>';
+    }
+    else if($_GET['error_movilidad'] == "false"){
+      echo '<script type="text/javascript">',
+      'popUpMovilidad_OK();',
+      '</script>';
+    }
   }
   ?>
   <section class="container-fluid flex-grow pr-4 pl-4">

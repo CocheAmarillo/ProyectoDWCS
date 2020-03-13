@@ -16,12 +16,18 @@ h2 {
    background-color: #f26b40;
 }
 
-footer {
+footer{
    background-color: #183559;
    position: relative;
    bottom: 0;
    line-height: 0vh;
 }
+
+input:required{
+   border:1px solid red;
+}
+
+
 
 #tabla {
    min-height: 100%;

@@ -1,4 +1,12 @@
 <?php
+
+use function controlador\add_movilidad_empresa;
+use function controlador\add_movilidad_institucion;
+use function controlador\buscar_alumno;
+use function controlador\buscar_empresa;
+use function controlador\buscar_institucion;
+use function controlador\cargar_alumno_especialidad;
+
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 
@@ -7,9 +15,40 @@ if (!comprobar_sesion()) {
     header('Location: index.php');
 }
 
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(!isset($_POST['alojamiento'])){
+        echo "vacio";
+        $alojamiento="";
+    }
+    $alojamiento=$_POST['alojamiento'];
+    if($_POST['tipo']=="empresa"){
+        
+        
+        if(add_movilidad_empresa($_POST['alumno'],$_POST['empresa'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
+            header("Location: index.php?error_movilidad=false");
+        }
+        else{
+            header("Location: index.php?error_movilidad=true");
+        }
+    }
+    else if($_POST['tipo']=="institucion"){
+        if(add_movilidad_institucion($_POST['alumno'],$_POST['institucion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
+            header("Location: index.php?error_movilidad=false");
+        }
+        else{
+            header("Location: index.php?error_movilidad=true");
+        }
+    }
+   
+}
+
 if ($_SERVER["REQUEST_METHOD"] == "GET") {
     $tipo = $_GET['tipo'];
 }
+
+
+
+
 ?>
 
 <html lang="en">
@@ -39,6 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
         <div class="container-fluid d-flex">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100">
+            <input type="hidden" value="<?php echo $tipo?>" name="tipo">
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
                         <h2>Registrar movilidad alumno</h2>
@@ -58,6 +98,42 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </a>
                             </nav>
                         </h3>
+                        <?php $array_alumnos = buscar_alumno($_SESSION['id_socio']);
+                        if ($array_alumnos == null) {
+                            $cadena = "<p>There are no students registered by this user</p>";
+                            echo $cadena;
+                        } else { ?>
+                            <table class="text-center table-responsive">
+                                <tr class="border">
+                                    <th class="border"></th>
+                                    <th class="border">NOMBRE</th>
+                                    <th class="border" width="100px">VAT</th>
+                                    <th class="border" width="120px">FECHA NACIMIENTO</th>
+                                </tr>
+                                <?php
+
+                                $tr = '';
+                                foreach ($array_alumnos as $fila) {
+                                    $tr .= '<tr> <td><input required type="radio" name="alumno" value="' . $fila['ID_ALUMNO'] . '"' . '</td>';
+                                    $tr .= '<td>' . $fila["NOMBRE_COMPLETO"] . '</td>';
+                                    $tr .= '<td>' . $fila["VAT"] . '</td>';
+                                    $tr.=' <td>' . $fila["FECHA_NACIMIENTO"] . '</td>';
+                                   
+                                    
+                                }
+                                echo $tr;
+                                
+
+                                ?>
+
+                            </table>
+                        <?php
+
+                        }
+                        
+
+                        ?>
+
                     </div>
                     <div class="col-sm-2"></div>
 
@@ -73,6 +149,43 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </a>
                                 </nav>
                             </h3>
+                            <?php $array_empresa = buscar_empresa();
+                        if ($array_empresa == null) {
+                            $cadena = "<p>There are no companies registered</p>";
+                            echo $cadena;
+                        } else { ?>
+                            <table class="text-center table-responsive">
+                                <tr class="border">
+                                    <th class="border"></th>
+                                    <th class="border">NOMBRE</th>
+                                    <th class="border" width="100px">VAT</th>
+                                    <th class="border" width="120px">EMAIL</th>
+                                    <th class="border" width="120px">DESCRIPCION</th>
+                                </tr>
+                                <?php
+
+                                $tr = '';
+                                foreach ($array_empresa as $fila) {
+                                    $tr .= '<tr> <td><input  required type="radio" name="empresa" value="' . $fila['ID_EMPRESA'] . '"' . '</td>';
+                                    $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
+                                    $tr .= '<td>' . $fila["VAT"] . '</td>';
+                                    $tr .= '<td>' . $fila["EMAIL"] . '</td>';
+                                    $tr.=' <td>' . $fila["DESCRIPCION"] . '</td>';
+                                   
+                                    
+                                }
+                                echo $tr;
+                                
+
+                                ?>
+
+                            </table>
+                        <?php
+
+                        }
+                        
+
+                        ?>
                         </div>
                     <?php
                     }
@@ -81,27 +194,70 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                     <?php
                     if ($tipo == "institucion") {
                     ?>
-                    <div id="titulo2" class="col-md-4">
-                        <h3>
-                            <nav class="navbar navbar-light bg-light">
-                                <a class="navbar-brand">
-                                    <i class="fa fa-user"></i>
-                                    <span id="info">Lista de Instituciones</span>
-                                </a>
-                            </nav>
-                        </h3>
-                    </div>
+                        <div id="titulo2" class="col-md-4">
+                            <h3>
+                                <nav class="navbar navbar-light bg-light">
+                                    <a class="navbar-brand">
+                                        <i class="fa fa-user"></i>
+                                        <span id="info">Lista de Instituciones</span>
+                                    </a>
+                                </nav>
+                            </h3>
+                            <?php $array_inst = buscar_institucion();
+                        if ($array_inst == null) {
+                            $cadena = "<p>There are no institutions registered</p>";
+                            echo $cadena;
+                        } else { ?>
+                            <table class="text-center table-responsive">
+                                <tr class="border">
+                                    <th class="border"></th>
+                                    <th class="border">NOMBRE</th>
+                                    <th class="border" width="100px">VAT</th>
+                                    <th class="border" width="120px">EMAIL</th>
+                                    <th class="border" width="120px">DESCRIPCION</th>
+                                </tr>
+                                <?php
+
+                                $tr = '';
+                                foreach ($array_inst as $fila) {
+                                    $tr .= '<tr> <td><input required type="radio" name="institucion" value="' . $fila['ID_INSTITUCION'] . '"' . '</td>';
+                                    $tr .= '<td>' . $fila["NOMBRE"] . '</td>';
+                                    $tr .= '<td>' . $fila["VAT"] . '</td>';
+                                    $tr .= '<td>' . $fila["EMAIL"] . '</td>';
+                                    $tr.=' <td>' . $fila["DESCRIPCION"] . '</td>';
+                                   
+                                    
+                                }
+                                echo $tr;
+                                
+
+                                ?>
+
+                            </table>
+                        <?php
+
+                        }
+                        
+
+                        ?>
+                        </div>
                     <?php
                     }
-                    ?>  
+                    ?>
+                </div>
+
+                <div class="form-group mt-5 mb-5">
+                <div class="col-sm-12 controls text-center">
+                    Start Date  <input type="date" name="fecha_inicio" class="mr-5">
+                    End Date  <input type="date" name="fecha_fin"><br><br>
+                    Helped lodging  <input type="checkbox" name="alojamiento">
+                    </div>
                 </div>
 
 
 
 
-
-
-                <div style="margin-top:10px" class="form-group">
+                <div style="margin-top:10px" class="form-group mt-5">
 
                     <div class="col-sm-12 controls text-center">
                         <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Enviar"></input>

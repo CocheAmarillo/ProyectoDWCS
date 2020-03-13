@@ -6,6 +6,8 @@ if (comprobar_sesion()) {
     header('Location: index.php');
 }
 
+$previa= $_SESSION['previa'];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     $usuario = \controlador\comprobar_usuario($_POST['usuario'], $_POST['password']);
@@ -14,6 +16,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $err = true;
         $usuario = $_POST['usuario']; //para que permanezca en el campo de texto lo escrito por el usuario
     } else {
+        echo $_SESSION['previa'];
      
         // $usu tiene campos correo y codRes, correo 
         $_SESSION['id_socio'] = $usuario['id_socio'];
@@ -22,7 +25,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
            header("Location: index.php");
         }
         else{
-            header("Location: ".$_SESSION['previa']);
+            header("Location: ".$previa);
         }
         
        
