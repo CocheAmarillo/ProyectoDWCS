@@ -33,9 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         \controlador\update_puntuacion_socio($id_insertado, 2);
         $_SESSION['id_socio'] = $id_insertado;
         $_SESSION['usuario'] = $socio->usuario;
+        $_SESSION['alert_msg']="Welcome, you have been registered.";
         header('Location: index.php');
+        exit;
     } else {
-        echo "Mistakes were made";
+        $_SESSION['alert_msg']="Fail trying to register";
     }
 }
 ?>

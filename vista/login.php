@@ -9,24 +9,26 @@ if (comprobar_sesion()) {
 $previa= $_SESSION['previa'];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-
+    
     $usuario = \controlador\comprobar_usuario($_POST['usuario'], $_POST['password']);
 
     if ($usuario === false) {
-        $err = true;
+        $_SESSION['alert_msg']="Check again username and password.";
         $usuario = $_POST['usuario']; //para que permanezca en el campo de texto lo escrito por el usuario
     } else {
-        echo $_SESSION['previa'];
+        
      
         // $usu tiene campos correo y codRes, correo 
         $_SESSION['id_socio'] = $usuario['id_socio'];
         $_SESSION['usuario'] = $usuario['usuario'];
+        $_SESSION['alert_msg']="Sesion has been started";
         if(!isset($_SESSION['previa']) || $_SESSION['previa']==""){
            header("Location: index.php");
         }
         else{
             header("Location: ".$previa);
         }
+        exit;
         
        
       
@@ -58,9 +60,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body class="d-flex flex-column">
     <?php
     require_once 'cabecera.php';
-    if (isset($err) and $err == true) {
-        echo "<p> Revise usuario y contraseña</p>";
-    }
+   
     ?>
 
 
@@ -75,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
                         <div class="form-group">
                             <label for="">Usuario:</label>
-                            <input type="text" class="form-control" id="user" placeholder="Introducir usuario" name="usuario" value="">
+                            <input type="text" class="form-control" id="user" placeholder="Introducir usuario" name="usuario" value="<?php if(isset($usuario)) echo $usuario;?>">
                         </div>
                         <div class="form-group">
                             <label for="">Contraseña:</label>

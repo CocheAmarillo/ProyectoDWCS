@@ -17,27 +17,33 @@ if (!comprobar_sesion()) {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if(!isset($_POST['alojamiento'])){
-        echo "vacio";
+       
         $alojamiento="";
+    } else{
+        $alojamiento=$_POST['alojamiento'];
     }
-    $alojamiento=$_POST['alojamiento'];
+    
     if($_POST['tipo']=="empresa"){
         
         
         if(add_movilidad_empresa($_POST['alumno'],$_POST['empresa'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
-            header("Location: index.php?error_movilidad=false");
+            $_SESSION['alert_msg']="New mobility has been registered.";
         }
         else{
-            header("Location: index.php?error_movilidad=true");
+            $_SESSION['alert_msg']="Fail trying to register a new mobility. Not enough points.";
         }
+        header("Location: movilidades.php?tipo=empresa");
+        exit;
     }
     else if($_POST['tipo']=="institucion"){
         if(add_movilidad_institucion($_POST['alumno'],$_POST['institucion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
-            header("Location: index.php?error_movilidad=false");
+            $_SESSION['alert_msg']="New mobility has been registered.";
         }
         else{
-            header("Location: index.php?error_movilidad=true");
+            $_SESSION['alert_msg']="Fail trying to register a new mobility. Not enough points.";
         }
+        header("Location: movilidades.php?tipo=institucion");
+        exit;
     }
    
 }
@@ -248,8 +254,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
                 <div class="form-group mt-5 mb-5">
                 <div class="col-sm-12 controls text-center">
-                    Start Date  <input type="date" name="fecha_inicio" class="mr-5">
-                    End Date  <input type="date" name="fecha_fin"><br><br>
+                    Start Date  <input type="date" name="fecha_inicio" class="mr-5" required>
+                    End Date  <input type="date" name="fecha_fin" required><br><br>
                     Helped lodging  <input type="checkbox" name="alojamiento">
                     </div>
                 </div>

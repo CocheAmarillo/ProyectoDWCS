@@ -66,7 +66,7 @@ function alta_socio(Socio $socio)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+      
         return false;
     } finally {
         $stmt = null;
@@ -104,7 +104,7 @@ function alta_institucion(Institucion $inst)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        
         return false;
     } finally {
         $stmt = null;
@@ -123,7 +123,7 @@ function añadir_institucion_socio($id_inst, $id_socio)
 
         return $bd->exec($sql);
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        
         return false;
     } finally {
 
@@ -154,7 +154,7 @@ function alta_alumno(Alumno $alumno)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         return false;
     } finally {
         $stmt = null;
@@ -178,7 +178,7 @@ function alta_responsable($email, $nombre, $telefono, $bd)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+     
         return false;
     }
 }
@@ -217,7 +217,7 @@ function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        
         $bd->rollBack();
         return false;
     } finally {
@@ -238,7 +238,7 @@ function borrar_empresa($id_empresa)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+      
     } finally {
 
         $bd = null;
@@ -257,7 +257,7 @@ function borrar_socio($id_socio)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
     } finally {
 
         $bd = null;
@@ -279,7 +279,7 @@ function cargar_paises()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
     } finally {
         $bd = null;
     }
@@ -300,7 +300,7 @@ function cargar_tipo_institucion()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
     } finally {
         $bd = null;
     }
@@ -322,7 +322,7 @@ function cargar_tipo_empresa()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
     } finally {
         $bd = null;
     }
@@ -343,7 +343,7 @@ function cargar_rol_user($nombre_rol)
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+    
     } finally {
         $bd = null;
     }
@@ -816,9 +816,9 @@ function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fi
         $bd = cargarBBDD();
 
         $puntos = intval(cargar_puntos($id_socio)['puntuacion']);
-        echo $puntos;
+      
         $min_puntos = intval(cargar_min_puntos()['valor']);
-        echo $min_puntos;
+        
         if ($puntos < $min_puntos) {
             return false;
         } else {

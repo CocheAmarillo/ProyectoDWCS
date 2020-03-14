@@ -16,7 +16,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="icon" href="./favicon.ico" type="image/ico">
+  <link rel="shortcut icon" href="./imagenes/logofinal.png" type="image/png">
   <title>MERT</title>
   <style>
     #img2 {
@@ -40,24 +40,9 @@
 
 <body class="d-flex flex-column">
   <?php
+  
   require_once 'cabecera.php';
-  if (isset($_GET['logout']) && $_GET['logout'] == "true") {
-    echo '<script type="text/javascript">',
-      'popUpLogout();',
-      '</script>';
-  }
-  if (isset($_GET['error_movilidad'])) {
-    if( $_GET['error_movilidad'] == "true"){
-    echo '<script type="text/javascript">',
-      'popUpMovilidad_Error();',
-      '</script>';
-    }
-    else if($_GET['error_movilidad'] == "false"){
-      echo '<script type="text/javascript">',
-      'popUpMovilidad_OK();',
-      '</script>';
-    }
-  }
+
   ?>
   <section class="container-fluid flex-grow pr-4 pl-4">
 

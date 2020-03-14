@@ -8,6 +8,7 @@ use modelo\Alumno;
 
 
 session_start();
+
 if (!comprobar_sesion()) {
     header('Location: index.php');
 }
@@ -24,8 +25,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
         \controlador\add_especialidad_alumno($id_alumno,$especialiadades);
-        echo "Alumno insertado con exito";
+        $_SESSION['alert_msg'] ="New student has been registered";
+        header("Location: busqueda_alumnos.php");
+        exit;
         
+    }
+    else{
+        $_SESSION['alert_msg']="The student couldn't be registered";
     }
 }
 ?>
@@ -50,6 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <?php
     require_once 'cabecera.php';
+   
     require_once '../controlador/metodosBBDD.php';
     ?>
 

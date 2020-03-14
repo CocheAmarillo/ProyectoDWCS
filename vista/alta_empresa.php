@@ -21,7 +21,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         \controlador\add_especialidad_empresa($id_empresa, $especialiadades);
         \controlador\update_puntuacion_socio($_SESSION['id_socio'], 3);
-        echo "Empresa insertada con exito";
+        $_SESSION['alert_msg']="New company has been registered";
+        header("Location: busqueda_empresas.php");
+        exit;
+    }
+    else{
+        $_SESSION['alert_msg']="Fail trying to register a new company";
     }
 }
 ?>

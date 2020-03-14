@@ -116,23 +116,18 @@ if (comprobar_sesion()) {
 
     </div>
 </nav>
-<div class="alert alert-dismissible fade show d-none" role="alert" id="logout">
-    <strong>Session has been closed</strong> See you next time.
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
 
-<div class="alert alert-dismissible fade show d-none" role="alert" id="mov_error">
-    <strong>Mobility couldn't be done due to lack of points</strong>
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+<?php if (isset($_SESSION['alert_msg'])) {
 
-<div class="alert alert-dismissible fade show d-none" role="alert" id="mov_ok">
-    <strong>You have successfully registered the mobility</strong> 
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-        <span aria-hidden="true">&times;</span>
-    </button>
-</div>
+?>
+    <div class="alert alert-dismissible fade show" role="alert">
+        <strong><?php echo $_SESSION['alert_msg'];
+                unset($_SESSION['alert_msg']); ?></strong>
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+<?php
+
+} ?>
