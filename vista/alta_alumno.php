@@ -48,7 +48,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>ejer1</title>
+    <title>MERT</title>
+    <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <link rel="stylesheet" href="./css/estiloLogin.css">
 </head>
 
@@ -66,7 +67,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100">
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
-                        <h2>Dar de alta un alumno</h2>
+                        <h2>Register a student</h2>
                     </div>
                 </div>
 
@@ -77,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <nav class="navbar navbar-light bg-light">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Informacion del Alumno</span>
+                                    <span id="info">Student Information</span>
                                 </a>
                             </nav>
                         </h3>
@@ -86,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-row w-100">
                     <div class="form-group col-md-4 container-fluid w-100 text-left">
-                        <label for="">Nombre Completo</label>
+                        <label for="">Name</label>
                         <input type="text" class="form-control" id="nombre" name="nombre_al" placeholder="Nombre" required>
                     </div>
                 </div>
@@ -102,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-row w-100">
                     <div class="form-group col-md-4 container-fluid w-100 text-left">
-                        <label for="">Fecha de nacimiento</label>
+                        <label for="">Birth Date</label>
                         <input type="date" class="form-control" name="fecha_nac_al" required>
                     </div>
                 </div>
@@ -111,16 +112,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                 <div class="form-row w-100 text-right">
                     <div class="form-group col-md-5 container-fluid w-50">
-                        <label for="">Género</label>
+                        <label for="">Gender</label>
                         <select name="genero_al">
-                            <option value="M">Masculino</option>
-                            <option value="F">Femenino</option>
-                            <option value='O'>Otre</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value='O'>Other</option>
                         </select>
                     </div>
 
                     <div class="form-group col-md-5 container-fluid text-left w-25">
-                        <label for="">Especialidades</label>
+                        <label for="">Specialties</label>
                         <select name="especialidades_alumno[]" multiple class="form-control w-25 text-left ">
                             <?php
                             $array_especialidades = controlador\cargar_especialidades();
@@ -140,8 +141,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div style="margin-top:10px" class="form-group">
 
                     <div class="col-sm-12 controls text-center">
-                        <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Enviar"></input>
-                        <input type="reset" class="btn btn-secondary" value="Borrar"></input>
+                        <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Register"></input>
+                        <input type="reset" class="btn btn-secondary" value="Clear"></input>
                     </div>
 
                 </div>

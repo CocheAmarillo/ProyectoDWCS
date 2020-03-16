@@ -16,7 +16,7 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-  <link rel="shortcut icon" href="./imagenes/logofinal.png" type="image/png">
+  <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
   <title>MERT</title>
   <style>
     #img2 {
@@ -69,9 +69,8 @@
     </div>
   </section>
   <section id="descripcion">
-    <p class="text-center">Bienvenido a <b><i><span>M</span><span style="color: #f26b40">E</span><span>R</span><span style="color: #f26b40">T</span></i></b>, una web para facilitar la búsqueda de empresas o insitutuciones en las que los alumnos puedan realizar sus prácticas.<br>
-      También permite que los usuarios den de alta en nuestra base de datos nuevas empresas y alumnos para asi darlos a conocer a otros usuarios que puedan estar interesados.
-
+    <p class="text-center">Welcome to <b><i><span>M</span><span style="color: #f26b40">E</span><span>R</span><span style="color: #f26b40">T</span></i></b><br>
+      A website to help you search companies and institutions where your students can do the internships/Job training.It also allowed you to register new companies and students.
     </p>
 
 
@@ -81,3 +80,7 @@
 </body>
 
 </html>
+
+<!--, una web para facilitar 
+    la búsqueda de empresas o insitutuciones en las que los alumnos puedan realizar sus prácticas.<br>
+      También permite que los usuarios den de alta en nuestra base de datos nuevas empresas y alumnos para asi darlos a conocer a otros usuarios que puedan estar interesados-->

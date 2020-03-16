@@ -33,7 +33,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Listado de empresas</title>
+    <title>MERT</title>
+    <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <link rel="stylesheet" href="./css/estiloLogin.css">
    
 </head>
@@ -51,7 +52,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
-                        <h2>Listado de Alumnos</h2>
+                        <h2>Student List</h2>
                     </div>
                 </div>
                 <div class="form-row tex text-center">
@@ -60,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <nav class="navbar navbar-light bg-light">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Informacion de los alumnos</span>
+                                    <span id="info">Student Data</span>
                                 </a>
                             </nav>
                         </h3>
@@ -73,18 +74,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <tr class="border">
                             <th class="border">ID</th>
                             <th class="border">VAT</th>
-                            <th class="border" width="100px">NOMBRE</th>
-                            <th class="border" width="200px">GENERO</th>
-                            <th class="border" width="120px">FECHA NACIMIENTO</th>
-                            <th class="border">FECHA ALTA</th>
-                            <th class="border" width="120px">FECHA MODIFICACION</th>
-                            <th class="border" width="120px">ESPECIALIDADES</th>
-                            <th class="border" width="120px">ACCIONES</th>
+                            <th class="border" width="100px">NAME</th>
+                            <th class="border" width="200px">GENDER</th>
+                            <th class="border" width="120px">BIRTH DATE</th>
+                            <th class="border">REGISTER DATE</th>
+                            <th class="border" width="120px">MODIFICATION DATE</th>
+                            <th class="border" width="120px">SPECIALTIES</th>
+                            <th class="border" width="120px">ACTIONS</th>
                         </tr>
                         <?php
                         $array_alumnos = controlador\buscar_alumno($_SESSION['id_socio']);
                         if ($array_alumnos == null) {
-                            echo "<tr><td colspan='9'>No hay alumnos registrados por este usuario</td></tr>";
+                            echo "<tr><td colspan='9'>No students registered by this user</td></tr>";
                         } else {
                             $tr = '';
                             foreach ($array_alumnos as $fila) {

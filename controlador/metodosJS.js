@@ -1,5 +1,5 @@
 function confirmLogOut() {
-    var opcion = confirm("Esta seguro que desea cerrar sesion?");
+    var opcion = confirm("Are you sure?");
     if (opcion == true) {
         window.location.href = "logout.php";
     }

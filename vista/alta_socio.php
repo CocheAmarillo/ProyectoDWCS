@@ -33,11 +33,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         \controlador\update_puntuacion_socio($id_insertado, 2);
         $_SESSION['id_socio'] = $id_insertado;
         $_SESSION['usuario'] = $socio->usuario;
-        $_SESSION['alert_msg']="Welcome, you have been registered.";
+        $_SESSION['alert_msg'] = "Welcome, you have been registered.";
         header('Location: index.php');
         exit;
     } else {
-        $_SESSION['alert_msg']="Fail trying to register";
+        $_SESSION['alert_msg'] = "Fail trying to register";
     }
 }
 ?>
@@ -55,7 +55,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
-
+    <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <link rel="stylesheet" href="./css/estiloLogin.css">
 
 </head>
@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form-row">
                 <div class="col-12">
-                    <h2>Registrarse como socio</h2>
+                    <h2>Register as a partner</h2>
                 </div>
             </div>
 
@@ -83,7 +83,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <nav class="navbar navbar-light bg-light">
                             <a class="navbar-brand">
                                 <i class="fa fa-user"></i>
-                                <span id="info">Informacion Personal</span>
+                                <span id="info">Personal Information</span>
                             </a>
                         </nav>
                     </h3>
@@ -93,8 +93,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Usuario</label>
-                    <input type="text" class="form-control" id="nombre" name="usuario_soc" placeholder="Usuario" required>
+                    <label for="">User</label>
+                    <input type="text" class="form-control" id="nombre" name="usuario_soc" placeholder="Username" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
@@ -108,8 +108,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Nombre Completo</label>
-                    <input type="text" class="form-control" id="nombre" name="nombre_soc" placeholder="Nombre Completo" required>
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" id="nombre" name="nombre_soc" placeholder="" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
@@ -123,12 +123,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control" name="email_soc" placeholder="Email" required>
+                    <input type="text" class="form-control" name="email_soc" placeholder="example@gmail.com " required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Teléfono</label>
-                    <input type="text" class="form-control" name="telefono_soc" placeholder="Telefono" required>
+                    <label for="">Telephone</label>
+                    <input type="text" class="form-control" name="telefono_soc" placeholder="(+34) 123 456 789" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -137,13 +137,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Cargo</label>
-                    <input type="text" class="form-control" name="cargo_soc" placeholder="Cargo" required>
+                    <label for="">Position</label>
+                    <input type="text" class="form-control" name="cargo_soc" placeholder="Head Master, proffesor... " required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Departamento</label>
-                    <input type="text" class="form-control" name="departamento_soc" placeholder="Departamento" required>
+                    <label for="">Department</label>
+                    <input type="text" class="form-control" name="departamento_soc" placeholder="Department" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -151,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Pais</label>
+                    <label for="">Country</label>
                     <select name="pais_soc">
                         <?php
                         $array_paises = controlador\cargar_paises();
@@ -176,7 +176,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <nav class="navbar navbar-light bg-light">
                             <a class="navbar-brand">
                                 <i class="fa fa-map-marker"></i>
-                                <span id="titulo">Información de su Institución</span>
+                                <span id="titulo">Insitution Information</span>
                             </a>
                         </nav>
                     </h3>
@@ -186,8 +186,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Nombre</label>
-                    <input type="text" class="form-control" id="nombre_inst" name="nombre_inst" placeholder="Nombre" required>
+                    <label for="">Name</label>
+                    <input type="text" class="form-control" id="nombre_inst" name="nombre_inst" placeholder="" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
@@ -202,12 +202,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
                     <label for="">Email</label>
-                    <input type="text" class="form-control" id="email" name="email_inst" placeholder="Email" required>
+                    <input type="text" class="form-control" id="email" name="email_inst" placeholder="example@gmail.com" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Telefono</label>
-                    <input type="text" class="form-control" name="telefono_inst" placeholder="Telefono" required>
+                    <label for="">Telephone</label>
+                    <input type="text" class="form-control" name="telefono_inst" placeholder="(+34) 123 456 789" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -215,13 +215,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="name">Codigo postal</label>
-                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="Codigo Postal" required>
+                    <label for="name">ZIP Code</label>
+                    <input type="text" class="form-control" name="codigo_postal_inst" placeholder="" required>
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="tel">Dirección</label>
-                    <input type="text" class="form-control" name="direccion_inst" placeholder="Direccion" required>
+                    <label for="tel">Address</label>
+                    <input type="text" class="form-control" name="direccion_inst" placeholder="User Address" required>
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -235,8 +235,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Descripcion</label>
-                    <input type="textarea" class="form-control" name="descripcion_inst" placeholder="Descripcion">
+                    <label for="">Description</label>
+                    <input type="textarea" class="form-control" name="descripcion_inst" placeholder="Description">
                 </div>
                 <div class="form-group col-md-1"></div>
             </div>
@@ -244,7 +244,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Pais</label>
+                    <label for="">Country</label>
                     <select name="pais_inst">
                         <?php
                         $array_paises = controlador\cargar_paises();
@@ -259,7 +259,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Tipo de institucion</label>
+                    <label for="">Type of Institution</label>
                     <select name="tipo_inst">
                         <?php
                         $array_inst = controlador\cargar_tipo_institucion();
@@ -280,7 +280,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Especialidades</label>
+                    <label for="">Specialities</label>
                     <select name="especialidades_institucion[]" multiple class="form-control w-25 text-left ">
                         <?php
                         $array_especialidades = controlador\cargar_especialidades();
@@ -309,8 +309,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <!-- Button -->
 
                 <div class="col-sm-12 controls">
-                    <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Enviar"></input>
-                    <input type="reset" class="btn btn-secondary" value="Borrar"></input>
+                    <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Register"></input>
+                    <input type="reset" class="btn btn-secondary" value="Clear"></input>
 
                 </div>
             </div>

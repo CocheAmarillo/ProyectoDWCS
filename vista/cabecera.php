@@ -22,13 +22,13 @@ if (comprobar_sesion()) {
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Empresa
+                    Company
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
-                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Dar de alta</a>
+                    <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Register</a>
 
-                    <a class="dropdown-item" href="busqueda_empresas.php">Listado de empresas</a>
+                    <a class="dropdown-item" href="busqueda_empresas.php">List Of Companies</a>
 
                 </div>
             </li>
@@ -36,13 +36,13 @@ if (comprobar_sesion()) {
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Institución
+                    Institution
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
 
 
 
-                    <a class="dropdown-item" href="busqueda_instituciones.php">Listado de instituciones</a>
+                    <a class="dropdown-item" href="busqueda_instituciones.php">List of Institutions</a>
 
 
                 </div>
@@ -53,11 +53,11 @@ if (comprobar_sesion()) {
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Alumno
+                        Student
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Dar de alta</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">Listado alumnos</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Register</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">List of students</a>
 
                     </div>
                 </li>
@@ -65,11 +65,11 @@ if (comprobar_sesion()) {
 
                 <li class="nav-item dropdown">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Movilidades
+                        Mobilities
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=empresa">Movilidad con Empresa</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=institucion">Movilidad con Institucion</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=empresa">Mobility with Company</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=institucion">Mobility with Institution</a>
                     </div>
                 </li>
 
@@ -88,8 +88,8 @@ if (comprobar_sesion()) {
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item text-center" onclick="usuario()"><?php echo $_SESSION['usuario'] ?></a>
-                            <a class="nav-link text-center p-2" onclick="editarPerfil()" href="#">Editar Perfil</a>
-                            <a class="nav-link text-center p-2" onclick="confirmLogOut()" href="#">Cerrar Sesion</a>
+                            <a class="nav-link text-center p-2" onclick="editarPerfil()" href="#">Edit Profile</a>
+                            <a class="nav-link text-center p-2" onclick="confirmLogOut()" href="#">Log Out</a>
                         </div>
 
                     </li>
@@ -106,7 +106,7 @@ if (comprobar_sesion()) {
                         }
 
                         ?>
-                        <a class="nav-link" href="login.php">Iniciar Sesion</a>
+                        <a class="nav-link" href="login.php">Log In</a>
 
                     </li>
                 </ul>

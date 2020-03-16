@@ -69,7 +69,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <title>Movilidades</title>
+    <title>MERT</title>
+    <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <link rel="stylesheet" href="./css/estiloLogin.css">
 </head>
 
@@ -87,7 +88,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
             <input type="hidden" value="<?php echo $tipo?>" name="tipo">
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
-                        <h2>Registrar movilidad alumno</h2>
+                        <h2>Register Student Mobility</h2>
                     </div>
                 </div>
 
@@ -100,21 +101,21 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <nav class="navbar navbar-light bg-light ">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
-                                    <span id="info">Lista de Alumnos</span>
+                                    <span id="info">Student List</span>
                                 </a>
                             </nav>
                         </h3>
                         <?php $array_alumnos = buscar_alumno($_SESSION['id_socio']);
                         if ($array_alumnos == null) {
-                            $cadena = "<p>There are no students registered by this user</p>";
+                            $cadena = "<p>No students registered by this user</p>";
                             echo $cadena;
                         } else { ?>
                             <table class="text-center table-responsive">
                                 <tr class="border">
                                     <th class="border"></th>
-                                    <th class="border">NOMBRE</th>
+                                    <th class="border">NAME</th>
                                     <th class="border" width="100px">VAT</th>
-                                    <th class="border" width="120px">FECHA NACIMIENTO</th>
+                                    <th class="border" width="120px">BIRTH DATE</th>
                                 </tr>
                                 <?php
 
@@ -151,7 +152,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <nav class="navbar navbar-light bg-light">
                                     <a class="navbar-brand">
                                         <i class="fa fa-user"></i>
-                                        <span id="info">Lista de Empresas</span>
+                                        <span id="info">Company List</span>
                                     </a>
                                 </nav>
                             </h3>
@@ -163,10 +164,10 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                             <table class="text-center table-responsive">
                                 <tr class="border">
                                     <th class="border"></th>
-                                    <th class="border">NOMBRE</th>
+                                    <th class="border">NAME</th>
                                     <th class="border" width="100px">VAT</th>
                                     <th class="border" width="120px">EMAIL</th>
-                                    <th class="border" width="120px">DESCRIPCION</th>
+                                    <th class="border" width="120px">DESCRIPTION</th>
                                 </tr>
                                 <?php
 
@@ -205,7 +206,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 <nav class="navbar navbar-light bg-light">
                                     <a class="navbar-brand">
                                         <i class="fa fa-user"></i>
-                                        <span id="info">Lista de Instituciones</span>
+                                        <span id="info">Institution List</span>
                                     </a>
                                 </nav>
                             </h3>
@@ -220,7 +221,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     <th class="border">NOMBRE</th>
                                     <th class="border" width="100px">VAT</th>
                                     <th class="border" width="120px">EMAIL</th>
-                                    <th class="border" width="120px">DESCRIPCION</th>
+                                    <th class="border" width="120px">DESCRIPTION</th>
                                 </tr>
                                 <?php
 
@@ -266,8 +267,8 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                 <div style="margin-top:10px" class="form-group mt-5">
 
                     <div class="col-sm-12 controls text-center">
-                        <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Enviar"></input>
-                        <input type="reset" class="btn btn-secondary" value="Borrar"></input>
+                        <input type="submit" class="btn btn-default" id="enviar" name="enviar" value="Send"></input>
+                        <input type="reset" class="btn btn-secondary" value="Clear"></input>
                     </div>
 
                 </div>
