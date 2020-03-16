@@ -1,8 +1,8 @@
-<?php
+<?php namespace vista;
 	
 	require_once '../controlador/sesiones.php';
 		session_start();
-		if(!comprobar_sesion()){
+		if(!\controlador\comprobar_sesion()){
 			header("Location: index.php");
 		}
 		else{

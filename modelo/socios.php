@@ -99,4 +99,16 @@ class Socio
 
         return $this;
     }
+
+    /**
+     * Set the value of id_rol
+     *
+     * @return  self
+     */ 
+    public function setId_rol($id_rol)
+    {
+        $this->id_rol = $id_rol;
+
+        return $this;
+    }
 }

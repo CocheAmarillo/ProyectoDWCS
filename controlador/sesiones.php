@@ -1,4 +1,5 @@
 <?php
+namespace controlador;
 function comprobar_sesion(){
 	
 	if(!isset($_SESSION['usuario'])){	

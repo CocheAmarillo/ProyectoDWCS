@@ -1,18 +1,13 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
-use function controlador\buscar_nombre_responsable;
-use function controlador\buscar_nombre_socio;
-use function controlador\buscar_pais;
-use function controlador\buscar_tipo_empresa;
-use function controlador\cargar_empresa_especialidad;
 
 session_start();
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     $registrado = false;
 } else {
     $registrado = true;
@@ -36,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -85,8 +80,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 <th class="border" width="120px">ADDRESS</th>
                                 <th class="border" width="120px">WEB</th>
 
-                                
-                                
+
+
                                 <th class="border" width="200px">REGISTER DATE</th>
                                 <th class="border" width="200px">PARTNER</th>
                                 <th class="border">PERSON IN CHARGE</th>
@@ -94,10 +89,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th class="border" width="100px">COUNTRY</th>
                             <th class="border" width="150px">TYPE</th>
                             <th class="border" width="40px">SPECIALTIES</th>
-                            <th class="border" width="120px">ACTIONS</th>
+                            <?php if ($registrado == true) { ?>
+                                <th class="border" width="120px">ACTIONS</th>
+                            <?php }
+                            ?>
                         </tr>
                         <?php
-                        $array_empresas = controlador\buscar_empresa();
+                        $array_empresas = \controlador\buscar_empresa();
                         if ($array_empresas == null) {
                             echo "<tr><td colspan='19'>No companies registered</td></tr>";
                         } else {
@@ -109,8 +107,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     $tr .= ' <td>' . $fila["CARGO_RESPONSABLE"] . '</td>
                             <td>' . $fila["VAT"] . '</td>';
                                 }
-                                $tr .= '<td>' . $fila["NOMBRE"] . '</td>'.
-                                '<td>' . $fila["DESCRIPCION"] . '</td>';
+                                $tr .= '<td>' . $fila["NOMBRE"] . '</td>' .
+                                    '<td>' . $fila["DESCRIPCION"] . '</td>';
                                 if ($registrado == true) {
                                     $tr .= '<td>' . $fila["EMAIL"] . '</td>
                             <td>' . $fila["TELEFONO"] . '</td>
@@ -119,13 +117,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["WEB"] . '</td>
 
                             <td>' . $fila["FECHA_ALTA"] . '</td>
-                            <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>
-                            <td>' . buscar_nombre_responsable($fila["RESPONSABLE"])['nombre'] . '</td>';
+                            <td>' . \controlador\buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>
+                            <td>' . \controlador\buscar_nombre_responsable($fila["RESPONSABLE"])['nombre'] . '</td>';
                                 }
-                                $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                                $tr .= '<td>' . buscar_tipo_empresa($fila["TIPO"])['tipo'] . '</td>';
+                                $tr .= '<td>' .  \controlador\buscar_pais($fila["PAIS"])['nombre'] . '</td>';
+                                $tr .= '<td>' . \controlador\buscar_tipo_empresa($fila["TIPO"])['tipo'] . '</td>';
                                 $cadena = "";
-                                $array_especialidades = cargar_empresa_especialidad($fila['ID_EMPRESA']);
+                                $array_especialidades = \controlador\cargar_empresa_especialidad($fila['ID_EMPRESA']);
                                 if ($array_especialidades != null) {
                                     foreach ($array_especialidades as $fila) {
                                         $cadena .= $fila['especialidad'] . "<br>";
@@ -134,7 +132,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                                 $tr .= "<td>$cadena</td</tr>";
-                                $tr .= "<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                if ($registrado == true) {
+                                    $tr .= "<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                }
                             }
                             echo $tr;
                         }

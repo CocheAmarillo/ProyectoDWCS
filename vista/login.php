@@ -1,8 +1,8 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/sesiones.php';
 require_once '../controlador/metodosBBDD.php';
 session_start();
-if (comprobar_sesion()) {
+if (\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 
@@ -18,7 +18,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         
      
-        // $usu tiene campos correo y codRes, correo 
+       
         $_SESSION['id_socio'] = $usuario['id_socio'];
         $_SESSION['usuario'] = $usuario['usuario'];
         $_SESSION['alert_msg']="Sesion has been started";
@@ -53,7 +53,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 
 </head>
 

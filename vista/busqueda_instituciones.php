@@ -1,20 +1,13 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
-use function controlador\buscar_nombre_responsable;
-use function controlador\buscar_nombre_socio;
-use function controlador\buscar_pais;
-use function controlador\buscar_tipo_empresa;
-use function controlador\buscar_tipo_institucion;
-use function controlador\cargar_empresa_especialidad;
-use function controlador\cargar_institucion_especialidad;
 
 session_start();
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     $registrado = false;
 } else {
     $registrado = true;
@@ -39,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -91,12 +84,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                             <?php  } ?>
                             <th class="border">COUTRY</th>
-                            <th class="border">COMPANY TYPE</th>
+                            <th class="border">INSTITUTION TYPE</th>
                             <th class="border">SPECIALTIES</th>
-                            <th class="border" width="120px">ACTIONS</th>
+                            <?php if ($registrado == true) { ?>
+                                <th class="border" width="120px">ACTIONS</th>
+                            <?php } ?>
                         </tr>
                         <?php
-                        $array_instituciones = controlador\buscar_institucion();
+                        $array_instituciones = \controlador\buscar_institucion();
 
                         if ($array_instituciones == null) {
                             echo "<tr><td colspan='17'>No institutions registered</td></tr>";
@@ -118,12 +113,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . $fila["WEB"] . '</td>
                             <td>' . $fila["DESCRIPCION"] . '</td>
                             <td>' . $fila["FECHA_ALTA"] . '</td>
-                            <td>' . buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
+                            <td>' . \controlador\buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
                                 }
-                                $tr .= '<td>' .  buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                                $tr .= '<td>' . buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
+                                $tr .= '<td>' .  \controlador\buscar_pais($fila["PAIS"])['nombre'] . '</td>';
+                                $tr .= '<td>' .\controlador\buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
                                 $cadena = "";
-                                $array_especialidades = cargar_institucion_especialidad($fila['ID_INSTITUCION']);
+                                $array_especialidades = \controlador\cargar_institucion_especialidad($fila['ID_INSTITUCION']);
                                 if ($array_especialidades != null) {
                                     foreach ($array_especialidades as $fila) {
                                         $cadena .= $fila['especialidad'] . "<br>";
@@ -132,7 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                                 $tr .= "<td>$cadena</td</tr>";
-                                $tr .= "<td><a href='#'><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                if ($registrado == true) {
+                                    $tr .= "<td><a href='#'><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                }
                             }
                             echo $tr;
                         }

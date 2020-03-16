@@ -1,8 +1,8 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/sesiones.php';
 
 $registrado = false;
-if (comprobar_sesion()) {
+if (\controlador\comprobar_sesion()) {
     $registrado = true;
 }
 
@@ -28,7 +28,7 @@ if (comprobar_sesion()) {
 
                     <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_empresa.php">Register</a>
 
-                    <a class="dropdown-item" href="busqueda_empresas.php">List Of Companies</a>
+                    <a class="dropdown-item" href="busqueda_empresas.php">Company List</a>
 
                 </div>
             </li>
@@ -42,11 +42,12 @@ if (comprobar_sesion()) {
 
 
 
-                    <a class="dropdown-item" href="busqueda_instituciones.php">List of Institutions</a>
+                    <a class="dropdown-item" href="busqueda_instituciones.php">Institution List</a>
 
 
                 </div>
             </li>
+            
 
             <?php
             if ($registrado == true) { ?>
@@ -57,7 +58,7 @@ if (comprobar_sesion()) {
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Register</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">List of students</a>
+                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">Student List </a>
 
                     </div>
                 </li>
@@ -82,6 +83,19 @@ if (comprobar_sesion()) {
             <?php
             if ($registrado == true) { ?>
                 <ul class="navbar-nav mr-auto nav-tabs">
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Admin Zone
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <a class="dropdown-item" >Register new specialty</a>
+                            <a class="dropdown-item"  href="#">Register new Institution type</a>
+                            <a class="dropdown-item"  href="#">Partner/user List</a>
+                            <a class="dropdown-item" href="#">Mobility List</a>
+                            <a class="dropdown-item" href="#">Data modification request</a>
+                        </div>
+
+                    </li>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user" id="iconito"></i>

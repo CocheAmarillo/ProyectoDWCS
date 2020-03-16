@@ -1,12 +1,13 @@
-<?php
+<?php namespace vista;
 
 use modelo\Empresa;
+
 
 require_once '../modelo/empresa.php';
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 session_start();
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 
@@ -46,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <!--Estilo Personalizado-->
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 
 </head>
 
@@ -144,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="">Country</label>
                     <select name="pais_emp">
                         <?php
-                        $array_paises = controlador\cargar_paises();
+                        $array_paises = \controlador\cargar_paises();
                         $option = '';
                         foreach ($array_paises as $fila) {
                             $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
@@ -159,7 +160,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="">Company Type</label>
                     <select name="tipo_emp">
                         <?php
-                        $array_emp = controlador\cargar_tipo_empresa();
+                        $array_emp = \controlador\cargar_tipo_empresa();
 
                         $option = '';
                         foreach ($array_emp as $fila) {
@@ -176,7 +177,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="">Specialties</label>
                     <select name="especialidades_emp[]" multiple class="form-control w-25 text-left ">
                         <?php
-                        $array_especialidades = controlador\cargar_especialidades();
+                        $array_especialidades = \controlador\cargar_especialidades();
                         $option = '';
                         foreach ($array_especialidades as $fila) {
                             $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';

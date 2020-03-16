@@ -1,17 +1,12 @@
-<?php
+<?php namespace vista;
 
-use function controlador\add_movilidad_empresa;
-use function controlador\add_movilidad_institucion;
-use function controlador\buscar_alumno;
-use function controlador\buscar_empresa;
-use function controlador\buscar_institucion;
-use function controlador\cargar_alumno_especialidad;
+
 
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 
 session_start();
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 
@@ -26,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if($_POST['tipo']=="empresa"){
         
         
-        if(add_movilidad_empresa($_POST['alumno'],$_POST['empresa'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
+        if(\controlador\add_movilidad_empresa($_POST['alumno'],$_POST['empresa'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
             $_SESSION['alert_msg']="New mobility has been registered.";
         }
         else{
@@ -36,7 +31,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     }
     else if($_POST['tipo']=="institucion"){
-        if(add_movilidad_institucion($_POST['alumno'],$_POST['institucion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
+        if(\controlador\add_movilidad_institucion($_POST['alumno'],$_POST['institucion'],$_POST['fecha_inicio'],$_POST['fecha_fin'],$alojamiento,$_SESSION['id_socio'])){
             $_SESSION['alert_msg']="New mobility has been registered.";
         }
         else{
@@ -71,7 +66,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -105,7 +100,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                 </a>
                             </nav>
                         </h3>
-                        <?php $array_alumnos = buscar_alumno($_SESSION['id_socio']);
+                        <?php $array_alumnos = \controlador\buscar_alumno($_SESSION['id_socio']);
                         if ($array_alumnos == null) {
                             $cadena = "<p>No students registered by this user</p>";
                             echo $cadena;
@@ -156,7 +151,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </a>
                                 </nav>
                             </h3>
-                            <?php $array_empresa = buscar_empresa();
+                            <?php $array_empresa = \controlador\buscar_empresa();
                         if ($array_empresa == null) {
                             $cadena = "<p>There are no companies registered</p>";
                             echo $cadena;
@@ -210,7 +205,7 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
                                     </a>
                                 </nav>
                             </h3>
-                            <?php $array_inst = buscar_institucion();
+                            <?php $array_inst = \controlador\buscar_institucion();
                         if ($array_inst == null) {
                             $cadena = "<p>There are no institutions registered</p>";
                             echo $cadena;

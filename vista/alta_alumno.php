@@ -1,4 +1,4 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
@@ -7,9 +7,10 @@ use modelo\Alumno;
 
 
 
+
 session_start();
 
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 
@@ -50,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 </head>
 
 <body class="d-flex flex-column">
@@ -124,7 +125,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <label for="">Specialties</label>
                         <select name="especialidades_alumno[]" multiple class="form-control w-25 text-left ">
                             <?php
-                            $array_especialidades = controlador\cargar_especialidades();
+                            $array_especialidades = \controlador\cargar_especialidades();
                             $option = '';
                             foreach ($array_especialidades as $fila) {
                                 $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';

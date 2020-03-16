@@ -1,7 +1,8 @@
-<?php
+<?php namespace vista;
 
 use modelo\Socio;
 use modelo\Institucion;
+
 
 
 
@@ -11,19 +12,19 @@ require_once '../modelo/institucion.php';
 require_once '../controlador/sesiones.php';
 session_start();
 
-if (comprobar_sesion()) {
+if (\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
-    $socio = new Socio($_POST['vat_soc'], $_POST['password_soc'], $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], null, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, 2, $_POST['pais_soc'], null);
+    $socio = new Socio($_POST['vat_soc'], $_POST['password_soc'], $_POST['usuario_soc'], $_POST['nombre_soc'], $_POST['email_soc'], $_POST['telefono_soc'], null, $_POST['cargo_soc'], $_POST['departamento_soc'], 1, 0, null, $_POST['pais_soc'], null);
 
 
-    $id_insertado = controlador\alta_socio($socio);
+    $id_insertado = \controlador\alta_socio($socio);
 
     $institucion = new Institucion($_POST['vat_inst'], $_POST['nombre_inst'], $_POST['email_inst'], $_POST['telefono_inst'], $_POST['codigo_postal_inst'], $_POST['direccion_inst'], $_POST['web_inst'], null, $_POST['pais_inst'], $id_insertado, $_POST['tipo_inst'], $_POST['descripcion_inst'], null);
 
-    if ($id_insertado && $id_institucion = controlador\alta_institucion($institucion)) {
+    if ($id_insertado && $id_institucion = \controlador\alta_institucion($institucion)) {
         if (!isset($_POST['especialidades_institucion'])) {
             $especialiadades = null;
         } else {
@@ -56,7 +57,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
 
 </head>
 
@@ -154,7 +155,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="">Country</label>
                     <select name="pais_soc">
                         <?php
-                        $array_paises = controlador\cargar_paises();
+                        $array_paises = \controlador\cargar_paises();
                         $option = '';
                         foreach ($array_paises as $fila) {
                             $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
@@ -206,7 +207,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Telephone</label>
+                    <label for="">Phone</label>
                     <input type="text" class="form-control" name="telefono_inst" placeholder="(+34) 123 456 789" required>
                 </div>
                 <div class="form-group col-md-1"></div>
@@ -247,7 +248,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <label for="">Country</label>
                     <select name="pais_inst">
                         <?php
-                        $array_paises = controlador\cargar_paises();
+                        $array_paises = \controlador\cargar_paises();
                         $option = '';
                         foreach ($array_paises as $fila) {
                             $option .= '<option value="' . $fila['ID_PAIS'] . '">' . $fila['NOMBRE'] . '</option>';
@@ -259,10 +260,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 </div>
                 <div class="form-group col-md-2"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Type of Institution</label>
+                    <label for="">Institution Type</label>
                     <select name="tipo_inst">
                         <?php
-                        $array_inst = controlador\cargar_tipo_institucion();
+                        $array_inst = \controlador\cargar_tipo_institucion();
 
                         $option = '';
                         foreach ($array_inst as $fila) {
@@ -280,10 +281,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <div class="form-row">
                 <div class="form-group col-md-1"></div>
                 <div class="form-group col-md-4">
-                    <label for="">Specialities</label>
+                    <label for="">Specialties</label>
                     <select name="especialidades_institucion[]" multiple class="form-control w-25 text-left ">
                         <?php
-                        $array_especialidades = controlador\cargar_especialidades();
+                        $array_especialidades = \controlador\cargar_especialidades();
                         $option = '';
                         foreach ($array_especialidades as $fila) {
                             $option .= '<option value="' . $fila['ID_ESPECIALIDAD'] . '">' . $fila['TIPO'] . '</option>';

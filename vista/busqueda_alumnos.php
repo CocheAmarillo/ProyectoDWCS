@@ -1,19 +1,14 @@
-<?php
+<?php namespace vista;
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
 
 use modelo\Alumno;
 
-use function controlador\buscar_nombre_responsable;
-use function controlador\buscar_nombre_socio;
-use function controlador\buscar_pais;
-use function controlador\buscar_tipo_empresa;
-use function controlador\cargar_alumno_especialidad;
-use function controlador\cargar_empresa_especialidad;
+
 
 session_start();
-if (!comprobar_sesion()) {
+if (!\controlador\comprobar_sesion()) {
     header('Location: index.php');
 }
 
@@ -35,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
-    <link rel="stylesheet" href="./css/estiloLogin.css">
+    <link rel="stylesheet" href="./css/estilo.css">
    
 </head>
 
@@ -83,7 +78,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th class="border" width="120px">ACTIONS</th>
                         </tr>
                         <?php
-                        $array_alumnos = controlador\buscar_alumno($_SESSION['id_socio']);
+                        $array_alumnos = \controlador\buscar_alumno($_SESSION['id_socio']);
                         if ($array_alumnos == null) {
                             echo "<tr><td colspan='9'>No students registered by this user</td></tr>";
                         } else {
@@ -104,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                                 $cadena = "";
-                                $array_especialidades = cargar_alumno_especialidad($fila['ID_ALUMNO']);
+                                $array_especialidades = \controlador\cargar_alumno_especialidad($fila['ID_ALUMNO']);
                                 if ($array_especialidades != null) {
                                     foreach ($array_especialidades as $fila) {
                                         $cadena .= $fila['especialidad'] . "<br>";

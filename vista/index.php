@@ -1,4 +1,6 @@
-<?php session_start();
+<?php namespace vista; 
+
+session_start();
 
 
 ?>
@@ -33,7 +35,7 @@
     }
   </style>
 
-  <link rel="stylesheet" href="./css/estiloLogin.css">
+  <link rel="stylesheet" href="./css/estilo.css">
 
   <script src="../controlador/metodosJS.js"></script>
 </head>
