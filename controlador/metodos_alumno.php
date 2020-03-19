@@ -153,3 +153,29 @@ function buscar_movilidades_institucion($id_socio){
 }
 
 
+function borrar_alumno($id_alumno)
+{
+
+    try {
+        $bd = cargarBBDD();
+        $fecha_baja = new \DateTime();
+        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
+
+        $sql = "update alumnos set fecha_baja='$fecha_baja' where id_alumno='$id_alumno'";
+
+
+        if (!$bd->exec($sql)) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+        else{
+          return true;
+        }
+    } catch (\PDOException $ex) {
+        return false;
+      
+    } finally {
+
+        $bd = null;
+    }
+}
+

@@ -74,14 +74,17 @@ function borrar_empresa($id_empresa)
 
     try {
         $bd = cargarBBDD();
+        $fecha_baja = new \DateTime();
+        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
 
-        $sql = 'update empresas set Fecha_Baja="' . date('d/m/Y') . '" where Id_Empresa=' . $id_empresa;
+        $sql = "update empresas set fecha_baja='$fecha_baja' where id_empresa='$id_empresa'";
+
 
         if (!$bd->exec($sql)) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
         else{
-            return true;
+          return true;
         }
     } catch (\PDOException $ex) {
         return false;
@@ -91,6 +94,7 @@ function borrar_empresa($id_empresa)
         $bd = null;
     }
 }
+
 
 
 function cargar_tipo_empresa()

@@ -64,22 +64,28 @@ function borrar_socio($id_socio)
 
     try {
         $bd = cargarBBDD();
+        $fecha_baja = new \DateTime();
+        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
 
-        $sql = 'update socios set Fecha_Baja="' . date('d/m/Y') . '" where Id_Socio=' . $id_socio;
+        $sql = "update socios set fecha_baja='$fecha_baja' where id_socio='$id_socio'";
+
 
         if (!$bd->exec($sql)) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
         else{
-            return true;
+          return true;
         }
     } catch (\PDOException $ex) {
-       return false;
+        return false;
+      
     } finally {
 
         $bd = null;
     }
 }
+
+
 
 
 

@@ -125,15 +125,18 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $cadena = "";
                                 $array_especialidades = \controlador\cargar_empresa_especialidad($fila['ID_EMPRESA']);
                                 if ($array_especialidades != null) {
-                                    foreach ($array_especialidades as $fila) {
-                                        $cadena .= $fila['especialidad'] . "<br>";
+                                    foreach ($array_especialidades as $fila_especialidad) {
+                                        $cadena .= $fila_especialidad['especialidad'] . "<br>";
                                     }
                                 }
 
 
                                 $tr .= "<td>$cadena</td</tr>";
-                                if ($registrado == true) {
-                                    $tr .= "<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                if ($registrado == true && $fila['SOCIO']==$_SESSION['id_socio']) {
+                                    $tr .= "<td><button  type='button'><i class='fa fa-edit'></i></button><button  type='button' onclick=borrar(".$fila['ID_EMPRESA'].",'empresa');><i class='fa fa-trash'></i></button></td></tr>";
+                                }
+                                else{
+                                    $tr.="<td>Actions not allowed</td>";
                                 }
                             }
                             echo $tr;

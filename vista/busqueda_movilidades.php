@@ -10,13 +10,13 @@ use modelo\Alumno;
 
 
 session_start();
-$admin=false;
+$admin = false;
 if (!\controlador\comprobar_sesion()) {
     $registrado = false;
 } else {
     $registrado = true;
-    if(\controlador\cargar_rol($_SESSION['id_socio'])==1){
-        $admin=true;
+    if (\controlador\cargar_rol($_SESSION['id_socio']) == 1) {
+        $admin = true;
     }
 }
 
@@ -52,87 +52,72 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         <div class="container-fluid d-flex form-row">
             <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST" class="w-100" class="border">
+            
                 <div class="form-row w-100 mw-100">
                     <div class="col-12">
                         <h2>Mobility List</h2>
                     </div>
                 </div>
 
-                <div class="form-row text text-center">
-                    <div id="titulo2" class="col-12 w-50">
+
+                <div class="form-row text-center container-fluid">
+                    <div class="col-md-1"></div>
+
+                    <div id="titulo2" class="col-md-4">
                         <h3>
-                            <nav class="navbar navbar-light bg-light">
+                            <nav class="navbar navbar-light bg-light ">
                                 <a class="navbar-brand">
                                     <i class="fa fa-user"></i>
                                     <span id="info">Company mobility</span>
                                 </a>
                             </nav>
                         </h3>
-                    </div>
-                  
-                    
-                </div>
-                <div id="resultado" class="container-fluid  d-flex">
 
-                    <table class="text-center table-responsive">
-                        <tr class="border">
+                        <table class="text-center table-responsive">
+                            <tr class="border">
 
-                            <th class="border">NOMBRE ALUMNO</th>
-                            <th class="border">NOMBRE EMPRESA</th>
+                                <th class="border">NOMBRE ALUMNO</th>
+                                <th class="border">NOMBRE EMPRESA</th>
 
-                            <th class="border" width="100px">FECHA INICIO</th>
-                            <th class="border" width="180px">FECHA FIN</th>
-                            <?php if ($admin == true) { ?>
-                                <th class="border" width="200px">FECHA ALTA</th>
+                                <th class="border" width="100px">FECHA INICIO</th>
+                                <th class="border" width="180px">FECHA FIN</th>
+                                <?php if ($admin == true) { ?>
+                                    <th class="border" width="200px">FECHA ALTA</th>
 
-                            <?php  } ?>
+                                <?php  } ?>
 
-                        </tr>
-                        <?php
-                        $array_movilidades = \controlador\buscar_movilidades_empresas($_SESSION['id_socio']);
-                    
-                        if ($array_movilidades == null) {
-                            echo "<tr><td colspan='19'>No mobilities registered</td></tr>";
-                        } else {
-                            $tr = '';
-                            foreach ($array_movilidades as $fila) {
-                                $tr .= '<tr>';
+                            </tr>
+                            <?php
+                            $array_movilidades = \controlador\buscar_movilidades_empresas($_SESSION['id_socio']);
+
+                            if ($array_movilidades == null) {
+                                echo "<tr><td colspan='19'>No mobilities registered</td></tr>";
+                            } else {
+                                $tr = '';
+                                foreach ($array_movilidades as $fila) {
+                                    $tr .= '<tr>';
 
 
-                                $tr .= ' <td>' . $fila["nombre_alumno"] . '</td>
-                            <td>' .$fila['nombre_empresa'] . '</td>'; 
+                                    $tr .= ' <td>' . $fila["nombre_alumno"] . '</td>
+                            <td>' . $fila['nombre_empresa'] . '</td>';
 
-                                $tr .= '<td>' . $fila["fecha_inicio"] . '</td>' .
-                                    '<td>' . $fila["fecha_fin_estimado"] . '</td>';
-                                if ($admin == true) {
-                                    $tr .= '<td>' . $fila["fecha_alta"] . '</td>';
-                        
-
-                            
-                                
-
-
-                             
-                              
+                                    $tr .= '<td>' . $fila["fecha_inicio"] . '</td>' .
+                                        '<td>' . $fila["fecha_fin_estimado"] . '</td>';
+                                    if ($admin == true) {
+                                        $tr .= '<td>' . $fila["fecha_alta"] . '</td>';
+                                    }
+                                }
+                                echo $tr;
                             }
-                            
-                        }
-                        echo $tr;
-                    }
-                        ?>
+                            ?>
 
-                    </table>
-                </div>
+                        </table>
+
+                    </div>
+                    <div class="col-sm-2"></div>
 
 
-
-
-
-
-
-
-                 <div class="form-row text text-center">
-                    <div id="titulo2" class="col-12 w-50">
+                    <div id="titulo2" class="col-md-4">
                         <h3>
                             <nav class="navbar navbar-light bg-light">
                                 <a class="navbar-brand">
@@ -141,13 +126,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </a>
                             </nav>
                         </h3>
-                    </div>
-                  
-                    
-                </div>
-                <div id="resultado" class="container-fluid  d-flex">
 
-                    <table class="text-center table-responsive">
+
+                        <table class="text-center table-responsive">
                         <tr class="border">
 
                             <th class="border">NOMBRE ALUMNO</th>
@@ -163,7 +144,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         </tr>
                         <?php
                         $array_movilidades = \controlador\buscar_movilidades_institucion($_SESSION['id_socio']);
-                    
+
                         if ($array_movilidades == null) {
                             echo "<tr><td colspan='19'>No mobilities registered</td></tr>";
                         } else {
@@ -173,28 +154,25 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
 
                                 $tr .= ' <td>' . $fila["nombre_alumno"] . '</td>
-                            <td>' .$fila['nombre_empresa'] . '</td>'; 
+                            <td>' . $fila['nombre_empresa'] . '</td>';
 
                                 $tr .= '<td>' . $fila["fecha_inicio"] . '</td>' .
                                     '<td>' . $fila["fecha_fin_estimado"] . '</td>';
                                 if ($admin == true) {
                                     $tr .= '<td>' . $fila["fecha_alta"] . '</td>';
-                        
-
-                            
-                                
-
-
-                             
-                              
+                                }
                             }
-                            
+                            echo $tr;
                         }
-                        echo $tr;
-                    }
                         ?>
 
                     </table>
+
+
+
+                    </div>
+
+
                 </div>
 
             </form>

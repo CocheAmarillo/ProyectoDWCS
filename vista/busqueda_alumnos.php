@@ -101,14 +101,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 $cadena = "";
                                 $array_especialidades = \controlador\cargar_alumno_especialidad($fila['ID_ALUMNO']);
                                 if ($array_especialidades != null) {
-                                    foreach ($array_especialidades as $fila) {
-                                        $cadena .= $fila['especialidad'] . "<br>";
+                                    foreach ($array_especialidades as $fila_especialidades) {
+                                        $cadena .= $fila_especialidades['especialidad'] . "<br>";
                                     }
                                 }
 
 
                                 $tr .= "<td>$cadena</td>";
-                                $tr.="<td><a href=''><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                $tr.="<td><button  type='button'><i class='fa fa-edit'></i></button><button  type='button' onclick=borrar(".$fila['ID_ALUMNO'].",'alumno');><i class='fa fa-trash'></i></button></td></tr>";
                                 
 
                                

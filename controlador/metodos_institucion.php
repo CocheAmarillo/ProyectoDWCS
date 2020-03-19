@@ -245,3 +245,29 @@ function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $
     }
 }
 
+function borrar_institucion($id_institucion)
+{
+
+    try {
+        $bd = cargarBBDD();
+        $fecha_baja = new \DateTime();
+        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
+
+        $sql = "update instituciones set fecha_baja='$fecha_baja' where id_institucion='$id_institucion'";
+
+
+        if (!$bd->exec($sql)) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+        else{
+          return true;
+        }
+    } catch (\PDOException $ex) {
+        return false;
+      
+    } finally {
+
+        $bd = null;
+    }
+}
+

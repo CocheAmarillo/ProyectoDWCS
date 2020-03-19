@@ -1,4 +1,7 @@
-<?php namespace vista;
+<?php
+
+namespace vista;
+
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
@@ -116,19 +119,21 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <td>' . \controlador\buscar_nombre_socio($fila["SOCIO"])['nombre'] . '</td>';
                                 }
                                 $tr .= '<td>' .  \controlador\buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                                $tr .= '<td>' .\controlador\buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
+                                $tr .= '<td>' . \controlador\buscar_tipo_institucion($fila["TIPO"])['tipo'] . '</td>';
                                 $cadena = "";
                                 $array_especialidades = \controlador\cargar_institucion_especialidad($fila['ID_INSTITUCION']);
                                 if ($array_especialidades != null) {
-                                    foreach ($array_especialidades as $fila) {
-                                        $cadena .= $fila['especialidad'] . "<br>";
+                                    foreach ($array_especialidades as $fila_especialidades) {
+                                        $cadena .= $fila_especialidades['especialidad'] . "<br>";
                                     }
                                 }
 
 
                                 $tr .= "<td>$cadena</td</tr>";
-                                if ($registrado == true) {
-                                    $tr .= "<td><a href='#'><i class='fa fa-edit'></i></a><a href=''><i class='fa fa-trash'></i></a></td></tr>";
+                                if ($registrado == true && $fila['SOCIO'] == $_SESSION['id_socio']) {
+                                    $tr .= "<td><button  type='button'><i class='fa fa-edit'></i></button><button  type='button' onclick=borrar(" . $fila['ID_INSTITUCION'] . ",'institucion');><i class='fa fa-trash'></i></button></td></tr>";
+                                } else {
+                                    $tr .= "<td>Actions not allowed</td>";
                                 }
                             }
                             echo $tr;
