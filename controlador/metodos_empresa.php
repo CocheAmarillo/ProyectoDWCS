@@ -162,6 +162,27 @@ function buscar_empresa()
         $bd = null;
     }
 }
+function buscar_empresa_por_id($id_empresa)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from empresas where fecha_baja is null and id_empresa='$id_empresa'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
 
 
 

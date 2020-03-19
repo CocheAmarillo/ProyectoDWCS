@@ -138,6 +138,27 @@ function buscar_institucion()
         $bd = null;
     }
 }
+function buscar_institucion_por_id($id_institucion)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from instituciones where fecha_baja is null and id_institucion='$id_institucion'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
 
 
 function cargar_institucion_especialidad($id_institucion)

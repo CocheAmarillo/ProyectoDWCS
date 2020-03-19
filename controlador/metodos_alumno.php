@@ -109,3 +109,47 @@ function buscar_alumno($id_socio_responsable)
         $bd = null;
     }
 }
+
+function buscar_movilidades_empresas($id_socio){
+    try {
+        $bd = cargarBBDD();
+        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_empresas as mv ON mv.alumno=a.ID_ALUMNO inner join empresas as e on e.id_empresa=mv.empresa  where a.socio='$id_socio'";
+     
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll(\PDO::FETCH_ASSOC);;
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
+
+function buscar_movilidades_institucion($id_socio){
+    try {
+        $bd = cargarBBDD();
+        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_instituciones as mv ON mv.alumno=a.ID_ALUMNO inner join instituciones as e on e.id_institucion=mv.institucion where a.socio='$id_socio'";
+     
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll(\PDO::FETCH_ASSOC);;
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
+
+

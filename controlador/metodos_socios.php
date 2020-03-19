@@ -217,3 +217,27 @@ function cargar_puntos($id_socio)
         $bd = null;
     }
 }
+
+
+function cargar_rol($id_socio)
+{
+
+
+    try {
+        $bd = cargarBBDD();
+        $sql = "select rol from socios where id_socio='$id_socio'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch()['rol'];
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}

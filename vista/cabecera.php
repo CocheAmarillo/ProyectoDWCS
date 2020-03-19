@@ -1,9 +1,14 @@
 <?php namespace vista;
 require_once '../controlador/sesiones.php';
+require_once '../controlador/metodosBBDD.php';
 
 $registrado = false;
+$admin=false;
 if (\controlador\comprobar_sesion()) {
     $registrado = true;
+    if(\controlador\cargar_rol($_SESSION['id_socio'])==1){
+        $admin=true;
+    }
 }
 
 ?>
@@ -57,8 +62,8 @@ if (\controlador\comprobar_sesion()) {
                         Student
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="alta_alumno.php">Register</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="busqueda_alumnos.php">Student List </a>
+                        <a class="dropdown-item" href="alta_alumno.php">Register</a>
+                        <a class="dropdown-item" href="busqueda_alumnos.php">Student List </a>
 
                     </div>
                 </li>
@@ -69,8 +74,9 @@ if (\controlador\comprobar_sesion()) {
                         Mobilities
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=empresa">Mobility with Company</a>
-                        <a class="dropdown-item <?php if ($registrado == false) echo "disabled"; ?>" href="movilidades.php?tipo=institucion">Mobility with Institution</a>
+                        <a class="dropdown-item" href="movilidades.php?tipo=empresa">Mobility with Company</a>
+                        <a class="dropdown-item" href="movilidades.php?tipo=institucion">Mobility with Institution</a>
+                        <a class="dropdown-item" href="busqueda_movilidades.php">Mobility List</a>
                     </div>
                 </li>
 
@@ -83,6 +89,7 @@ if (\controlador\comprobar_sesion()) {
             <?php
             if ($registrado == true) { ?>
                 <ul class="navbar-nav mr-auto nav-tabs">
+                    <?php if($admin==true){ ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Admin Zone
@@ -96,6 +103,7 @@ if (\controlador\comprobar_sesion()) {
                         </div>
 
                     </li>
+                    <?php } ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-user" id="iconito"></i>
