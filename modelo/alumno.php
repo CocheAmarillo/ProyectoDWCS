@@ -1,16 +1,58 @@
 <?php
 
 namespace modelo;
-
+/**
+ * Clase para modelar los datos de un alumno
+ */
 class Alumno
 {
+    /**
+     * el documento identificativo
+     *
+     * @var string
+     */
     private $vat;
+    /**
+     * nombre completo del alumno
+     *
+     * @var string
+     */
     private $nombre_completo;
+    /**
+     * el genero del alumno 
+     *
+     * @var string
+     */
     private $genero;
+    /**
+     * Fecha de nacimiento
+     *
+     * @var date
+     */
     private $fecha_nacimiento;
+    /**
+     * Fecha de alta en la base de datos
+     *
+     * @var date
+     */
     private $fecha_alta;
+    /**
+     * Fecha de baja en la base de datos
+     *
+     * @var date
+     */
     private $fecha_baja;
+    /**
+     * Fecha de modificacion de los datos en la base de datos
+     *
+     * @var date
+     */
     private $fecha_mod;
+    /**
+     * Identificador del socio que dio de alta al alumno
+     *
+     * @var integer
+     */
     private $id_socio;
 
     function __construct($vat, $nombre_completo, $genero, $fecha_nacimiento, $fecha_alta, $socio, $fecha_mod)
@@ -25,7 +67,12 @@ class Alumno
     }
 
 
-
+/**
+ * Meotod mágico que devuelve el valor de una propiedad si esa existe 
+ *
+ * @param string $name el nombre de la propiedad a la que se intenta acceder
+ * @return string el valor de dicha propiedad
+ */
     public function __get($name)
     {
         if (property_exists($this, $name)) {
@@ -34,7 +81,7 @@ class Alumno
     }
 
     /**
-     * Set the value of vat
+     * Establece el valor de vat
      *
      * @return  self
      */
@@ -46,7 +93,7 @@ class Alumno
     }
 
     /**
-     * Set the value of fecha_alta
+     * Establece el valor de fecha alta
      *
      * @return  self
      */
@@ -58,7 +105,7 @@ class Alumno
     }
 
     /**
-     * Set the value of fecha_mod
+     * Establece el valor de fecha de modificación
      *
      * @return  self
      */

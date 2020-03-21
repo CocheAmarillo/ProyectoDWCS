@@ -38,7 +38,7 @@ function cargar_rol_user($nombre_rol)
  * FUNCION PARA CARGAR LOS PAISES DE LA BASE DE DATOS
  *
  *
- * @return array $array devuelve un array con todos los datos de cada pais
+ * @return array  devuelve un array con todos los datos de cada pais
  */
 function cargar_paises()
 {
@@ -63,7 +63,7 @@ function cargar_paises()
 /**
  * Función que carga todas las especialidades de la base de datos
  *
- * @return array $array contiene todos los datos de cada especialidad
+ * @return array  contiene todos los datos de cada especialidad
  */
 function cargar_especialidades()
 {
