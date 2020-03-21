@@ -1,8 +1,15 @@
 <?php namespace controlador;
 use \modelo\Socio;
 
-//fichero para almacenar los métodos relacionados con los socios
+//fichero para almacenar los métodos relacionados con los socios.
 
+
+/**
+ * Función que se encarga de dar de alta a un socio.
+ *
+ * @param Socio $socio un objeto de la clase socio.
+ * @return void
+ */
 function alta_socio(Socio $socio)
 {
 
@@ -39,6 +46,9 @@ function alta_socio(Socio $socio)
     }
 }
 
+/**
+ * Función que añade a un socio una institución.
+ */
 function añadir_institucion_socio($id_inst, $id_socio)
 {
     try {
@@ -58,7 +68,12 @@ function añadir_institucion_socio($id_inst, $id_socio)
     }
 }
 
-
+/**
+ * Función que borra un socio determinado.
+ *
+ * @param integer $id_socio
+ * @return void
+ */
 function borrar_socio($id_socio)
 {
 
@@ -88,7 +103,13 @@ function borrar_socio($id_socio)
 
 
 
-
+/**
+ * Función que comprueba si los datos metidos del usuario coinciden con los de la base de datos.
+ *
+ * @param string $usuario usuario.
+ * @param string $clave contraseña del usuario.
+ * @return void
+ */
 function comprobar_usuario($usuario, $clave)
 {
     try {
@@ -113,7 +134,13 @@ function comprobar_usuario($usuario, $clave)
         $bd = null;
     }
 }
-
+/**
+ * Función que se encarga de recoger la contraseña del usuario. 
+ *
+ * @param string $usuario usuario
+ * @param pdo $bd es un objeto de conexión a base de datos.
+ * @return void
+ */
 function cargarPass($usuario, $bd)
 {
     $sql = "select password from socios where usuario='$usuario'";
@@ -124,7 +151,13 @@ function cargarPass($usuario, $bd)
 
 
 
-
+/**
+ * Función que se encarga de acrualizar las puntuaciones del socio.
+ *
+ * @param integer $id_socio identificador del socio.
+ * @param integer $id_tipo_puntuacion identificador de qué tipo de puntuación es.
+ * @return void
+ */
 function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
 {
     try {
@@ -155,7 +188,13 @@ function update_puntuacion_socio($id_socio, $id_tipo_puntuacion)
     }
 }
 
-
+/**
+ * Función que se encarga de registrar las puntuaciones en la base de datos.
+ *
+ * @param integer $id_tipo_puntuacion identificador de qué tipo de puntuación es.
+ * @param integer $id_socio identificador del socio.
+ * @return void
+ */
 function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
 {
     try {
@@ -178,7 +217,12 @@ function nuevo_registro_historial_puntuaciones($id_tipo_puntuacion, $id_socio)
 }
 
 
-
+/**
+ * Función que se encarga de buscar el nombre del socio mediante su identificador.
+ *
+ * @param integer $id_socio identificador del socio.
+ * @return void
+ */
 function buscar_nombre_socio($id_socio)
 {
     try {
@@ -199,6 +243,11 @@ function buscar_nombre_socio($id_socio)
     }
 }
 
+/**
+ * Función que busca el id y email de los socios que sean administradores.
+ *
+ * @return void
+ */
 function buscar_admin()
 {
     try {
@@ -220,7 +269,12 @@ function buscar_admin()
 }
 
 
-
+/**
+ * Función que recoge los puntos totales del socio.
+ *
+ * @param integer $id_socio identificador del socio.
+ * @return void
+ */
 function cargar_puntos($id_socio)
 {
 
@@ -244,7 +298,12 @@ function cargar_puntos($id_socio)
     }
 }
 
-
+/**
+ * Función que recoge el rol del socio.
+ *
+ * @param integer $id_socio identificador del socio.
+ * @return void
+ */
 function cargar_rol($id_socio)
 {
 
