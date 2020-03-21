@@ -97,8 +97,8 @@ if (\controlador\comprobar_sesion()) {
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item" >Register new specialty</a>
                             <a class="dropdown-item"  href="#">Register new Institution type</a>
-                            <a class="dropdown-item"  href="#">Partner/user List</a>
-                            <a class="dropdown-item" href="#">Mobility List</a>
+                            <a class="dropdown-item"  href="busqueda_socios.php">Partner/user List</a>
+                            <a class="dropdown-item" href="busqueda_movilidades.php">Mobility List</a>
                             <a class="dropdown-item" href="#">Data modification request</a>
                         </div>
 
@@ -111,6 +111,7 @@ if (\controlador\comprobar_sesion()) {
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item text-center" onclick="usuario()"><?php echo $_SESSION['usuario'] ?></a>
                             <a class="nav-link text-center p-2" onclick="editarPerfil()" href="#">Edit Profile</a>
+                            <a class="nav-link text-center p-2" href="contacto.php">Contact us</a>
                             <a class="nav-link text-center p-2" onclick="confirmLogOut()" href="#">Log Out</a>
                         </div>
 

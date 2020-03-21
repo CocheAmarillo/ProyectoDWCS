@@ -4,7 +4,12 @@ use \modelo\Alumno;
 
 //fichero para almacenar los métodos relacionados con los alumnos
 
-
+/**
+ * Función que se encarga de dar de alta un nuevo alumno en la base de datos
+ *
+ * @param Alumno $alumno objeto de clase Alumno con sus datos
+ * @return void
+ */
 function alta_alumno(Alumno $alumno)
 {
 
@@ -37,7 +42,13 @@ function alta_alumno(Alumno $alumno)
 }
 
 
-
+/**
+ * Función que se encarga de registrar las especialidades de un alumno en la tabla alumnos_especialidades
+ *
+ * @param integer $id_alumno el id del alumno al que se le registran las especialidades
+ * @param array  un array con los id's de las especialidades
+ * @return void
+ */
 function add_especialidad_alumno($id_alumno, $array_especialidades)
 {
     if ($array_especialidades != null) {
@@ -64,7 +75,12 @@ function add_especialidad_alumno($id_alumno, $array_especialidades)
 }
 
 
-
+/**
+ * Función que busca todas las especialides de un determinado alumno
+ *
+ * @param integer $id_alumno el id del alumno en cuestión
+ * @return array  contiene los datos de las especialidades de ese alumno
+ */
 function cargar_alumno_especialidad($id_alumno)
 {
     try {
@@ -87,7 +103,12 @@ function cargar_alumno_especialidad($id_alumno)
 }
 
 
-
+/**
+ * Función que busca un alumno a partir del socio que lo registró
+ *
+ * @param integer $id_socio_responsable id del socio 
+ * @return array  contiene los datos del alumno
+ */
 function buscar_alumno($id_socio_responsable)
 {
 
@@ -110,6 +131,13 @@ function buscar_alumno($id_socio_responsable)
     }
 }
 
+
+/**
+ * Funcíon que se encarga de devolver los datos de las movilidades de los alumnos con diferentes empresas, solo se recogen los alumnos registrados por el usuario con sesión activa
+ *
+ * @param integer $id_socio el id del socio que registró
+ * @return array  contiene los datos de las movilidades
+ */
 function buscar_movilidades_empresas($id_socio){
     try {
         $bd = cargarBBDD();
@@ -131,6 +159,13 @@ function buscar_movilidades_empresas($id_socio){
     }
 }
 
+
+/**
+ * Funcion que busca movilidades realizadas en instituciones
+ *
+ * @param integer $id_socio el id del socio con sesion iniciada
+ * @return array un array con las movilidades
+ */
 function buscar_movilidades_institucion($id_socio){
     try {
         $bd = cargarBBDD();
@@ -152,7 +187,12 @@ function buscar_movilidades_institucion($id_socio){
     }
 }
 
-
+/**
+ * Función que se encarga de dar de baja un alumno 
+ *
+ * @param integer $id_alumno el id del alumno a dar de baja
+ * @return void
+ */
 function borrar_alumno($id_alumno)
 {
 

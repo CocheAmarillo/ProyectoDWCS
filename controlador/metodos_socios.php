@@ -199,6 +199,26 @@ function buscar_nombre_socio($id_socio)
     }
 }
 
+function buscar_admin()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select id_socio,email  from socios where rol='1'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
 
 
 function cargar_puntos($id_socio)
