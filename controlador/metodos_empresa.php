@@ -5,7 +5,15 @@ use  \modelo\Empresa;
 
 //fichero para almacenar los métodos relacionados con las empresas
 
-
+/**
+ * Funcion para dar de alta un responsable en su correspondiente tabla en la base de datos
+ *
+ * @param string $email el email del responsable
+ * @param string $nombre su nombre
+ * @param string  $telefono su telefono
+ * @param pdo $bd un objeto de conexion a base de datos
+ * @return void
+ */
 function alta_responsable($email, $nombre, $telefono, $bd)
 {
     try {
@@ -25,6 +33,16 @@ function alta_responsable($email, $nombre, $telefono, $bd)
         return false;
     }
 }
+
+/**
+ * Funcion para dar de alta una empresa en la base de datos
+ *
+ * @param Empresa $empresa objeto de la clase Empresa con sus datos
+ * @param string $email_resp el email del responsable de la empresa
+ * @param string $nombre_resp el nombre de dicho responsable
+ * @param string $tel_resp su telefono
+ * @return void
+ */
 function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
 {
 
@@ -69,6 +87,12 @@ function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
     }
 }
 
+/**
+ * Funcion para dar de baja una empresa
+ *
+ * @param integer $id_empresa el id de la empresa a dar de baja
+ * @return void
+ */
 function borrar_empresa($id_empresa)
 {
 
@@ -96,7 +120,11 @@ function borrar_empresa($id_empresa)
 }
 
 
-
+/**
+ * Funcion que devuelve los posibles tipos de empresa disponibles en la base de datos
+ *
+ * @return array contiene los datos de los tipos de empresas
+ */
 function cargar_tipo_empresa()
 {
     try {
@@ -118,7 +146,13 @@ function cargar_tipo_empresa()
     }
 }
 
-
+/**
+ * Funcion que para añadir especialidades a una determinada empresa
+ *
+ * @param integer $id_empresa el id de dicha empresa
+ * @param array $array_especialidades contiene los ids de las especialidades a añadir
+ * @return void
+ */
 function add_especialidad_empresa($id_empresa, $array_especialidades)
 {
     if ($array_especialidades != null) {
@@ -144,7 +178,11 @@ function add_especialidad_empresa($id_empresa, $array_especialidades)
     }
 }
 
-
+/**
+ * Función que busca todas las empresas activas en las base de datos
+ *
+ * @return array contiene los datos de dichas empresas
+ */
 function buscar_empresa()
 {
     try {
@@ -166,6 +204,13 @@ function buscar_empresa()
         $bd = null;
     }
 }
+
+/**
+ * Función que busca una empresa en concreto a partir de su identificador
+ *
+ * @param integer $id_empresa el id de dicha empresa
+ * @return array contiene los datos de la empresa a buscar
+ */
 function buscar_empresa_por_id($id_empresa)
 {
     try {
@@ -189,7 +234,12 @@ function buscar_empresa_por_id($id_empresa)
 }
 
 
-
+/**
+ * Función que las especialidades de una determinada empresa
+ *
+ * @param integer $id_empresa el id de dicha empresa
+ * @return array contiene los datos de las especialidades
+ */
 function cargar_empresa_especialidad($id_empresa)
 {
     try {
@@ -211,7 +261,12 @@ function cargar_empresa_especialidad($id_empresa)
     }
 }
 
-
+/**
+ * Funcion que busca un determinado tipo de empresa a partir de su identificador
+ *
+ * @param integer $id_tipo_empresa el id de dicho tipo de empresa
+ * @return array contiene el nombre del tipo de empresa
+ */
 function buscar_tipo_empresa($id_tipo_empresa)
 {
     try {
@@ -232,7 +287,12 @@ function buscar_tipo_empresa($id_tipo_empresa)
     }
 }
 
-
+/**
+ * Funcion que devuelve el nombre de un responsable a partir de su identificador
+ *
+ * @param integer $id_responsable el id de dicho responsable 
+ * @return array contiene el nombre del responsable
+ */
 function buscar_nombre_responsable($id_responsable)
 {
     try {
@@ -253,7 +313,17 @@ function buscar_nombre_responsable($id_responsable)
     }
 }
 
-
+/**
+ * Función que se encarga de dar de alta una movilidad entre un determinado alumno y una empresa
+ *
+ * @param integer $id_alumno el id de dicho alumno
+ * @param integer $id_empresa el id de dicha empresa
+ * @param date  $fecha_inicio fecha de inicio de la movilidad
+ * @param date $fecha_fin fecha estimada de fin de la movilidad
+ * @param boolean $alojamiento indica si el socio ayudó en el alojmiento
+ * @param integer $id_socio el id del socio que registra la movilidad
+ * @return void
+ */
 function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fin, $alojamiento, $id_socio)
 {
     try {
