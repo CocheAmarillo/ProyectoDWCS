@@ -4,21 +4,108 @@ namespace modelo;
 
 class Institucion
 {
+    /**
+     * Numero de Identificacion Fiscal de la Institucion
+     *
+     * @var [string]
+     */
     private $vat;
+    /**
+     * Nombre de la Institucion
+     *
+     * @var [string]
+     */
     private $nombre;
+    /**
+     * Email de la Institucion
+     *
+     * @var [string]
+     */
     private $email;
+    /**
+     * Telefono de la Institucion
+     *
+     * @var [string]
+     */
     private $telefono;
+    /**
+     * Codigo Postal de la Institucion
+     *
+     * @var [string]
+     */
     private $codigo_postal;
+    /**
+     * Direccion de la Institucion
+     *
+     * @var [string]
+     */
     private $direccion;
+    /**
+     * Web de la Institucion
+     *
+     * @var [string]
+     */
     private $web;
+    /**
+     * Fecha de Alta de la Institucion
+     *
+     * @var [date]
+     */
     private $fecha_alta;
+    /**
+     * Fecha de baja de la Institucion
+     *
+     * @var [date]
+     */
     private $fecha_baja;
+    /**
+     * Identificador del país de la Institucion
+     *
+     * @var [int]
+     */
     private $id_pais;
+    /**
+     * Identificador del socio de la Institucion
+     *
+     * @var [int]
+     */
     private $id_socio;
+    /**
+     * Identificador del tipo de Institucion
+     *
+     * @var [int]
+     */
     private $id_tipo;
+    /**
+     * Descripcion de la Institucion
+     *
+     * @var [string]
+     */
     private $descripcion;
+    /**
+     * Fecha de modificacion de la Institucion
+     *
+     * @var [date]
+     */
     private $fecha_mod;
 
+    /**
+     * Constructor de la clase
+     *
+     * @param [string] $vat
+     * @param [string] $nombre
+     * @param [string] $email
+     * @param [string] $telefono
+     * @param [string] $codigo_postal
+     * @param [string] $direccion
+     * @param [string] $web
+     * @param [date] $fecha_alta
+     * @param [int] $id_pais
+     * @param [int] $id_socio
+     * @param [int] $id_tipo
+     * @param [string] $descripcion
+     * @param [date] $fecha_mod
+     */
     function __construct($vat, $nombre, $email, $telefono, $codigo_postal, $direccion, $web, $fecha_alta, $id_pais, $id_socio, $id_tipo, $descripcion, $fecha_mod)
     {
         $this->vat = $vat;
@@ -36,6 +123,12 @@ class Institucion
         $this->fecha_mod = $fecha_mod;
     }
 
+    /**
+     * Metodo que devuelve el valor de una propiedad si esta existe
+     *
+     * @param string $name nombre de la variable
+     * @return string el valor de dicha propiedad
+     */
     public function __get($name)
     {
         if (property_exists($this, $name)) {
@@ -43,10 +136,8 @@ class Institucion
         }
     }
 
-
-
     /**
-     * Set the value of vat
+     * Establece el valor de vat
      *
      * @return  self
      */
@@ -58,7 +149,7 @@ class Institucion
     }
 
     /**
-     * Set the value of fecha_alta
+     * Establece el valor de fecha_alta
      *
      * @return  self
      */
@@ -70,7 +161,7 @@ class Institucion
     }
 
     /**
-     * Set the value of fecha_mod
+     * Establece el valor de fecha_mod
      *
      * @return  self
      */
