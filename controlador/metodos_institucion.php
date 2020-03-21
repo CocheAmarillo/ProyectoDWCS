@@ -1,11 +1,19 @@
-<?php namespace controlador;
+<?php
+
+namespace controlador;
 
 use \modelo\Institucion;
 
+/**
+ * Fichero para almacenar los métodos relacionados con las instituciones
+ */
 
-//fichero para almacenar los métodos relacionados con las instituciones
-
-
+/**
+ * Funcion que inserta en la base de datos la institucion que registra el usuario al registrarse en la web
+ *
+ * @param Institucion $inst que va a ser registrada
+ * @return void
+ */
 function alta_institucion(Institucion $inst)
 {
 
@@ -36,7 +44,7 @@ function alta_institucion(Institucion $inst)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        
+
         return false;
     } finally {
         $stmt = null;
@@ -44,9 +52,11 @@ function alta_institucion(Institucion $inst)
     }
 }
 
-
-
-
+/**
+ * Funcion que recoge de la base de datos los tipos de instituciones
+ *
+ * @return array con toda la informacion de los tipos de institucioens
+ */
 function cargar_tipo_institucion()
 {
     try {
@@ -62,15 +72,18 @@ function cargar_tipo_institucion()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-       return null;
+        return null;
     } finally {
         $bd = null;
     }
 }
 
-
-
-
+/**
+ * Funcion que registra en la base de datos
+ *
+ * @param [type] $array con el tipo y la descripcion del nuevo tipo de descripcion
+ * @return void
+ */
 function add_tipo_institucion($array)
 {
     if ($array != null) {
@@ -90,7 +103,13 @@ function add_tipo_institucion($array)
     }
 }
 
-
+/**
+ * Funcion que registra en la base de datos las especialidades de una institucion
+ *
+ * @param [type] $id_institucion el id de la institucion
+ * @param [type] $array_especialidades array que contiene las especialidades de la institucion
+ * @return void
+ */
 function add_especialidad_institucion($id_institucion, $array_especialidades)
 {
     if ($array_especialidades != null) {
@@ -116,7 +135,11 @@ function add_especialidad_institucion($id_institucion, $array_especialidades)
     }
 }
 
-
+/**
+ * Funcion que devuelve todas las instituciones de la base de datos que no han sido dadas de baja
+ *
+ * @return array con todos los datos de las instituciones
+ */
 function buscar_institucion()
 {
     try {
@@ -138,6 +161,13 @@ function buscar_institucion()
         $bd = null;
     }
 }
+
+/**
+ * Funcion que devuelve toda la informacion de la institucion cuyo id corresponda con el solicitado
+ *
+ * @param [type] $id_institucion el id de la institucion a buscar
+ * @return array con los todos los datos de la institucion seleccionada
+ */
 function buscar_institucion_por_id($id_institucion)
 {
     try {
@@ -160,7 +190,12 @@ function buscar_institucion_por_id($id_institucion)
     }
 }
 
-
+/**
+ * Funcion que devuelve las especialidades de la institucion solicitada
+ *
+ * @param [type] $id_institucion id de la institucion solicitada
+ * @return array con las especialidades
+ */
 function cargar_institucion_especialidad($id_institucion)
 {
     try {
@@ -182,7 +217,12 @@ function cargar_institucion_especialidad($id_institucion)
     }
 }
 
-
+/**
+ * Funcion que devuelve el tipo de institucion al que pertenece la institucion seleccionada
+ *
+ * @param [type] $id_tipo_institucion id de la institucion
+ * @return string con el tipo de la institucion
+ */
 function buscar_tipo_institucion($id_tipo_institucion)
 {
     try {
@@ -203,8 +243,17 @@ function buscar_tipo_institucion($id_tipo_institucion)
     }
 }
 
-
-
+/**
+ * Funcion que registra una nueva movilidad de un alumno en una empresa
+ *
+ * @param [type] $id_alumno Identificador del alumno que va a realizar la movilidad
+ * @param [type] $id_institucion Identificador de la empresa donde el alumno va a realizar la movilidad
+ * @param [type] $fecha_inicio Fecha de inicio de la movilidad
+ * @param [type] $fecha_fin Fecha teorica del fin de la movilidad
+ * @param [type] $alojamiento Indica si el socio ha ayudado al alumno a buscar alojamiento de modo que el socio es remunerado
+ * @param [type] $id_socio Identificador del socio que registra la movilidad
+ * @return void
+ */
 function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $fecha_fin, $alojamiento, $id_socio)
 {
     try {
@@ -243,31 +292,5 @@ function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $
     } finally {
         $bd = null;
     }
+
 }
-
-function borrar_institucion($id_institucion)
-{
-
-    try {
-        $bd = cargarBBDD();
-        $fecha_baja = new \DateTime();
-        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
-
-        $sql = "update instituciones set fecha_baja='$fecha_baja' where id_institucion='$id_institucion'";
-
-
-        if (!$bd->exec($sql)) {
-            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
-        }
-        else{
-          return true;
-        }
-    } catch (\PDOException $ex) {
-        return false;
-      
-    } finally {
-
-        $bd = null;
-    }
-}
-
