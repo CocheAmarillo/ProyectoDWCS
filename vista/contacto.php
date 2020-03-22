@@ -14,7 +14,7 @@ $nombre_socio=\controlador\buscar_nombre_socio($_SESSION['id_socio'])['nombre'];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
    $email_admin=\controlador\buscar_admin()['email'];
    $id_admin=\controlador\buscar_admin()['id_socio'];
-   if(\controlador\enviar_mail("cocheamarillodsr@gmail.com",$_POST['nombre'],$_POST['descripcion'],$_POST['asunto'])){
+   if(\controlador\enviar_mail($email_admin,$_POST['nombre'],$_POST['descripcion'],$_POST['asunto'])){
    
     \controlador\update_peticiones($_POST['asunto'],$_POST['descripcion'],$_SESSION['id_socio'],$id_admin);
     \header("Location:index.php");

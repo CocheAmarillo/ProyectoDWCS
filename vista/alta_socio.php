@@ -32,6 +32,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
         \controlador\add_especialidad_institucion($id_institucion, $especialiadades);
         \controlador\update_puntuacion_socio($id_insertado, 2);
+        
+        \controlador\enviar_mail($_POST['email_soc'],"cocheamarillodsr@gmail.com","El usuario ". $_POST['usuario_soc']." ha sido dado de alta","Alta usuario");
         $_SESSION['id_socio'] = $id_insertado;
         $_SESSION['usuario'] = $socio->usuario;
         $_SESSION['alert_msg'] = "Welcome, you have been registered.";
