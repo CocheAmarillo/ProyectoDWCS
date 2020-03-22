@@ -376,3 +376,30 @@ function update_socio($id_socio, $array_datos){
     }
 }
 
+
+/**
+ * Función que busca todas los socios activos en las base de datos
+ *
+ * @return array contiene los datos de dichos socios
+ */
+function buscar_socios()
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = 'select * from socios where fecha_baja is null';
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetchAll();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
