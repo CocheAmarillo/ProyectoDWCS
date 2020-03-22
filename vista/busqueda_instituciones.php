@@ -131,7 +131,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                                 $tr .= "<td>$cadena</td</tr>";
                                 if ($registrado == true && $fila['SOCIO'] == $_SESSION['id_socio']) {
-                                    $tr .= "<td><button  type='button'><i class='fa fa-edit'></i></button><button  type='button' onclick=borrar(" . $fila['ID_INSTITUCION'] . ",'institucion');><i class='fa fa-trash'></i></button></td></tr>";
+                                    $tr .= "<td><button  type='button' onclick=borrar(" . $fila['ID_INSTITUCION'] . ",'institucion');><i class='fa fa-trash'></i></button></td></tr>";
                                 } else {
                                     $tr .= "<td>Actions not allowed</td>";
                                 }
