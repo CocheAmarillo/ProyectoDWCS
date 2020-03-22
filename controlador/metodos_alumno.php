@@ -219,3 +219,47 @@ function borrar_alumno($id_alumno)
     }
 }
 
+
+/**
+ * Funcion para actualizar los datos de un determinado alumno
+ *
+ * @param integer $id_alumno el id de dicho alumno
+ * @param array $array_datos contiene los nuevos datos de dicho alumno
+ * @return void
+ */
+function update_alumno($id_alumno, $array_datos){
+    try {
+        $bd = cargarBBDD();
+        
+        $sql="UPDATE alumnos set vat=?, nombre_completo=?,genero=?, fecha_nacimiento=?,fecha_mod=? where id_alumno='$id_alumno'";
+        $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $fecha_mod=$fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod']=$fecha_mod;
+       
+
+        if ($array_datos['vat'] == "") {
+            $array_datos['vat']=null;
+        }
+
+        $stmt->bindParam(1,$array_datos['vat_al']);
+        $stmt->bindParam(2,$array_datos['nombre_al']);
+        $stmt->bindParam(3,$array_datos['genero_al']);
+        $stmt->bindParam(4,$array_datos['fecha_nac_al']);
+        $stmt->bindParam(5,$array_datos['fecha_mod']);
+   
+
+
+        if ($stmt->execute()) {
+           return true;
+        } else {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+      
+        return false;
+    } finally {
+        $stmt = null;
+        $bd = null;
+    }
+}

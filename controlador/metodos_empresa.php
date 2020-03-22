@@ -364,3 +364,54 @@ function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fi
         $bd = null;
     }
 }
+
+
+/**
+ * Función para actualizar los datos de una determinada empresa
+ *
+ * @param integer $id_empresa el id de dicha empresa
+ * @param array $array_datos contiene los nuevos datos de la empresa
+ * @return void
+ */
+function update_empresa($id_empresa, $array_datos){
+    try {
+        $bd = cargarBBDD();
+        
+        $sql="UPDATE empresas set vat=?, nombre=?,email=?, telefono=?,codigo_postal=?,direccion=?,web=?,descripcion=?,pais=?,tipo=?,fecha_mod=? where id_empresa='$id_empresa'";
+        $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $fecha_mod=$fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod']=$fecha_mod;
+       
+
+        if ($array_datos['vat'] == "") {
+            $array_datos['vat']=null;
+        }
+
+        $stmt->bindParam(1,$array_datos['vat_emp']);
+        $stmt->bindParam(2,$array_datos['nombre_emp']);
+        $stmt->bindParam(3,$array_datos['email_emp']);
+        $stmt->bindParam(4,$array_datos['telefono_emp']);
+        $stmt->bindParam(5,$array_datos['codigo_postal_emp']);
+        $stmt->bindParam(6,$array_datos['direccion_emp']);
+        $stmt->bindParam(7,$array_datos['web_emp']);
+        $stmt->bindParam(8,$array_datos['descripcion_emp']);
+        $stmt->bindParam(9,$array_datos['pais_emp']);
+        $stmt->bindParam(10,$array_datos['tipo_emp']);
+        $stmt->bindParam(11,$array_datos['fecha_mod']);
+
+
+
+        if ($stmt->execute()) {
+           return true;
+        } else {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+      
+        return false;
+    } finally {
+        $stmt = null;
+        $bd = null;
+    }
+}

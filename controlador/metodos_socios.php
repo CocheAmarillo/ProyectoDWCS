@@ -326,3 +326,53 @@ function cargar_rol($id_socio)
         $bd = null;
     }
 }
+
+/**
+ * Funcion para actualizar los datos de un socio
+ *
+ * @param integer $id_socio el id de dicho socio
+ * @param array $array_datos contiene los nuevos datos del socio
+ * @return void
+ */
+function update_socio($id_socio, $array_datos){
+    try {
+        $bd = cargarBBDD();
+        
+        $sql="UPDATE socios set usuario=?, password=?,nombre_completo=?, vat=?,email=?,telefono=?,cargo=?,departamento=?,pais=?,fecha_mod=? where id_socio='$id_socio'";
+        $stmt = $bd->prepare($sql);
+        $fecha = new \DateTime();
+        $fecha_mod=$fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod']=$fecha_mod;
+        $array_datos['pass']=password_hash($array_datos['pass'] ,PASSWORD_BCRYPT);
+
+        if ($array_datos['vat'] == "") {
+            $array_datos['vat']=null;
+        }
+
+        $stmt->bindParam(1,$array_datos['usuario_soc']);
+        $stmt->bindParam(2,$array_datos['password_soc']);
+        $stmt->bindParam(3,$array_datos['nombre_soc']);
+        $stmt->bindParam(4,$array_datos['vat_soc']);
+        $stmt->bindParam(5,$array_datos['email_soc']);
+        $stmt->bindParam(6,$array_datos['telefono_soc']);
+        $stmt->bindParam(7,$array_datos['cargo_soc']);
+        $stmt->bindParam(8,$array_datos['departamento_soc']);
+        $stmt->bindParam(9,$array_datos['pais_soc']);
+        $stmt->bindParam(10,$array_datos['fecha_mod']);
+
+
+
+        if ($stmt->execute()) {
+           return true;
+        } else {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+      
+        return false;
+    } finally {
+        $stmt = null;
+        $bd = null;
+    }
+}
+
