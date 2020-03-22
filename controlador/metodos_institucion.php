@@ -81,7 +81,7 @@ function cargar_tipo_institucion()
 /**
  * Funcion que registra en la base de datos
  *
- * @param [type] $array con el tipo y la descripcion del nuevo tipo de descripcion
+ * @param array $array con el tipo y la descripcion del nuevo tipo de descripcion
  * @return void
  */
 function add_tipo_institucion($array)
@@ -106,8 +106,8 @@ function add_tipo_institucion($array)
 /**
  * Funcion que registra en la base de datos las especialidades de una institucion
  *
- * @param [type] $id_institucion el id de la institucion
- * @param [type] $array_especialidades array que contiene las especialidades de la institucion
+ * @param integer $id_institucion el id de la institucion
+ * @param array $array_especialidades array que contiene las especialidades de la institucion
  * @return void
  */
 function add_especialidad_institucion($id_institucion, $array_especialidades)
@@ -165,7 +165,7 @@ function buscar_institucion()
 /**
  * Funcion que devuelve toda la informacion de la institucion cuyo id corresponda con el solicitado
  *
- * @param [type] $id_institucion el id de la institucion a buscar
+ * @param integer $id_institucion el id de la institucion a buscar
  * @return array con los todos los datos de la institucion seleccionada
  */
 function buscar_institucion_por_id($id_institucion)
@@ -193,7 +193,7 @@ function buscar_institucion_por_id($id_institucion)
 /**
  * Funcion que devuelve las especialidades de la institucion solicitada
  *
- * @param [type] $id_institucion id de la institucion solicitada
+ * @param integer $id_institucion id de la institucion solicitada
  * @return array con las especialidades
  */
 function cargar_institucion_especialidad($id_institucion)
@@ -220,7 +220,7 @@ function cargar_institucion_especialidad($id_institucion)
 /**
  * Funcion que devuelve el tipo de institucion al que pertenece la institucion seleccionada
  *
- * @param [type] $id_tipo_institucion id de la institucion
+ * @param integer $id_tipo_institucion id de la institucion
  * @return string con el tipo de la institucion
  */
 function buscar_tipo_institucion($id_tipo_institucion)
@@ -246,12 +246,12 @@ function buscar_tipo_institucion($id_tipo_institucion)
 /**
  * Funcion que registra una nueva movilidad de un alumno en una empresa
  *
- * @param [type] $id_alumno Identificador del alumno que va a realizar la movilidad
- * @param [type] $id_institucion Identificador de la empresa donde el alumno va a realizar la movilidad
- * @param [type] $fecha_inicio Fecha de inicio de la movilidad
- * @param [type] $fecha_fin Fecha teorica del fin de la movilidad
- * @param [type] $alojamiento Indica si el socio ha ayudado al alumno a buscar alojamiento de modo que el socio es remunerado
- * @param [type] $id_socio Identificador del socio que registra la movilidad
+ * @param integer $id_alumno Identificador del alumno que va a realizar la movilidad
+ * @param integer $id_institucion Identificador de la empresa donde el alumno va a realizar la movilidad
+ * @param date $fecha_inicio Fecha de inicio de la movilidad
+ * @param date $fecha_fin Fecha teorica del fin de la movilidad
+ * @param boolean $alojamiento Indica si el socio ha ayudado al alumno a buscar alojamiento de modo que el socio es remunerado
+ * @param integer $id_socio Identificador del socio que registra la movilidad
  * @return void
  */
 function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $fecha_fin, $alojamiento, $id_socio)
