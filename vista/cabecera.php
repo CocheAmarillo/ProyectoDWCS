@@ -98,8 +98,6 @@ if (\controlador\comprobar_sesion()) {
                             <a class="dropdown-item" >Register new specialty</a>
                             <a class="dropdown-item"  href="#">Register new Institution type</a>
                             <a class="dropdown-item"  href="busqueda_socios.php">Partner/user List</a>
-                            <a class="dropdown-item" href="busqueda_movilidades.php">Mobility List</a>
-                            <a class="dropdown-item" href="#">Data modification request</a>
                         </div>
 
                     </li>

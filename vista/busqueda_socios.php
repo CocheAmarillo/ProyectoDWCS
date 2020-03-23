@@ -115,7 +115,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group mt-5 mb-5">
                         <div class=" col-sm-12 controls text-center">Dates Range: <input type="date" name="fecha1" value="0000-00-00"><input type="date" name="fecha2" value="0000-00-00">
-                            <input type="submit" value="Send"></div>
+                            <input type="submit" class="btn btn-default" value="Send"></div>
 
                     </div>
                 </form>
@@ -182,7 +182,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
                     <div class="form-group mt-5 mb-5">
                         <div class=" col-sm-12 controls text-center">Dates Range: <input type="date" name="fecha1" value="0000-00-00"><input type="date" name="fecha2" value="0000-00-00">
-                            <input type="submit" value="Send"></div>
+                            <input class="btn btn-default" type="submit" value="Send"></div>
                     </div>
 
 

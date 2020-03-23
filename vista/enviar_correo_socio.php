@@ -22,11 +22,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $id_admin = $_SESSION['id_socio'];
 
     $email_socio = \controlador\buscar_email_socio($id_socio)['email'];
-    echo $email_socio;
     $email_admin = \controlador\buscar_admin($id_admin)['email'];
-    echo $email_admin;
     \controlador\enviar_mail($email_socio, $email_admin, $descripcion, $asunto);
     \controlador\update_peticiones($asunto, $descripcion, $id_admin, $id_socio);
+    header("Location: index.php");
 }
 
 ?>
