@@ -1,4 +1,7 @@
-<?php namespace controlador;
+<?php
+
+namespace controlador;
+
 use \modelo\Socio;
 
 //fichero para almacenar los métodos relacionados con los socios.
@@ -38,7 +41,7 @@ function alta_socio(Socio $socio)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-      
+
         return false;
     } finally {
         $stmt = null;
@@ -60,7 +63,7 @@ function añadir_institucion_socio($id_inst, $id_socio)
 
         return $bd->exec($sql);
     } catch (\PDOException $ex) {
-        
+
         return false;
     } finally {
 
@@ -80,20 +83,18 @@ function borrar_socio($id_socio)
     try {
         $bd = cargarBBDD();
         $fecha_baja = new \DateTime();
-        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
+        $fecha_baja = $fecha_baja->format('Y-m-d H:i:s');
 
         $sql = "update socios set fecha_baja='$fecha_baja' where id_socio='$id_socio'";
 
 
         if (!$bd->exec($sql)) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
-        }
-        else{
-          return true;
+        } else {
+            return true;
         }
     } catch (\PDOException $ex) {
         return false;
-      
     } finally {
 
         $bd = null;
@@ -244,6 +245,32 @@ function buscar_nombre_socio($id_socio)
 }
 
 /**
+ * Función que se encarga de buscar el email del socio mediante su identificador.
+ *
+ * @param integer $id_socio identificador del socio.
+ * @return void
+ */
+function buscar_email_socio($id_socio)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select email as email from socios where id_socio='$id_socio'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+/**
  * Función que busca el id y email de los socios que sean administradores.
  *
  * @return void
@@ -334,41 +361,42 @@ function cargar_rol($id_socio)
  * @param array $array_datos contiene los nuevos datos del socio
  * @return void
  */
-function update_socio($id_socio, $array_datos){
+function update_socio($id_socio, $array_datos)
+{
     try {
         $bd = cargarBBDD();
-        
-        $sql="UPDATE socios set usuario=?, password=?,nombre_completo=?, vat=?,email=?,telefono=?,cargo=?,departamento=?,pais=?,fecha_mod=? where id_socio='$id_socio'";
+
+        $sql = "UPDATE socios set usuario=?, password=?,nombre_completo=?, vat=?,email=?,telefono=?,cargo=?,departamento=?,pais=?,fecha_mod=? where id_socio='$id_socio'";
         $stmt = $bd->prepare($sql);
         $fecha = new \DateTime();
-        $fecha_mod=$fecha->format('Y-m-d H:i:s');
-        $array_datos['fecha_mod']=$fecha_mod;
-        $array_datos['pass']=password_hash($array_datos['pass'] ,PASSWORD_BCRYPT);
+        $fecha_mod = $fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod'] = $fecha_mod;
+        $array_datos['pass'] = password_hash($array_datos['pass'], PASSWORD_BCRYPT);
 
         if ($array_datos['vat'] == "") {
-            $array_datos['vat']=null;
+            $array_datos['vat'] = null;
         }
 
-        $stmt->bindParam(1,$array_datos['usuario_soc']);
-        $stmt->bindParam(2,$array_datos['password_soc']);
-        $stmt->bindParam(3,$array_datos['nombre_soc']);
-        $stmt->bindParam(4,$array_datos['vat_soc']);
-        $stmt->bindParam(5,$array_datos['email_soc']);
-        $stmt->bindParam(6,$array_datos['telefono_soc']);
-        $stmt->bindParam(7,$array_datos['cargo_soc']);
-        $stmt->bindParam(8,$array_datos['departamento_soc']);
-        $stmt->bindParam(9,$array_datos['pais_soc']);
-        $stmt->bindParam(10,$array_datos['fecha_mod']);
+        $stmt->bindParam(1, $array_datos['usuario_soc']);
+        $stmt->bindParam(2, $array_datos['password_soc']);
+        $stmt->bindParam(3, $array_datos['nombre_soc']);
+        $stmt->bindParam(4, $array_datos['vat_soc']);
+        $stmt->bindParam(5, $array_datos['email_soc']);
+        $stmt->bindParam(6, $array_datos['telefono_soc']);
+        $stmt->bindParam(7, $array_datos['cargo_soc']);
+        $stmt->bindParam(8, $array_datos['departamento_soc']);
+        $stmt->bindParam(9, $array_datos['pais_soc']);
+        $stmt->bindParam(10, $array_datos['fecha_mod']);
 
 
 
         if ($stmt->execute()) {
-           return true;
+            return true;
         } else {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-      
+
         return false;
     } finally {
         $stmt = null;
@@ -382,11 +410,12 @@ function update_socio($id_socio, $array_datos){
  *
  * @return array contiene los datos de dichos socios
  */
-function buscar_socios()
+function buscar_socios($fecha1, $fecha2)
 {
     try {
         $bd = cargarBBDD();
-        $sql = 'select * from socios where fecha_baja is null';
+        $sql = "select * from socios where fecha_baja is null and fecha_alta BETWEEN '$fecha1' and '$fecha2' order by fecha_alta";
+        //SELECT * FROM Orders WHERE OrderDate BETWEEN '1996-07-01' AND '1996-07-31';
         $resul = $bd->query($sql);
         if (!$resul) {
 
