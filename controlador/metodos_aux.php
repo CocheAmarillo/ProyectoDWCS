@@ -103,8 +103,9 @@ function add_especialidad($array)
             if (!$stmt->execute($array)) {
                 throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
             }
+            return true;
         } catch (\PDOException $ex) {
-            echo $ex->getMessage();
+            return false;
         } finally {
             $bd = null;
         }

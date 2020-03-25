@@ -1,4 +1,6 @@
-<?php namespace controlador;
+<?php
+
+namespace controlador;
 
 
 use  \modelo\Empresa;
@@ -29,7 +31,7 @@ function alta_responsable($email, $nombre, $telefono, $bd)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-     
+
         return false;
     }
 }
@@ -78,7 +80,7 @@ function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-        
+
         $bd->rollBack();
         return false;
     } finally {
@@ -99,20 +101,18 @@ function borrar_empresa($id_empresa)
     try {
         $bd = cargarBBDD();
         $fecha_baja = new \DateTime();
-        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
+        $fecha_baja = $fecha_baja->format('Y-m-d H:i:s');
 
         $sql = "update empresas set fecha_baja='$fecha_baja' where id_empresa='$id_empresa'";
 
 
         if (!$bd->exec($sql)) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
-        }
-        else{
-          return true;
+        } else {
+            return true;
         }
     } catch (\PDOException $ex) {
         return false;
-      
     } finally {
 
         $bd = null;
@@ -140,7 +140,7 @@ function cargar_tipo_empresa()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-       return null;
+        return null;
     } finally {
         $bd = null;
     }
@@ -330,9 +330,9 @@ function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fi
         $bd = cargarBBDD();
 
         $puntos = intval(cargar_puntos($id_socio)['puntuacion']);
-      
+
         $min_puntos = intval(cargar_min_puntos()['valor']);
-        
+
         if ($puntos < $min_puntos) {
             return false;
         } else {
@@ -373,42 +373,104 @@ function add_movilidad_empresa($id_alumno, $id_empresa, $fecha_inicio, $fecha_fi
  * @param array $array_datos contiene los nuevos datos de la empresa
  * @return void
  */
-function update_empresa($id_empresa, $array_datos){
+function update_empresa($array_datos)
+{
     try {
         $bd = cargarBBDD();
-        
-        $sql="UPDATE empresas set vat=?, nombre=?,email=?, telefono=?,codigo_postal=?,direccion=?,web=?,descripcion=?,pais=?,tipo=?,fecha_mod=? where id_empresa='$id_empresa'";
+
+        $sql = "UPDATE empresas set vat=?, nombre=?,email=?, telefono=?,codigo_postal=?,direccion=?,web=?,descripcion=?,pais=?,tipo=?,fecha_mod=?,cargo_responsable=? where id_empresa='".$_POST['id_empresa']."'";
         $stmt = $bd->prepare($sql);
         $fecha = new \DateTime();
-        $fecha_mod=$fecha->format('Y-m-d H:i:s');
-        $array_datos['fecha_mod']=$fecha_mod;
-       
+        $fecha_mod = $fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod'] = $fecha_mod;
 
-        if ($array_datos['vat'] == "") {
-            $array_datos['vat']=null;
+
+        if ($array_datos['vat_emp'] == "") {
+            $array_datos['vat_emp'] = null;
         }
 
-        $stmt->bindParam(1,$array_datos['vat_emp']);
-        $stmt->bindParam(2,$array_datos['nombre_emp']);
-        $stmt->bindParam(3,$array_datos['email_emp']);
-        $stmt->bindParam(4,$array_datos['telefono_emp']);
-        $stmt->bindParam(5,$array_datos['codigo_postal_emp']);
-        $stmt->bindParam(6,$array_datos['direccion_emp']);
-        $stmt->bindParam(7,$array_datos['web_emp']);
-        $stmt->bindParam(8,$array_datos['descripcion_emp']);
-        $stmt->bindParam(9,$array_datos['pais_emp']);
-        $stmt->bindParam(10,$array_datos['tipo_emp']);
-        $stmt->bindParam(11,$array_datos['fecha_mod']);
+        $stmt->bindParam(1, $array_datos['vat_emp']);
+        $stmt->bindParam(2, $array_datos['nombre_emp']);
+        $stmt->bindParam(3, $array_datos['email_emp']);
+        $stmt->bindParam(4, $array_datos['telefono_emp']);
+        $stmt->bindParam(5, $array_datos['codigo_postal_emp']);
+        $stmt->bindParam(6, $array_datos['direccion_emp']);
+        $stmt->bindParam(7, $array_datos['web_emp']);
+        $stmt->bindParam(8, $array_datos['descripcion_emp']);
+        $stmt->bindParam(9, $array_datos['pais_emp']);
+        $stmt->bindParam(10, $array_datos['tipo_emp']);
+        $stmt->bindParam(11, $array_datos['fecha_mod']);
+        $stmt->bindParam(12, $array_datos['cargo_resp']);
 
 
 
         if ($stmt->execute()) {
-           return true;
+            return true;
         } else {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-      
+
+        return false;
+    } finally {
+        $stmt = null;
+        $bd = null;
+    }
+}
+
+
+/**
+ * Funcion que devuelve los datos de un responsable a partir de su identificador
+ *
+ * @param integer $id_responsable el id de dicho responsable 
+ * @return array contiene los datos del responsable
+ */
+function buscar_responsable($id_responsable)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from responsables where id_responsable='$id_responsable'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+    } finally {
+        $bd = null;
+    }
+}
+
+
+/**
+ * Función para actualizar los datos de un determinado responsable
+ *
+ * @param array $array_datos contiene los datos del responsable
+ * @return void
+ */
+function update_responsable($array_datos)
+{
+    try {
+        $bd = cargarBBDD();
+
+        $sql = "UPDATE responsables set nombre_completo=?,email=?, telefono=? where id_responsable='" . $_POST['id_responsable'] . "'";
+        $stmt = $bd->prepare($sql);
+
+        $stmt->bindParam(1, $array_datos['nombre_resp']);
+        $stmt->bindParam(2, $array_datos['email_resp']);
+        $stmt->bindParam(3, $array_datos['telefono_resp']);
+
+        if ($stmt->execute()) {
+            return true;
+        } else {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        }
+    } catch (\PDOException $ex) {
+
         return false;
     } finally {
         $stmt = null;

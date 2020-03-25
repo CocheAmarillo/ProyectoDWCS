@@ -1,13 +1,16 @@
-<?php namespace vista;
+<?php
+
+namespace vista;
+
 require_once '../controlador/sesiones.php';
 require_once '../controlador/metodosBBDD.php';
 
 $registrado = false;
-$admin=false;
+$admin = false;
 if (\controlador\comprobar_sesion()) {
     $registrado = true;
-    if(\controlador\cargar_rol($_SESSION['id_socio'])==1){
-        $admin=true;
+    if (\controlador\cargar_rol($_SESSION['id_socio']) == 1) {
+        $admin = true;
     }
 }
 
@@ -52,7 +55,7 @@ if (\controlador\comprobar_sesion()) {
 
                 </div>
             </li>
-            
+
 
             <?php
             if ($registrado == true) { ?>
@@ -89,18 +92,18 @@ if (\controlador\comprobar_sesion()) {
             <?php
             if ($registrado == true) { ?>
                 <ul class="navbar-nav mr-auto nav-tabs">
-                    <?php if($admin==true){ ?>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Admin Zone
-                        </a>
-                        <div class="dropdown-menu dropdown-menu-right">
-                            <a class="dropdown-item" >Register new specialty</a>
-                            <a class="dropdown-item"  href="#">Register new Institution type</a>
-                            <a class="dropdown-item"  href="busqueda_socios.php">Partner/user List</a>
-                        </div>
+                    <?php if ($admin == true) { ?>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Admin Zone
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                <a class="dropdown-item" href="alta_especialidad.php">Register new specialty</a>
+                                <a class="dropdown-item" href="alta_tipo_institucion.php">Register new Institution type</a>
+                                <a class="dropdown-item" href="busqueda_socios.php">Partner/user List</a>
+                            </div>
 
-                    </li>
+                        </li>
                     <?php } ?>
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -108,7 +111,7 @@ if (\controlador\comprobar_sesion()) {
                         </a>
                         <div class="dropdown-menu dropdown-menu-right">
                             <a class="dropdown-item text-center" onclick="usuario()"><?php echo $_SESSION['usuario'] ?></a>
-                            <a class="nav-link text-center p-2" onclick="editarPerfil()" href="#">Edit Profile</a>
+                            <a class="nav-link text-center p-2" href="modificar_socio.php">Edit Profile</a>
                             <a class="nav-link text-center p-2" href="contacto.php">Contact us</a>
                             <a class="nav-link text-center p-2" onclick="confirmLogOut()" href="#">Log Out</a>
                         </div>

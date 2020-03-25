@@ -1,4 +1,7 @@
-<?php namespace vista;
+<?php
+
+namespace vista;
+
 require_once '../controlador/metodosBBDD.php';
 require_once '../controlador/sesiones.php';
 require_once '../modelo/alumno.php';
@@ -31,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <title>MERT</title>
     <link rel="shortcut icon" href="./imagenes/MERTLOGOPESTANA.png" type="image/png">
     <link rel="stylesheet" href="./css/estilo.css">
-   
+
 </head>
 
 <body class="d-flex flex-column">
@@ -106,14 +109,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     }
                                 }
 
-
                                 $tr .= "<td>$cadena</td>";
-                                $tr.="<td><button  type='button'><i class='fa fa-edit'></i></button><button  type='button' onclick=borrar(".$fila['ID_ALUMNO'].",'alumno');><i class='fa fa-trash'></i></button></td></tr>";
-                                
-
-                               
+                                $tr .= "<td><a href='modificar_alumno.php?id_alumno=" . $fila['ID_ALUMNO'] . "'><i class='fa fa-edit'></i></a><button  type='button' onclick=borrar(" . $fila['ID_ALUMNO'] . ",'alumno');><i class='fa fa-trash'></i></button></td></tr>";
                             }
-                           
+
                             echo $tr;
                         }
                         ?>

@@ -1,4 +1,6 @@
-<?php namespace controlador;
+<?php
+
+namespace controlador;
 
 use \modelo\Alumno;
 
@@ -33,7 +35,7 @@ function alta_alumno(Alumno $alumno)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-       
+
         return false;
     } finally {
         $stmt = null;
@@ -65,8 +67,9 @@ function add_especialidad_alumno($id_alumno, $array_especialidades)
                     throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
                 }
             }
+            return true;
         } catch (\PDOException $ex) {
-            echo $ex->getMessage();
+            return false;
         } finally {
 
             $bd = null;
@@ -131,6 +134,34 @@ function buscar_alumno($id_socio_responsable)
     }
 }
 
+/**
+ * Función que busca un alumno a partir del socio que lo registró
+ *
+ * @param integer $id_socio_responsable id del socio 
+ * @return array  contiene los datos del alumno
+ */
+function buscar_alumno_por_id($id_alumno)
+{
+
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from alumnos where id_alumno='$id_alumno'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
+
 
 /**
  * Funcíon que se encarga de devolver los datos de las movilidades de los alumnos con diferentes empresas, solo se recogen los alumnos registrados por el usuario con sesión activa
@@ -138,11 +169,12 @@ function buscar_alumno($id_socio_responsable)
  * @param integer $id_socio el id del socio que registró
  * @return array  contiene los datos de las movilidades
  */
-function buscar_movilidades_empresas($id_socio){
+function buscar_movilidades_empresas($id_socio)
+{
     try {
         $bd = cargarBBDD();
         $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_empresas as mv ON mv.alumno=a.ID_ALUMNO inner join empresas as e on e.id_empresa=mv.empresa  where a.socio='$id_socio'";
-     
+
         $resul = $bd->query($sql);
         if (!$resul) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
@@ -166,11 +198,12 @@ function buscar_movilidades_empresas($id_socio){
  * @param integer $id_socio el id del socio con sesion iniciada
  * @return array un array con las movilidades
  */
-function buscar_movilidades_institucion($id_socio){
+function buscar_movilidades_institucion($id_socio)
+{
     try {
         $bd = cargarBBDD();
         $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_instituciones as mv ON mv.alumno=a.ID_ALUMNO inner join instituciones as e on e.id_institucion=mv.institucion where a.socio='$id_socio'";
-     
+
         $resul = $bd->query($sql);
         if (!$resul) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
@@ -199,20 +232,18 @@ function borrar_alumno($id_alumno)
     try {
         $bd = cargarBBDD();
         $fecha_baja = new \DateTime();
-        $fecha_baja=$fecha_baja->format('Y-m-d H:i:s');
+        $fecha_baja = $fecha_baja->format('Y-m-d H:i:s');
 
         $sql = "update alumnos set fecha_baja='$fecha_baja' where id_alumno='$id_alumno'";
 
 
         if (!$bd->exec($sql)) {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
-        }
-        else{
-          return true;
+        } else {
+            return true;
         }
     } catch (\PDOException $ex) {
         return false;
-      
     } finally {
 
         $bd = null;
@@ -227,39 +258,67 @@ function borrar_alumno($id_alumno)
  * @param array $array_datos contiene los nuevos datos de dicho alumno
  * @return void
  */
-function update_alumno($id_alumno, $array_datos){
+function update_alumno($array_datos)
+{
     try {
         $bd = cargarBBDD();
-        
-        $sql="UPDATE alumnos set vat=?, nombre_completo=?,genero=?, fecha_nacimiento=?,fecha_mod=? where id_alumno='$id_alumno'";
+
+        $sql = "UPDATE alumnos set vat=?, nombre_completo=?,genero=?, fecha_nacimiento=?,fecha_mod=? where id_alumno='" . $_POST['id_alumno'] . "'";
         $stmt = $bd->prepare($sql);
         $fecha = new \DateTime();
-        $fecha_mod=$fecha->format('Y-m-d H:i:s');
-        $array_datos['fecha_mod']=$fecha_mod;
-       
+        $fecha_mod = $fecha->format('Y-m-d H:i:s');
+        $array_datos['fecha_mod'] = $fecha_mod;
 
-        if ($array_datos['vat'] == "") {
-            $array_datos['vat']=null;
+
+        if ($array_datos['vat_al'] == "") {
+            $array_datos['vat_al'] = null;
         }
 
-        $stmt->bindParam(1,$array_datos['vat_al']);
-        $stmt->bindParam(2,$array_datos['nombre_al']);
-        $stmt->bindParam(3,$array_datos['genero_al']);
-        $stmt->bindParam(4,$array_datos['fecha_nac_al']);
-        $stmt->bindParam(5,$array_datos['fecha_mod']);
-   
+        $stmt->bindParam(1, $array_datos['vat_al']);
+        $stmt->bindParam(2, $array_datos['nombre_al']);
+        $stmt->bindParam(3, $array_datos['genero_al']);
+        $stmt->bindParam(4, $array_datos['fecha_nac_al']);
+        $stmt->bindParam(5, $array_datos['fecha_mod']);
+
 
 
         if ($stmt->execute()) {
-           return true;
+            return true;
         } else {
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-      
+
         return false;
     } finally {
         $stmt = null;
+        $bd = null;
+    }
+}
+
+/**
+ * Funcion que borra las especialidades de un alumno para su modificacion
+ *
+ * @param int $id_alumno
+ * @return void
+ */
+function borrar_especialidad_alumno($id_alumno)
+{
+    try {
+        $bd = cargarBBDD();
+
+        $sql = "delete from alumnos_especialidades where alumno='$id_alumno'";
+
+
+        if (!$bd->exec($sql)) {
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else {
+            return true;
+        }
+    } catch (\PDOException $ex) {
+        return false;
+    } finally {
+
         $bd = null;
     }
 }

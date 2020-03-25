@@ -103,7 +103,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                     <td>' . $fila["FECHA_ALTA"] . '</td>';
                                     $tr .= '<td>' . \controlador\buscar_institucion_por_id($fila["ID_SOCIO"])['NOMBRE'] . '</td>';
                                     $tr .= '<td>' .  \controlador\buscar_pais($fila["PAIS"])['nombre'] . '</td>';
-                                    $tr .= "<td><a href='enviar_correo_socio.php?socio=".$fila['ID_SOCIO']."'><i class='fa fa-trash'></i></a></td></tr>";
+                                    $tr .= "<td><a href='enviar_correo_socio.php?socio=" . $fila['ID_SOCIO'] . "'><i class='fa fa-envelope'></i></a></td></tr>";
                                 }
                                 echo $tr;
                             }

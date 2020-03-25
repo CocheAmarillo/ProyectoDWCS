@@ -371,10 +371,10 @@ function update_socio($id_socio, $array_datos)
         $fecha = new \DateTime();
         $fecha_mod = $fecha->format('Y-m-d H:i:s');
         $array_datos['fecha_mod'] = $fecha_mod;
-        $array_datos['pass'] = password_hash($array_datos['pass'], PASSWORD_BCRYPT);
+        $array_datos['password_soc'] = password_hash($array_datos['password_soc'], PASSWORD_BCRYPT);
 
-        if ($array_datos['vat'] == "") {
-            $array_datos['vat'] = null;
+        if ($array_datos['vat_soc'] == "") {
+            $array_datos['vat_soc'] = null;
         }
 
         $stmt->bindParam(1, $array_datos['usuario_soc']);
@@ -432,3 +432,32 @@ function buscar_socios($fecha1, $fecha2)
         $bd = null;
     }
 }
+
+/**
+ * Funcion que devuelve los datos de un socio con determinado id
+ *
+ * @param int $id_socio
+ * @return array con los datos del socio
+ */
+function buscar_socio($id_socio)
+{
+    try {
+        $bd = cargarBBDD();
+        $sql = "select * from socios where id_socio='$id_socio'";
+        $resul = $bd->query($sql);
+        if (!$resul) {
+
+            throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
+        } else if ($resul->rowCount() == 0) {
+            return null;
+        } else {
+            return $resul->fetch();
+        }
+    } catch (\PDOException $ex) {
+        echo $ex->getMessage();
+        return null;
+    } finally {
+        $bd = null;
+    }
+}
+
