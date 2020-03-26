@@ -89,10 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th class="border" width="100px">COUNTRY</th>
                             <th class="border" width="150px">TYPE</th>
                             <th class="border" width="40px">SPECIALTIES</th>
-                            <?php if ($registrado == true) { ?>
+                         
                                 <th class="border" width="120px">ACTIONS</th>
-                            <?php }
-                            ?>
+                           
                         </tr>
                         <?php
                         $array_empresas = \controlador\buscar_empresa();

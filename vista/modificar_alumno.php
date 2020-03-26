@@ -23,7 +23,12 @@ if ($_SERVER["REQUEST_METHOD"] == "GET") {
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     \controlador\borrar_especialidad_alumno($_POST['id_alumno']);
-    if (!\controlador\update_alumno($_POST) || !\controlador\add_especialidad_alumno($_POST['id_alumno'], $_POST['especialidades_alumno'])) {
+    if (!isset($_POST['especialidades_alumno'])) {
+        $especialiadades = null;
+    } else {
+        $especialiadades = $_POST['especialidades_alumno'];
+    }
+    if (!\controlador\update_alumno($_POST) || !\controlador\add_especialidad_alumno($_POST['id_alumno'], $especialiadades)) {
         $_SESSION['alert_msg'] = "Error";
         header("Location: index.php");
         exit;

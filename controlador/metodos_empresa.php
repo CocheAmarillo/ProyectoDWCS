@@ -198,7 +198,7 @@ function buscar_empresa()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         return null;
     } finally {
         $bd = null;
@@ -226,7 +226,7 @@ function buscar_empresa_por_id($id_empresa)
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         return null;
     } finally {
         $bd = null;
@@ -255,7 +255,7 @@ function cargar_empresa_especialidad($id_empresa)
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        
     } finally {
         $bd = null;
     }
@@ -281,7 +281,7 @@ function buscar_tipo_empresa($id_tipo_empresa)
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+    
     } finally {
         $bd = null;
     }

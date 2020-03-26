@@ -41,7 +41,7 @@ function alta_socio(Socio $socio)
             throw new \PDOException("Ha ocurrido algun error: " . $bd->errorInfo()[2]);
         }
     } catch (\PDOException $ex) {
-
+        echo $ex->getMessage();
         return false;
     } finally {
         $stmt = null;

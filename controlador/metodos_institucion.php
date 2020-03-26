@@ -128,7 +128,7 @@ function add_especialidad_institucion($id_institucion, $array_especialidades)
                 }
             }
         } catch (\PDOException $ex) {
-            echo $ex->getMessage();
+           
         } finally {
 
             $bd = null;
@@ -156,7 +156,7 @@ function buscar_institucion()
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         return null;
     } finally {
         $bd = null;
@@ -184,7 +184,7 @@ function buscar_institucion_por_id($id_institucion)
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         return null;
     } finally {
         $bd = null;
@@ -212,7 +212,7 @@ function cargar_institucion_especialidad($id_institucion)
             return $resul->fetchAll();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+     
     } finally {
         $bd = null;
     }
@@ -238,7 +238,7 @@ function buscar_tipo_institucion($id_tipo_institucion)
             return $resul->fetch();
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        
     } finally {
         $bd = null;
     }
@@ -260,9 +260,9 @@ function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $
     try {
         $bd = cargarBBDD();
         $puntos = intval(cargar_puntos($id_socio)['puntuacion']);
-        echo $puntos;
+      
         $min_puntos = intval(cargar_min_puntos()['valor']);
-        echo $min_puntos;
+      
         if ($puntos < $min_puntos) {
             return false;
         } else {
@@ -287,7 +287,7 @@ function add_movilidad_institucion($id_alumno, $id_institucion, $fecha_inicio, $
         $bd->commit();
         return true;
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+       
         $bd->rollBack();
         return false;
     } finally {

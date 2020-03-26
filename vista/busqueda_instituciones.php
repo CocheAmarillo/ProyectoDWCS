@@ -89,9 +89,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <th class="border">COUTRY</th>
                             <th class="border">INSTITUTION TYPE</th>
                             <th class="border">SPECIALTIES</th>
-                            <?php if ($registrado == true) { ?>
+                          
                                 <th class="border" width="120px">ACTIONS</th>
-                            <?php } ?>
+                           
                         </tr>
                         <?php
                         $array_instituciones = \controlador\buscar_institucion();

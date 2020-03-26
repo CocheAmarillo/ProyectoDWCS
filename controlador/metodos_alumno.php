@@ -75,6 +75,9 @@ function add_especialidad_alumno($id_alumno, $array_especialidades)
             $bd = null;
         }
     }
+    else{
+        return true;
+    }
 }
 
 
@@ -173,7 +176,7 @@ function buscar_movilidades_empresas($id_socio)
 {
     try {
         $bd = cargarBBDD();
-        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_empresas as mv ON mv.alumno=a.ID_ALUMNO inner join empresas as e on e.id_empresa=mv.empresa  where a.socio='$id_socio'";
+        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as a inner join movilidades_empresas as mv ON mv.alumno=a.ID_ALUMNO inner join empresas as e on e.id_empresa=mv.empresa  where a.socio='$id_socio'";
 
         $resul = $bd->query($sql);
         if (!$resul) {
@@ -202,7 +205,7 @@ function buscar_movilidades_institucion($id_socio)
 {
     try {
         $bd = cargarBBDD();
-        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as A inner join movilidades_instituciones as mv ON mv.alumno=a.ID_ALUMNO inner join instituciones as e on e.id_institucion=mv.institucion where a.socio='$id_socio'";
+        $sql = "SELECT a.nombre_completo as nombre_alumno, e.nombre as nombre_empresa,mv.fecha_fin_estimado, mv.fecha_inicio, mv.fecha_alta FROM alumnos as a inner join movilidades_instituciones as mv ON mv.alumno=a.ID_ALUMNO inner join instituciones as e on e.id_institucion=mv.institucion where a.socio='$id_socio'";
 
         $resul = $bd->query($sql);
         if (!$resul) {
