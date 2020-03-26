@@ -27,6 +27,10 @@ function alta_socio(Socio $socio)
         $socio->setFecha_alta($fecha->format('Y-m-d H:i:s'));
         $socio->setPassword(password_hash($socio->password, PASSWORD_BCRYPT));
         $socio->setId_rol(cargar_rol_user('REGISTERED')['ID_ROL']);
+        if (!filter_var($socio->email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        
 
 
         if ($socio->vat == "") {

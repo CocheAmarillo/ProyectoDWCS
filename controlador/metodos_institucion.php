@@ -26,6 +26,9 @@ function alta_institucion(Institucion $inst)
         if ($inst->vat == "") {
             $inst->setVat(null);
         }
+        if (!filter_var($inst->email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
         $fecha = new \DateTime();
         $inst->setFecha_alta($fecha->format('Y-m-d H:i:s'));
         $inst->setFecha_mod($fecha->format('Y-m-d H:i:s'));

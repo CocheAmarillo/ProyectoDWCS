@@ -65,6 +65,9 @@ function alta_empresa(Empresa $empresa, $email_resp, $nombre_resp, $tel_resp)
         if ($empresa->vat == "") {
             $empresa->setVat(null);
         }
+        if (!filter_var($empresa->email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
         $fecha_alta = new \DateTime();
         $empresa->setFecha_alta($fecha_alta->format('Y-m-d H:i:s'));
         $empresa->setFecha_mod($fecha_alta->format('Y-m-d H:i:s'));
