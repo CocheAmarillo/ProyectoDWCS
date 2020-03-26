@@ -54,7 +54,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <section class="container-fluid flex-grow" id="fila">
         <div class="row mt-5 pt-5 ml-3 mr-3 mb-4">
             <div class="col-md-4 ml-5 mb-5" id="colLogo">
-                <img src="imagenes/MERTLOGOPESTANA.png" alt="logo2" id="logo2" class="rounded float-right mr-5 ">
+                <img src="imagenes/MERTLOGOPESTANA.png" alt="logo2" id="logo2" class="rounded float-right mr-5 " alt="logo de la web">
             </div>
             <div class="col-lg-5 ">
                 <div id="formulario" class="container">

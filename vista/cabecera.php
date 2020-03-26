@@ -17,7 +17,7 @@ if (\controlador\comprobar_sesion()) {
 ?>
 <script type="text/javascript" src="../controlador/metodosJS.js"></script>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a href="index.php"><img src="imagenes/logofinal.png" id="logo"></a>
+    <a href="index.php"><img src="imagenes/logofinal.png" id="logo" alt="logotipo de la web"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

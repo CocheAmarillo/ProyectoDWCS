@@ -51,13 +51,13 @@ session_start();
     <div id="carouselExampleControls" class="carousel slide" data-ride="carousel">
       <div class="carousel-inner">
         <div class="carousel-item active">
-          <img id="img2" class="d-block" src="imagenes/3.jpg" alt="First slide">
+          <img id="img2" class="d-block" src="imagenes/3.jpg" alt="Primera imagen del carrusel">
         </div>
         <div class="carousel-item">
-          <img id="img2" class="d-block" src="imagenes/1.jpg" alt="Second slide">
+          <img id="img2" class="d-block" src="imagenes/1.jpg" alt="Segunda imagen del carrusel">
         </div>
         <div class="carousel-item">
-          <img id="img2" class="d-block" src="imagenes/2.png" alt="Third slide">
+          <img id="img2" class="d-block" src="imagenes/2.png" alt="Tercera imagen del carrusel">
         </div>
       </div>
       <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
