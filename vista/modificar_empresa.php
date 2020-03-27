@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="POST">
             <div class="form-row">
                 <div class="col-12">
-                    <h2>Register a company</h2>
+                    <h2>Modify company information</h2>
                 </div>
             </div>
 
