@@ -350,7 +350,25 @@ ON UPDATE CASCADE;
     
     
     
-    
+# Privilegios para `admin`@`localhost`
+
+GRANT USAGE ON *.* TO 'admin'@'localhost' IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF';
+
+GRANT ALL PRIVILEGES ON `gestionmovilidades`.* TO 'admin'@'localhost';
+
+
+# Privilegios para `conexion`@`localhost`
+
+GRANT USAGE ON *.* TO 'conexion'@'localhost' IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON `gestionmovilidades`.* TO 'conexion'@'localhost';
+
+
+# Privilegios para `estandar`@`localhost`
+
+GRANT SELECT, INSERT, UPDATE, DELETE, FILE ON *.* TO 'estandar'@'localhost' IDENTIFIED BY PASSWORD '*A4B6157319038724E3560894F7F932C8886EBFCF';
+
+GRANT SELECT, INSERT, UPDATE, DELETE ON `gestionmovilidades`.* TO 'estandar'@'localhost';
     
     
 
