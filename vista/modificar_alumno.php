@@ -34,7 +34,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         exit;
     } else {
         $_SESSION['alert_msg'] = "Data successfully modified";
-        header("Location: busqueda_alumno.php");
+        header("Location: busqueda_alumnos.php");
         exit;
     }
 }

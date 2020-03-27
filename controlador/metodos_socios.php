@@ -17,7 +17,7 @@ function alta_socio(Socio $socio)
 {
 
     try {
-        $bd = cargarBBDD();
+        $bd = cargarBBDD("conexion");
         $sql = 'insert into socios'
             . '(vat, Password,Usuario,Nombre_Completo,Email,Telefono,Fecha_Alta,Cargo,Departamento,R_Alojamiento,Puntuacion,Rol,Pais,Fecha_Mod)'
             . ' values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)';
@@ -118,7 +118,7 @@ function borrar_socio($id_socio)
 function comprobar_usuario($usuario, $clave)
 {
     try {
-        $bd = cargarBBDD();
+        $bd = cargarBBDD("conexion");
         $hash = cargarPass($usuario, $bd);
 
         if (password_verify($clave, $hash)) {
@@ -134,7 +134,7 @@ function comprobar_usuario($usuario, $clave)
             return false;
         }
     } catch (\PDOException $ex) {
-        echo $ex->getMessage();
+        return false;
     } finally {
         $bd = null;
     }
