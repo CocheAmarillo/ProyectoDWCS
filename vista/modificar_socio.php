@@ -26,7 +26,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         header("Location: index.php");
         exit;
     } else {
-        $_SESSION['alert_msg'] = "Data modificated succesfully";
+        $_SESSION['alert_msg'] = "Data successfully modified";
         header("Location: index.php");
         exit;
     }

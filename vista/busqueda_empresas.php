@@ -69,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <tr class="border">
                             <?php if ($registrado == true) { ?>
                                 <th class="border">JOB TITLE</th>
-                                <th class="border">NIF EN INGLES</th>
+                                <th class="border">VAT</th>
                             <?php  } ?>
                             <th class="border" width="100px">COMPANY NAME</th>
                             <th class="border" width="180px">DESCRIPTION</th>
