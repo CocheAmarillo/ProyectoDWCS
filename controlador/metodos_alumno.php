@@ -44,7 +44,7 @@ function alta_alumno(Alumno $alumno)
 }
 
 
-/**
+/**test
  * Función que se encarga de registrar las especialidades de un alumno en la tabla alumnos_especialidades
  *
  * @param integer $id_alumno el id del alumno al que se le registran las especialidades
